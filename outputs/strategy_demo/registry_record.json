@@ -1,0 +1,7 @@
+{
+  "strategy_id": "TREE-ChainWithdraw-01",
+  "version": 19,
+  "status": "PENDING_REVIEW",
+  "database": "/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_registry.sqlite",
+  "history_path": "/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_registry_history.json"
+}

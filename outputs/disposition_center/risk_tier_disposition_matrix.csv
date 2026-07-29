@@ -1,0 +1,7 @@
+risk_tier,normal_customer_actions,ka_vip_exempt_actions,ka_vip_exempt_extra_approval,requires_compliance,direct_execution_allowed
+L1,"['PASS', 'MONITOR']","['PASS', 'MONITOR']",True,False,False
+L2,['MONITOR'],['MONITOR'],True,False,False
+L3.1,"['RFI', 'MANUAL_REVIEW']","['RFI', 'MANUAL_REVIEW']",True,True,False
+L3.2,"['RFI', 'EDD', 'DAILY_LIMIT']","['RFI', 'EDD', 'DAILY_LIMIT']",True,True,False
+L3.3,"['EDD', 'WITHDRAWAL_RESTRICTION', 'MANUAL_REVIEW']","['EDD', 'WITHDRAWAL_RESTRICTION', 'MANUAL_REVIEW']",True,True,False
+L4,"['FREEZE', 'REJECT', 'ESCALATE_COMPLIANCE']","['FREEZE', 'REJECT', 'ESCALATE_COMPLIANCE']",True,True,False

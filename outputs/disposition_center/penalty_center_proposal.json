@@ -1,0 +1,25 @@
+{
+  "strategy_id": "TREE-ChainWithdraw-01",
+  "detection_action": "MANUAL_REVIEW",
+  "execution_mode": "PROPOSE_ONLY",
+  "required_approvals": [
+    "risk_strategy",
+    "risk_operations"
+  ],
+  "customer_segment_gate": {
+    "segments": [
+      "KA",
+      "VIP",
+      "EXEMPT"
+    ],
+    "extra_approval": true,
+    "reason": "avoid material customer mis-penalty and preserve auditability"
+  },
+  "release_controls": {
+    "batch_release_supported": true,
+    "release_requires_reason": true,
+    "operator_and_approver_separation": true
+  },
+  "notification_required": true,
+  "direct_execution_allowed": false
+}

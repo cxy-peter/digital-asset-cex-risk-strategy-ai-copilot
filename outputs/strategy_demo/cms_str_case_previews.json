@@ -1,0 +1,7 @@
+{
+  "enabled": false,
+  "reason": "strategy tag level 3 is MANUAL_REVIEW, not a CMS/STR trigger",
+  "external_submission_allowed": false,
+  "automatic_filing_performed": false,
+  "cases": []
+}

@@ -1,0 +1,1880 @@
+- name: age_risk_score
+  display_name: 年龄风险分
+  description: 年龄段映射后的onboarding风险分。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: realtime
+  source: KYC
+  event_codes:
+  - UserKyc
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - kyc
+  default_operator: '>='
+- name: occupation_risk_score
+  display_name: 职业风险分
+  description: 基于职业类别和监管职业表的风险评分。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: realtime
+  source: KYC questionnaire
+  event_codes:
+  - UserKyc
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - kyc
+  default_operator: '>='
+- name: nationality_risk_score
+  display_name: 国籍风险分
+  description: 国家/地区风险映射。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: realtime
+  source: KYC
+  event_codes:
+  - UserKyc
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - kyc
+  default_operator: '>='
+- name: address_risk_score
+  display_name: 地址风险分
+  description: 居住地址和高风险区域映射。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: realtime
+  source: KYC
+  event_codes:
+  - UserKyc
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - kyc
+  default_operator: '>='
+- name: kyc_duration_minutes
+  display_name: KYC耗时
+  description: 注册至KYC完成的分钟数。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: realtime
+  source: KYC event log
+  event_codes:
+  - UserKyc
+  available_at: decision_time
+  pii_level: none
+  expected_direction: non_monotonic
+  tags:
+  - kyc
+  - velocity
+  default_operator: <
+- name: kyc_level
+  display_name: KYC等级
+  description: L1/L2等身份认证等级。
+  domain: aml_compliance
+  dtype: categorical
+  freshness: realtime
+  source: KYC
+  event_codes:
+  - UserKyc
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: lower_risk
+  tags:
+  - kyc
+  default_operator: ==
+- name: registration_channel
+  display_name: 注册渠道
+  description: Android/iOS/Web/H5及投放来源。
+  domain: account_security
+  dtype: categorical
+  freshness: realtime
+  source: registration
+  event_codes:
+  - UserRegister
+  available_at: decision_time
+  pii_level: none
+  expected_direction: unknown
+  tags:
+  - identity
+  default_operator: ==
+- name: register_ip_country_risk
+  display_name: 注册IP国家风险
+  description: 注册IP所属国家的风险分。
+  domain: account_security
+  dtype: numeric
+  freshness: realtime
+  source: device fingerprint
+  event_codes:
+  - UserRegister
+  available_at: decision_time
+  pii_level: low
+  expected_direction: higher_risk
+  tags:
+  - ip
+  default_operator: '>='
+- name: email_similarity_cluster_size
+  display_name: 邮箱相似簇规模
+  description: 相似邮箱/别名模式关联的用户数量。
+  domain: account_security
+  dtype: numeric
+  freshness: t+1
+  source: similarity service
+  event_codes:
+  - UserRegister
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - similarity
+  - graph
+  default_operator: '>='
+- name: kyc_document_similarity_count
+  display_name: 证件相似数
+  description: 相同或高相似KYC证件关联用户数。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: t+1
+  source: KYC similarity
+  event_codes:
+  - UserKycStart
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - kyc
+  - graph
+  default_operator: '>='
+- name: kyc_device_user_count
+  display_name: KYC设备用户数
+  description: 同一设备发起KYC的用户数。
+  domain: account_security
+  dtype: numeric
+  freshness: realtime
+  source: device fingerprint
+  event_codes:
+  - UserKycStart
+  available_at: decision_time
+  pii_level: low
+  expected_direction: higher_risk
+  tags:
+  - device
+  default_operator: '>='
+- name: minutes_kyc_to_first_fiat_deposit
+  display_name: KYC至首次法币入金
+  description: KYC完成至首次法币入金的分钟数。
+  domain: fund_security
+  dtype: numeric
+  freshness: realtime
+  source: event sequence
+  event_codes:
+  - FiatDeposit
+  available_at: decision_time
+  pii_level: none
+  expected_direction: lower_risk
+  tags:
+  - velocity
+  default_operator: <
+- name: new_device_flag
+  display_name: 新设备标记
+  description: 当前设备是否首次出现。
+  domain: account_security
+  dtype: boolean
+  freshness: realtime
+  source: device fingerprint
+  event_codes:
+  - UserLogin
+  - PasswordReset
+  - ApiKeyCreate
+  - WithdrawAddressAdd
+  available_at: decision_time
+  pii_level: low
+  expected_direction: higher_risk
+  tags:
+  - device
+  default_operator: is_true
+- name: device_user_count_24h
+  display_name: 设备关联用户数24h
+  description: 24小时内同设备关联用户数。
+  domain: account_security
+  dtype: numeric
+  freshness: realtime
+  source: counter
+  event_codes:
+  - UserRegister
+  - UserLogin
+  available_at: decision_time
+  pii_level: low
+  expected_direction: higher_risk
+  tags:
+  - device
+  - counter
+  default_operator: '>='
+- name: device_user_count_30d
+  display_name: 设备关联用户数30d
+  description: 30天内同设备关联用户数。
+  domain: marketing_abuse
+  dtype: numeric
+  freshness: t+1
+  source: counter
+  event_codes:
+  - CampaignEnroll
+  - CampaignReward
+  available_at: decision_time
+  pii_level: low
+  expected_direction: higher_risk
+  tags:
+  - device
+  - counter
+  default_operator: '>='
+- name: login_ip_count_24h
+  display_name: 登录IP数量24h
+  description: 用户24小时内登录IP去重数。
+  domain: account_security
+  dtype: numeric
+  freshness: realtime
+  source: counter
+  event_codes:
+  - UserLogin
+  available_at: decision_time
+  pii_level: low
+  expected_direction: higher_risk
+  tags:
+  - ip
+  default_operator: '>='
+- name: ip_user_count_24h
+  display_name: IP关联用户数24h
+  description: 同IP 24小时内关联用户数。
+  domain: account_security
+  dtype: numeric
+  freshness: realtime
+  source: counter
+  event_codes:
+  - UserRegister
+  - CampaignEnroll
+  available_at: decision_time
+  pii_level: low
+  expected_direction: higher_risk
+  tags:
+  - ip
+  default_operator: '>='
+- name: proxy_flag
+  display_name: 代理网络标记
+  description: IP是否为VPN、代理或数据中心。
+  domain: account_security
+  dtype: boolean
+  freshness: realtime
+  source: IP intelligence
+  event_codes:
+  - UserRegister
+  - UserLogin
+  - CampaignEnroll
+  available_at: decision_time
+  pii_level: low
+  expected_direction: higher_risk
+  tags:
+  - ip
+  default_operator: is_true
+- name: geo_velocity_kmh
+  display_name: 地理速度
+  description: 连续登录位置推算的地理移动速度。
+  domain: account_security
+  dtype: numeric
+  freshness: realtime
+  source: login sequence
+  event_codes:
+  - UserLogin
+  available_at: decision_time
+  pii_level: low
+  expected_direction: higher_risk
+  tags:
+  - geo
+  default_operator: '>='
+- name: failed_login_count_1h
+  display_name: 失败登录次数1h
+  description: 一小时内失败登录次数。
+  domain: account_security
+  dtype: numeric
+  freshness: realtime
+  source: counter
+  event_codes:
+  - UserLogin
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - ato
+  default_operator: '>='
+- name: failed_login_count_24h
+  display_name: 失败登录次数24h
+  description: 24小时失败登录次数。
+  domain: account_security
+  dtype: numeric
+  freshness: realtime
+  source: counter
+  event_codes:
+  - PasswordReset
+  - ApiKeyCreate
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - ato
+  default_operator: '>='
+- name: recent_password_change_flag
+  display_name: 近期改密
+  description: 近7天是否修改密码。
+  domain: account_security
+  dtype: boolean
+  freshness: realtime
+  source: account event
+  event_codes:
+  - ApiKeyCreate
+  - WithdrawAddressAdd
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - ato
+  default_operator: is_true
+- name: phone_change_7d_flag
+  display_name: 近期改手机号
+  description: 近7天是否修改手机号。
+  domain: account_security
+  dtype: boolean
+  freshness: realtime
+  source: account event
+  event_codes:
+  - PasswordReset
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - ato
+  default_operator: is_true
+- name: email_change_7d_flag
+  display_name: 近期改邮箱
+  description: 近7天是否修改邮箱。
+  domain: account_security
+  dtype: boolean
+  freshness: realtime
+  source: account event
+  event_codes:
+  - PasswordReset
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - ato
+  default_operator: is_true
+- name: emulator_flag
+  display_name: 模拟器标记
+  description: 设备环境是否模拟器/云手机。
+  domain: marketing_abuse
+  dtype: boolean
+  freshness: realtime
+  source: device fingerprint
+  event_codes:
+  - CampaignEnroll
+  available_at: decision_time
+  pii_level: low
+  expected_direction: higher_risk
+  tags:
+  - campaign
+  default_operator: is_true
+- name: fiat_deposit_amount_24h
+  display_name: 法币入金金额24h
+  description: 24小时法币入金总额。
+  domain: fund_security
+  dtype: numeric
+  freshness: realtime
+  source: counter
+  event_codes:
+  - FiatDeposit
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - fund
+  default_operator: '>='
+- name: fiat_deposit_count_24h
+  display_name: 法币入金次数24h
+  description: 24小时法币入金次数。
+  domain: fund_security
+  dtype: numeric
+  freshness: realtime
+  source: counter
+  event_codes:
+  - FiatDeposit
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - fund
+  default_operator: '>='
+- name: fiat_withdraw_amount_24h
+  display_name: 法币出金金额24h
+  description: 24小时法币出金总额。
+  domain: fund_security
+  dtype: numeric
+  freshness: realtime
+  source: counter
+  event_codes:
+  - FiatWithdraw
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - fund
+  default_operator: '>='
+- name: fiat_withdraw_count_24h
+  display_name: 法币出金次数24h
+  description: 24小时法币出金次数。
+  domain: fund_security
+  dtype: numeric
+  freshness: realtime
+  source: counter
+  event_codes:
+  - FiatWithdraw
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - fund
+  default_operator: '>='
+- name: unique_deposit_bankcards_30d
+  display_name: 入金银行卡数30d
+  description: 30天入金银行卡去重数。
+  domain: fund_security
+  dtype: numeric
+  freshness: t+1
+  source: bank ledger
+  event_codes:
+  - FiatDeposit
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - bank
+  default_operator: '>='
+- name: unique_withdraw_bankcards_30d
+  display_name: 出金银行卡数30d
+  description: 30天出金银行卡去重数。
+  domain: fund_security
+  dtype: numeric
+  freshness: t+1
+  source: bank ledger
+  event_codes:
+  - FiatWithdraw
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - bank
+  default_operator: '>='
+- name: bank_fraud_ratio_max
+  display_name: 最大银行历史Fraud比例
+  description: 用户关联银行中最高历史Fraud用户比例。
+  domain: fund_security
+  dtype: numeric
+  freshness: t+1
+  source: bank risk profile
+  event_codes:
+  - FiatDeposit
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - bank
+  default_operator: '>='
+- name: new_bankcard_flag
+  display_name: 新银行卡标记
+  description: 出金银行卡是否首次使用。
+  domain: fund_security
+  dtype: boolean
+  freshness: realtime
+  source: bank ledger
+  event_codes:
+  - FiatWithdraw
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - bank
+  default_operator: is_true
+- name: bank_name_mismatch_flag
+  display_name: 银行账户姓名不一致
+  description: 银行账户姓名与KYC姓名是否不一致。
+  domain: fund_security
+  dtype: boolean
+  freshness: realtime
+  source: bank ledger
+  event_codes:
+  - FiatWithdraw
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - bank
+  default_operator: is_true
+- name: single_fiat_deposit_over_10000_cnt_30d
+  display_name: 单笔大额入金次数
+  description: 30天单笔法币入金大于等值10000U的次数。
+  domain: fund_security
+  dtype: numeric
+  freshness: t+1
+  source: counter
+  event_codes:
+  - FiatDeposit
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - fund
+  default_operator: '>='
+- name: small_fiat_deposit_count_24h
+  display_name: 小额分散入金次数
+  description: 24小时小额法币入金次数。
+  domain: fund_security
+  dtype: numeric
+  freshness: realtime
+  source: counter
+  event_codes:
+  - FiatDeposit
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - fund
+  default_operator: '>='
+- name: fund_stay_minutes_median
+  display_name: 资金停留中位时长
+  description: 入金至出金/转移的中位分钟数。
+  domain: fund_security
+  dtype: numeric
+  freshness: h+1
+  source: sequence feature
+  event_codes:
+  - FiatWithdraw
+  - ChainWithdraw
+  available_at: decision_time
+  pii_level: none
+  expected_direction: lower_risk
+  tags:
+  - velocity
+  default_operator: <
+- name: fiat_in_crypto_out_ratio
+  display_name: 法币入金-链上出金闭环比
+  description: 链上出金金额与法币入金金额的近似比例。
+  domain: fund_security
+  dtype: numeric
+  freshness: realtime
+  source: derived
+  event_codes:
+  - ChainWithdraw
+  - SpotTrade
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - ratio
+  - closed_loop
+  default_operator: '>='
+- name: amount_roundness_score
+  display_name: 金额整度
+  description: 金额是否频繁为整千/整万等模式。
+  domain: fund_security
+  dtype: numeric
+  freshness: realtime
+  source: derived
+  event_codes:
+  - FiatDeposit
+  - ChainWithdraw
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - fund
+  default_operator: '>='
+- name: chain_in_amount_24h
+  display_name: 链上充值金额24h
+  description: 24小时链上充值金额。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: realtime
+  source: chain ledger
+  event_codes:
+  - ChainDeposit
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - chain
+  default_operator: '>='
+- name: chain_out_amount_24h
+  display_name: 链上提现金额24h
+  description: 24小时链上提现金额。
+  domain: fund_security
+  dtype: numeric
+  freshness: realtime
+  source: chain ledger
+  event_codes:
+  - ChainWithdraw
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - chain
+  default_operator: '>='
+- name: chain_withdraw_count_24h
+  display_name: 链上提现次数24h
+  description: 24小时链上提现次数。
+  domain: fund_security
+  dtype: numeric
+  freshness: realtime
+  source: counter
+  event_codes:
+  - ChainWithdraw
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - chain
+  default_operator: '>='
+- name: minutes_deposit_to_first_chain_out
+  display_name: 入金至首次链上提现
+  description: 最近入金到首次链上提现分钟数。
+  domain: fund_security
+  dtype: numeric
+  freshness: realtime
+  source: sequence feature
+  event_codes:
+  - ChainWithdraw
+  available_at: decision_time
+  pii_level: none
+  expected_direction: lower_risk
+  tags:
+  - velocity
+  default_operator: <
+- name: new_withdraw_address_flag
+  display_name: 新提现地址
+  description: 提现地址是否首次出现。
+  domain: fund_security
+  dtype: boolean
+  freshness: realtime
+  source: address ledger
+  event_codes:
+  - ChainWithdraw
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - address
+  default_operator: is_true
+- name: high_risk_chain_exposure
+  display_name: 高风险链上敞口
+  description: 与高风险地址类别的资金敞口比例。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: realtime
+  source: chain intelligence
+  event_codes:
+  - ChainDeposit
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - chain
+  - kyt
+  default_operator: '>='
+- name: sanctioned_address_flag
+  display_name: 制裁地址命中
+  description: 是否命中制裁地址。
+  domain: aml_compliance
+  dtype: boolean
+  freshness: realtime
+  source: chain intelligence
+  event_codes:
+  - ChainDeposit
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - sanctions
+  default_operator: is_true
+- name: mixer_exposure
+  display_name: 混币器敞口
+  description: 与混币器相关的资金比例。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: realtime
+  source: chain intelligence
+  event_codes:
+  - ChainDeposit
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - chain
+  default_operator: '>='
+- name: gambling_exposure
+  display_name: 赌博地址敞口
+  description: 与赌博地址相关的资金比例。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: realtime
+  source: chain intelligence
+  event_codes:
+  - ChainDeposit
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - chain
+  default_operator: '>='
+- name: source_hop_distance
+  display_name: 高风险来源跳数
+  description: 距离已知高风险地址的最短跳数。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: realtime
+  source: chain intelligence
+  event_codes:
+  - ChainDeposit
+  available_at: decision_time
+  pii_level: none
+  expected_direction: lower_risk
+  tags:
+  - graph
+  default_operator: <=
+- name: spot_trade_amount_24h
+  display_name: 现货交易额24h
+  description: 24小时现货交易金额。
+  domain: transaction_security
+  dtype: numeric
+  freshness: realtime
+  source: trade counter
+  event_codes:
+  - SpotTrade
+  available_at: decision_time
+  pii_level: none
+  expected_direction: non_monotonic
+  tags:
+  - trade
+  default_operator: '>='
+- name: spot_trade_count_24h
+  display_name: 现货交易次数24h
+  description: 24小时现货交易次数。
+  domain: transaction_security
+  dtype: numeric
+  freshness: realtime
+  source: trade counter
+  event_codes:
+  - SpotTrade
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - trade
+  default_operator: '>='
+- name: trade_pair_count_30d
+  display_name: 交易币对数30d
+  description: 30天交易币对去重数。
+  domain: transaction_security
+  dtype: numeric
+  freshness: t+1
+  source: trade aggregate
+  event_codes:
+  - SpotTrade
+  available_at: decision_time
+  pii_level: none
+  expected_direction: non_monotonic
+  tags:
+  - trade
+  default_operator: <=
+- name: wash_trade_similarity
+  display_name: 对敲相似度
+  description: 买卖方向、金额、时间和对手方的相似度。
+  domain: transaction_security
+  dtype: numeric
+  freshness: h+1
+  source: trade model
+  event_codes:
+  - SpotTrade
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - market_abuse
+  default_operator: '>='
+- name: cancel_ratio_1h
+  display_name: 撤单率1h
+  description: 一小时撤单笔数/下单笔数。
+  domain: transaction_security
+  dtype: numeric
+  freshness: realtime
+  source: order counter
+  event_codes:
+  - SpotTrade
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - market_abuse
+  default_operator: '>='
+- name: internal_transfer_amount_24h
+  display_name: 内部转账金额24h
+  description: 24小时内部转账总额。
+  domain: fund_security
+  dtype: numeric
+  freshness: realtime
+  source: internal transfer
+  event_codes:
+  - InternalTransfer
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - internal
+  default_operator: '>='
+- name: internal_transfer_count_24h
+  display_name: 内部转账次数24h
+  description: 24小时内部转账次数。
+  domain: fund_security
+  dtype: numeric
+  freshness: realtime
+  source: internal transfer
+  event_codes:
+  - InternalTransfer
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - internal
+  default_operator: '>='
+- name: counterparty_fraud_ratio
+  display_name: 对手Fraud比例
+  description: 内部转账对手中历史Fraud比例。
+  domain: fund_security
+  dtype: numeric
+  freshness: h+1
+  source: graph aggregate
+  event_codes:
+  - InternalTransfer
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - graph
+  default_operator: '>='
+- name: fan_in_degree_24h
+  display_name: 24h归集入度
+  description: 24小时不同对手向用户转入数量。
+  domain: fund_security
+  dtype: numeric
+  freshness: h+1
+  source: graph aggregate
+  event_codes:
+  - InternalTransfer
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - graph
+  default_operator: '>='
+- name: fan_out_degree_24h
+  display_name: 24h分散出度
+  description: 24小时向不同对手转出数量。
+  domain: fund_security
+  dtype: numeric
+  freshness: h+1
+  source: graph aggregate
+  event_codes:
+  - InternalTransfer
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - graph
+  default_operator: '>='
+- name: device_fraud_1hop_count
+  display_name: 设备一跳Fraud数
+  description: 通过共用设备直接关联的历史Fraud用户数。
+  domain: account_security
+  dtype: graph
+  freshness: h+1
+  source: risk graph
+  event_codes:
+  - UserLogin
+  available_at: decision_time
+  pii_level: low
+  expected_direction: higher_risk
+  tags:
+  - graph
+  - device
+  default_operator: '>='
+- name: withdraw_address_fraud_1hop_count
+  display_name: 提现地址一跳Fraud数
+  description: 通过共用提现地址直接关联Fraud用户数。
+  domain: fund_security
+  dtype: graph
+  freshness: h+1
+  source: risk graph
+  event_codes:
+  - ChainWithdraw
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - graph
+  - address
+  default_operator: '>='
+- name: fraud_2hop_count
+  display_name: 二跳Fraud关联数
+  description: 两跳路径内关联的Fraud种子数量。
+  domain: fund_security
+  dtype: graph
+  freshness: t+1
+  source: risk graph
+  event_codes:
+  - RiskScoreDaily
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - graph
+  default_operator: '>='
+- name: fraud_graph_score
+  display_name: 图谱风险分
+  description: 按关系强度和路径长度加权的风险分。
+  domain: fund_security
+  dtype: graph
+  freshness: h+1
+  source: risk graph
+  event_codes:
+  - CampaignReward
+  - RiskScoreDaily
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - graph
+  default_operator: '>='
+- name: community_fraud_ratio
+  display_name: 社区Fraud比例
+  description: 用户所在图社区中的Fraud种子比例。
+  domain: fund_security
+  dtype: graph
+  freshness: t+1
+  source: risk graph
+  event_codes:
+  - InternalTransfer
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - graph
+  default_operator: '>='
+- name: address_similarity_cluster_size
+  display_name: 地址相似簇规模
+  description: 高相似提现/KYC地址关联用户规模。
+  domain: fund_security
+  dtype: graph
+  freshness: t+1
+  source: similarity service
+  event_codes:
+  - WithdrawAddressAdd
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - similarity
+  default_operator: '>='
+- name: inviter_cluster_size
+  display_name: 邀请团伙规模
+  description: 同邀请链关联用户规模。
+  domain: marketing_abuse
+  dtype: graph
+  freshness: t+1
+  source: invite graph
+  event_codes:
+  - CampaignEnroll
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - campaign
+  default_operator: '>='
+- name: reward_address_cluster_size
+  display_name: 奖励地址簇规模
+  description: 多个活动用户共享收款地址的规模。
+  domain: marketing_abuse
+  dtype: graph
+  freshness: t+1
+  source: reward graph
+  event_codes:
+  - CampaignReward
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - campaign
+  default_operator: '>='
+- name: risk_score_t1
+  display_name: T+1动态风险分
+  description: 基于前一日行为、策略命中和限制状态的动态评分。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: t+1
+  source: risk score job
+  event_codes:
+  - RiskScoreDaily
+  - FiatWithdraw
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - profile
+  default_operator: '>='
+- name: risk_level_change_30d
+  display_name: 风险等级变化次数30d
+  description: 30天风险等级变化次数。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: t+1
+  source: risk profile history
+  event_codes:
+  - RiskScoreDaily
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - profile
+  default_operator: '>='
+- name: strategy_hit_count_30d
+  display_name: 策略命中数30d
+  description: 30天命中的风险策略数量。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: t+1
+  source: strategy log
+  event_codes:
+  - RiskScoreDaily
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - profile
+  default_operator: '>='
+- name: rfi_count_180d
+  display_name: RFI次数180d
+  description: 180天RFI次数。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: t+1
+  source: CMS
+  event_codes:
+  - RiskScoreDaily
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - compliance
+  default_operator: '>='
+- name: restriction_count_180d
+  display_name: 限制次数180d
+  description: 180天限制/冻结记录次数。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: t+1
+  source: penalty center
+  event_codes:
+  - RiskScoreDaily
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - profile
+  default_operator: '>='
+- name: campaign_history_abuse_count
+  display_name: 历史活动作弊次数
+  description: 历史活动作弊或奖励取消次数。
+  domain: marketing_abuse
+  dtype: numeric
+  freshness: t+1
+  source: campaign ledger
+  event_codes:
+  - CampaignEnroll
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - campaign
+  default_operator: '>='
+- name: campaign_task_similarity
+  display_name: 活动轨迹相似度
+  description: 与批量账号任务完成轨迹的相似度。
+  domain: marketing_abuse
+  dtype: numeric
+  freshness: h+1
+  source: sequence model
+  event_codes:
+  - CampaignReward
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - campaign
+  default_operator: '>='
+- name: travel_rule_missing_rate
+  display_name: Travel Rule缺失率
+  description: 近N次充提Travel Rule字段缺失比例。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: t+1
+  source: travel rule
+  event_codes:
+  - TravelRuleReview
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - travel_rule
+  default_operator: '>='
+- name: counterparty_vasp_risk
+  display_name: 对手VASP风险
+  description: 对手VASP风险等级。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: t+1
+  source: travel rule
+  event_codes:
+  - TravelRuleReview
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - travel_rule
+  default_operator: '>='
+- name: self_hosted_wallet_flag
+  display_name: 自托管钱包
+  description: 是否为自托管钱包。
+  domain: aml_compliance
+  dtype: boolean
+  freshness: realtime
+  source: travel rule
+  event_codes:
+  - TravelRuleReview
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: unknown
+  tags:
+  - travel_rule
+  default_operator: is_true
+- name: declared_source_consistency
+  display_name: 申报来源一致性
+  description: 申报资金来源与行为/交易是否一致。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: t+1
+  source: RFI review
+  event_codes:
+  - TravelRuleReview
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: lower_risk
+  tags:
+  - compliance
+  default_operator: <=
+- name: ubo_risk_score
+  display_name: UBO风险分
+  description: 企业最终受益人风险分。
+  domain: merchant_kyb
+  dtype: numeric
+  freshness: t+1
+  source: KYB
+  event_codes:
+  - KybReview
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - kyb
+  default_operator: '>='
+- name: company_age_days
+  display_name: 企业成立天数
+  description: 企业成立至当前天数。
+  domain: merchant_kyb
+  dtype: numeric
+  freshness: t+1
+  source: KYB
+  event_codes:
+  - KybReview
+  available_at: decision_time
+  pii_level: none
+  expected_direction: lower_risk
+  tags:
+  - kyb
+  default_operator: <=
+- name: industry_risk_score
+  display_name: 行业风险分
+  description: 企业经营行业风险分。
+  domain: merchant_kyb
+  dtype: numeric
+  freshness: t+1
+  source: KYB
+  event_codes:
+  - KybReview
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - kyb
+  default_operator: '>='
+- name: expected_volume_gap
+  display_name: 预期交易量偏差
+  description: 实际交易量相对申报预期的偏差。
+  domain: merchant_kyb
+  dtype: numeric
+  freshness: t+1
+  source: KYB + ledger
+  event_codes:
+  - KybReview
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - kyb
+  default_operator: '>='
+- name: pep_sanction_match_flag
+  display_name: PEP/制裁匹配
+  description: 企业或UBO是否命中PEP/制裁。
+  domain: merchant_kyb
+  dtype: boolean
+  freshness: t+1
+  source: screening
+  event_codes:
+  - KybReview
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - kyb
+  - sanctions
+  default_operator: is_true
+- name: api_permission_risk
+  display_name: API权限风险
+  description: API权限组合风险评分。
+  domain: account_security
+  dtype: numeric
+  freshness: realtime
+  source: API settings
+  event_codes:
+  - ApiKeyCreate
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - ato
+  default_operator: '>='
+- name: case_age_days
+  display_name: 案件处理天数
+  description: 案件创建至完成/当前的天数。
+  domain: regulatory_operations
+  dtype: numeric
+  freshness: t+1
+  source: case system
+  event_codes:
+  - RegulatoryCaseReview
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - ops
+  default_operator: '>='
+- name: state_dwell_hours
+  display_name: 状态停留小时
+  description: 案件在当前状态停留小时。
+  domain: regulatory_operations
+  dtype: numeric
+  freshness: t+1
+  source: status log
+  event_codes:
+  - RegulatoryCaseReview
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - ops
+  default_operator: '>='
+- name: upload_completeness
+  display_name: 上传完整度
+  description: 必填字段完整率。
+  domain: regulatory_operations
+  dtype: numeric
+  freshness: t+1
+  source: case system
+  event_codes:
+  - RegulatoryCaseReview
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: lower_risk
+  tags:
+  - ops
+  default_operator: <
+- name: evidence_compliance
+  display_name: 证据合规
+  description: 证据文件格式和大小是否合规。
+  domain: regulatory_operations
+  dtype: boolean
+  freshness: t+1
+  source: case system
+  event_codes:
+  - RegulatoryCaseReview
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: lower_risk
+  tags:
+  - ops
+  default_operator: is_false
+- name: reply_timeliness_hours
+  display_name: 监管回复时长
+  description: 收到回复要求至提交回复的小时数。
+  domain: regulatory_operations
+  dtype: numeric
+  freshness: t+1
+  source: reply log
+  event_codes:
+  - RegulatoryCaseReview
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - ops
+  default_operator: '>'
+- name: rereply_flag
+  display_name: 重回复标记
+  description: 是否被监管要求重新回复。
+  domain: regulatory_operations
+  dtype: boolean
+  freshness: t+1
+  source: reply log
+  event_codes:
+  - RegulatoryCaseReview
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - ops
+  default_operator: is_true
+- name: inviter_risk_score
+  display_name: 邀请人风险分
+  description: 邀请人的历史风险和团伙关联评分。
+  domain: marketing_abuse
+  dtype: numeric
+  freshness: realtime
+  source: referral graph
+  event_codes:
+  - UserRegister
+  - CampaignEnroll
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - inviter
+  - graph
+  default_operator: '>='
+- name: kyc_country_risk
+  display_name: KYC国家风险
+  description: KYC国家/地区映射的监管风险分。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: realtime
+  source: KYC
+  event_codes:
+  - UserKycStart
+  - UserKyc
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - kyc
+  - country
+  default_operator: '>='
+- name: convert_amount_24h
+  display_name: 24小时闪兑金额
+  description: 用户24小时内闪兑金额。
+  domain: transaction_security
+  dtype: numeric
+  freshness: realtime
+  source: convert order
+  event_codes:
+  - Convert
+  available_at: decision_time
+  pii_level: none
+  expected_direction: non_monotonic
+  tags:
+  - convert
+  - amount
+  default_operator: '>='
+- name: convert_count_24h
+  display_name: 24小时闪兑次数
+  description: 用户24小时内闪兑次数。
+  domain: transaction_security
+  dtype: numeric
+  freshness: realtime
+  source: convert order
+  event_codes:
+  - Convert
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - convert
+  - count
+  default_operator: '>='
+- name: minutes_fiat_in_to_convert
+  display_name: 法币入金至闪兑分钟数
+  description: 首次法币入金到闪兑的时间间隔。
+  domain: fund_security
+  dtype: numeric
+  freshness: realtime
+  source: fund event join
+  event_codes:
+  - Convert
+  available_at: decision_time
+  pii_level: none
+  expected_direction: lower_risk
+  tags:
+  - velocity
+  - convert
+  default_operator: <=
+- name: minutes_convert_to_chain_out
+  display_name: 闪兑至链上提现分钟数
+  description: 闪兑完成到链上提现的时间间隔。
+  domain: fund_security
+  dtype: numeric
+  freshness: realtime
+  source: fund event join
+  event_codes:
+  - Convert
+  - ChainWithdraw
+  available_at: decision_time
+  pii_level: none
+  expected_direction: lower_risk
+  tags:
+  - velocity
+  - cashout
+  default_operator: <=
+- name: strong_relation_fraud_1hop_count
+  display_name: 强关系一跳Fraud数
+  description: 通过设备、邮箱、手机、KYC证件或提现地址强关系连接的一跳Fraud用户数。
+  domain: fund_security
+  dtype: graph
+  freshness: realtime
+  source: Risk Graph
+  event_codes:
+  - UserLogin
+  - ChainWithdraw
+  - InternalTransfer
+  - RiskScoreDaily
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - graph
+  - one_hop
+  - strong
+  default_operator: '>='
+- name: direct_related_user_count
+  display_name: 直接关联用户数
+  description: Risk Graph中通过支持关系直接关联的用户数。
+  domain: fund_security
+  dtype: graph
+  freshness: realtime
+  source: Risk Graph
+  event_codes:
+  - ChainWithdraw
+  - InternalTransfer
+  - RiskScoreDaily
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - graph
+  - degree
+  default_operator: '>='
+- name: second_hop_user_count
+  display_name: 二跳关联用户数
+  description: 强关系投影后可到达的二跳用户数。
+  domain: fund_security
+  dtype: graph
+  freshness: offline
+  source: Risk Graph
+  event_codes:
+  - RiskScoreDaily
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - graph
+  - two_hop
+  default_operator: '>='
+- name: behavior_event_count_30d
+  display_name: 30日行为事件数
+  description: 决策时点前30日已登记行为事件总数，用于识别异常活跃度。
+  domain: fund_security
+  dtype: numeric
+  freshness: t+1
+  source: behavior event aggregation snapshot
+  event_codes:
+  - ChainWithdraw
+  - RiskScoreDaily
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - behavior_sequence
+  - frequency
+  default_operator: '>='
+- name: behavior_event_diversity_30d
+  display_name: 30日行为事件多样性
+  description: 决策时点前30日不同事件类型数量，作为行为序列广度特征。
+  domain: fund_security
+  dtype: numeric
+  freshness: t+1
+  source: behavior event aggregation snapshot
+  event_codes:
+  - ChainWithdraw
+  - RiskScoreDaily
+  available_at: decision_time
+  pii_level: none
+  expected_direction: non_monotonic
+  tags:
+  - behavior_sequence
+  - diversity
+  default_operator: '>='
+- name: behavior_success_ratio_30d
+  display_name: 30日行为成功率
+  description: 决策时点前30日成功事件占比，用于刻画批量尝试和规避行为。
+  domain: fund_security
+  dtype: numeric
+  freshness: t+1
+  source: behavior event aggregation snapshot
+  event_codes:
+  - ChainWithdraw
+  - RiskScoreDaily
+  available_at: decision_time
+  pii_level: none
+  expected_direction: non_monotonic
+  tags:
+  - behavior_sequence
+  - success_ratio
+  default_operator: '>='
+- name: api_activity_ratio_30d
+  display_name: 30日API行为占比
+  description: 决策时点前30日由API触发的行为占全部行为比例。
+  domain: transaction_security
+  dtype: numeric
+  freshness: t+1
+  source: behavior event aggregation snapshot
+  event_codes:
+  - ChainWithdraw
+  - RiskScoreDaily
+  available_at: decision_time
+  pii_level: none
+  expected_direction: non_monotonic
+  tags:
+  - behavior_sequence
+  - api
+  default_operator: '>='
+- name: night_activity_ratio_30d
+  display_name: 30日夜间行为占比
+  description: 决策时点前30日夜间行为比例，仅作为组合信号而非独立处置依据。
+  domain: transaction_security
+  dtype: numeric
+  freshness: t+1
+  source: behavior event aggregation snapshot
+  event_codes:
+  - ChainWithdraw
+  - RiskScoreDaily
+  available_at: decision_time
+  pii_level: none
+  expected_direction: non_monotonic
+  tags:
+  - behavior_sequence
+  - time_pattern
+  default_operator: '>='
+- name: strategy_avoidance_ratio_30d
+  display_name: 30日策略规避比率
+  description: 高速或高额行为中未命中既有策略的比例，用于发现刻意绕过阈值的模式。
+  domain: fund_security
+  dtype: numeric
+  freshness: t+1
+  source: strategy hit and behavior event snapshot
+  event_codes:
+  - ChainWithdraw
+  - RiskScoreDaily
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - behavior_sequence
+  - strategy_avoidance
+  default_operator: '>='
+- name: chain_out_5min_count_30d
+  display_name: 30日五分钟内链上转出次数
+  description: 法币入金或换币后五分钟内发生链上转出的历史次数。
+  domain: fund_security
+  dtype: numeric
+  freshness: t+1
+  source: ordered fund event join
+  event_codes:
+  - ChainWithdraw
+  - RiskScoreDaily
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - behavior_sequence
+  - rapid_cashout
+  default_operator: '>='
+- name: declared_monthly_income_usdt
+  display_name: 申报月收入
+  description: KYC中结构化申报的月收入等值，仅供适配度和增强尽调使用。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: realtime
+  source: KYC profile
+  event_codes:
+  - UserKyc
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: non_monotonic
+  tags:
+  - kyc
+  - source_of_funds
+  default_operator: '>='
+- name: expected_monthly_volume_usdt
+  display_name: 预期月交易量
+  description: KYC中结构化申报的预期月交易量等值。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: realtime
+  source: KYC profile
+  event_codes:
+  - UserKyc
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: non_monotonic
+  tags:
+  - kyc
+  - expected_activity
+  default_operator: '>='
+- name: observed_to_expected_volume_ratio
+  display_name: 实际与预期交易量比
+  description: 已观察活动与KYC申报预期活动的比率，用于动态KYC复核。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: t+1
+  source: KYC profile and transaction aggregation
+  event_codes:
+  - UserKyc
+  - RiskScoreDaily
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - kyc
+  - activity_deviation
+  default_operator: '>='
+- name: document_ocr_confidence
+  display_name: 证件字段提取置信度
+  description: 上游证件服务返回的结构化字段提取置信度；本项目不训练OCR模型。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: realtime
+  source: upstream identity verification result
+  event_codes:
+  - UserKycStart
+  - UserKyc
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: lower_risk
+  tags:
+  - kyc
+  - data_quality
+  default_operator: <=
+- name: face_match_score
+  display_name: 人证比对上游分数
+  description: 上游身份核验服务返回的人证比对分数；本项目仅消费结果。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: realtime
+  source: upstream identity verification result
+  event_codes:
+  - UserKycStart
+  - UserKyc
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: lower_risk
+  tags:
+  - kyc
+  - verification
+  default_operator: <=
+- name: liveness_score
+  display_name: 活体核验上游分数
+  description: 上游身份核验服务返回的活体检测分数；本项目不训练生物识别模型。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: realtime
+  source: upstream identity verification result
+  event_codes:
+  - UserKycStart
+  - UserKyc
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: lower_risk
+  tags:
+  - kyc
+  - verification
+  default_operator: <=
+- name: identity_field_mismatch_flag
+  display_name: 身份字段不一致标记
+  description: 姓名、证件号或结构化KYC字段之间存在不一致的上游校验标记。
+  domain: aml_compliance
+  dtype: boolean
+  freshness: realtime
+  source: KYC consistency service
+  event_codes:
+  - UserKycStart
+  - UserKyc
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - kyc
+  - consistency
+  default_operator: is_true
+- name: pep_flag
+  display_name: PEP筛查标记
+  description: 名单服务返回的PEP候选标记，必须由合规人员复核。
+  domain: aml_compliance
+  dtype: boolean
+  freshness: realtime
+  source: screening service
+  event_codes:
+  - UserKyc
+  - RiskScoreDaily
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - kyc
+  - pep
+  default_operator: is_true
+- name: sanctions_screening_hit
+  display_name: 制裁筛查命中标记
+  description: 名单服务返回的制裁候选命中，进入人工合规升级，不在原型中自动拒绝。
+  domain: aml_compliance
+  dtype: boolean
+  freshness: realtime
+  source: screening service
+  event_codes:
+  - UserKyc
+  - RiskScoreDaily
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - kyc
+  - sanctions
+  default_operator: is_true
+- name: source_of_funds_risk
+  display_name: 资金来源风险
+  description: 资金来源声明、证明材料和已观察活动综合形成的结构化风险分。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: t+1
+  source: KYC and EDD review snapshot
+  event_codes:
+  - UserKyc
+  - RiskScoreDaily
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - kyc
+  - edd
+  - source_of_funds
+  default_operator: '>='
+- name: transaction_rule_score
+  display_name: 逐笔规则分
+  description: 由确定性实时规则对当前交易事件计算的组合分。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: realtime
+  source: transaction monitoring engine
+  event_codes:
+  - TransactionMonitoringAlert
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - transaction_monitoring
+  - rule
+  default_operator: '>='
+- name: transaction_anomaly_score
+  display_name: 逐笔异常分
+  description: Isolation Forest对当前交易及历史窗口计算的异常分，仅用于调查分流。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: realtime
+  source: versioned anomaly model
+  event_codes:
+  - TransactionMonitoringAlert
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - transaction_monitoring
+  - anomaly
+  default_operator: '>='
+- name: transaction_risk_score
+  display_name: 逐笔交易风险分
+  description: 规则分与异常分的可解释融合结果，不直接触发监管报送。
+  domain: aml_compliance
+  dtype: numeric
+  freshness: realtime
+  source: transaction monitoring engine
+  event_codes:
+  - TransactionMonitoringAlert
+  available_at: decision_time
+  pii_level: none
+  expected_direction: higher_risk
+  tags:
+  - transaction_monitoring
+  - fusion
+  default_operator: '>='
+- name: suspicious_chain_score
+  display_name: 可疑行为链风险分
+  description: 基于有向时序资金路径、金额和风险地址证据计算的链路分。
+  domain: aml_compliance
+  dtype: graph
+  freshness: realtime
+  source: temporal risk graph
+  event_codes:
+  - TransactionMonitoringAlert
+  available_at: decision_time
+  pii_level: restricted
+  expected_direction: higher_risk
+  tags:
+  - risk_graph
+  - suspicious_chain
+  default_operator: '>='

@@ -1,0 +1,37 @@
+schema_version: cms_str_integration.v1
+mode: internal_preview_only
+external_submission_allowed: false
+automatic_regulatory_submission: false
+one_click_semantics: Create or prefill an internal CMS/STR candidate case; human compliance review is mandatory before any filing.
+trigger_level_3_tags:
+  - CMS_STR_CANDIDATE
+case_statuses:
+  - DRAFT_CASE
+  - PENDING_COMPLIANCE_REVIEW
+  - NEEDS_INFORMATION
+  - READY_FOR_STR_DECISION
+  - CLOSED_NO_STR
+  - STR_APPROVED_INTERNAL
+masak_feedback_statuses:
+  - NOT_SUBMITTED
+  - SUBMITTED_PENDING
+  - ACCEPTED
+  - REJECTED
+  - NEEDS_CORRECTION
+dedup_key:
+  - user_id
+  - strategy_id
+  - strategy_version
+  - event_code
+  - evidence_hash
+required_evidence:
+  - strategy_expression
+  - feature_snapshot
+  - event_contract_hash
+  - data_snapshot_id
+  - risk_history_summary
+  - graph_path_summary
+  - reviewer_decision
+confidentiality:
+  ordinary_user_profile_can_show_str: false
+  restrict_to_roles: [compliance, aml_reviewer, fraud_lead]

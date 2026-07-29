@@ -1,0 +1,78 @@
+flowchart LR
+  risk_event_hub["风控事件接入与场景配置中心"]
+  realtime_feature_platform["实时特征指标平台"]
+  counter_service_180d["180天实时计数器与窗口服务"]
+  transaction_position_table["交易风控逻辑持仓表"]
+  rule_engine["规则引擎与策略配置中心"]
+  strategy_simulation["策略回溯与测试环境"]
+  strategy_approval["策略上线审批、二人复核与效果工单"]
+  custom_alert_center["风控策略命中与定制告警中心"]
+  penalty_verification_center["处罚与身份验证中心"]
+  user_risk_profile["用户风险画像与L1-L4分层"]
+  risk_graph["Risk Graph关联风险分析"]
+  chainalysis_label_center["链上地址标签与KYT风险中心"]
+  fraud_model_lab["Fraud模型与特征实验室"]
+  bank_joint_defense["银行联防联控与通道风险"]
+  account_security_monitor["账户安全H+1/T+1监控"]
+  fund_security_control["资金安全与兜底策略中心"]
+  cms_case_management["CMS合规案件管理"]
+  str_workflow["STR一键内部候选案件与历史查询"]
+  travel_rule["Travel Rule信息与豁免审批"]
+  kyc_kyb_vkyc["KYC智能分流与EDD辅助"]
+  list_management["黑白名单、PEP与制裁名单管理"]
+  audit_evidence_hub["审计证据与系统拓扑资料中心"]
+  risk_knowledge_center["风控知识、SOP与Risk Map中心"]
+  risk_dashboard["风控大盘与冻结客户看板"]
+  market_kline_feed["Kline行情与市场异常数据服务"]
+  strategy_effectiveness_ticket["策略运营效果打标工单"]
+  risk_event_hub --> realtime_feature_platform
+  risk_event_hub --> counter_service_180d
+  realtime_feature_platform --> counter_service_180d
+  risk_event_hub --> transaction_position_table
+  realtime_feature_platform --> rule_engine
+  risk_event_hub --> rule_engine
+  rule_engine --> strategy_simulation
+  realtime_feature_platform --> strategy_simulation
+  transaction_position_table --> strategy_simulation
+  rule_engine --> strategy_approval
+  strategy_simulation --> strategy_approval
+  strategy_effectiveness_ticket --> strategy_approval
+  rule_engine --> custom_alert_center
+  strategy_approval --> custom_alert_center
+  custom_alert_center --> penalty_verification_center
+  strategy_approval --> penalty_verification_center
+  user_risk_profile --> penalty_verification_center
+  realtime_feature_platform --> user_risk_profile
+  counter_service_180d --> user_risk_profile
+  risk_graph --> user_risk_profile
+  risk_event_hub --> risk_graph
+  risk_event_hub --> chainalysis_label_center
+  realtime_feature_platform --> fraud_model_lab
+  risk_graph --> fraud_model_lab
+  strategy_simulation --> fraud_model_lab
+  risk_event_hub --> bank_joint_defense
+  fraud_model_lab --> bank_joint_defense
+  counter_service_180d --> account_security_monitor
+  custom_alert_center --> account_security_monitor
+  rule_engine --> fund_security_control
+  risk_graph --> fund_security_control
+  chainalysis_label_center --> fund_security_control
+  rule_engine --> str_workflow
+  cms_case_management --> str_workflow
+  strategy_approval --> str_workflow
+  strategy_effectiveness_ticket --> str_workflow
+  risk_event_hub --> travel_rule
+  list_management --> travel_rule
+  risk_event_hub --> kyc_kyb_vkyc
+  strategy_approval --> audit_evidence_hub
+  cms_case_management --> audit_evidence_hub
+  str_workflow --> audit_evidence_hub
+  realtime_feature_platform --> risk_knowledge_center
+  rule_engine --> risk_knowledge_center
+  user_risk_profile --> risk_dashboard
+  custom_alert_center --> risk_dashboard
+  strategy_effectiveness_ticket --> risk_dashboard
+  risk_event_hub --> market_kline_feed
+  strategy_simulation --> strategy_effectiveness_ticket
+  strategy_approval --> strategy_effectiveness_ticket
+  custom_alert_center --> strategy_effectiveness_ticket

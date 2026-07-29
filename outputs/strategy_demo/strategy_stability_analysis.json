@@ -1,0 +1,171 @@
+{
+  "strategy_id": "TREE-ChainWithdraw-01",
+  "status": "STABLE",
+  "monthly": [
+    {
+      "sample_size": 714,
+      "positives": 42,
+      "alerts": 18,
+      "true_positives": 16,
+      "false_positives": 2,
+      "precision": 0.8888888888888888,
+      "recall": 0.38095238095238093,
+      "f1": 0.5333333333333333,
+      "false_positive_rate": 0.002976190476190476,
+      "alert_rate": 0.025210084033613446,
+      "period": "2026-04"
+    },
+    {
+      "sample_size": 1748,
+      "positives": 104,
+      "alerts": 72,
+      "true_positives": 62,
+      "false_positives": 10,
+      "precision": 0.8611111111111112,
+      "recall": 0.5961538461538461,
+      "f1": 0.7045454545454546,
+      "false_positive_rate": 0.006082725060827251,
+      "alert_rate": 0.041189931350114416,
+      "period": "2026-05"
+    },
+    {
+      "sample_size": 1538,
+      "positives": 113,
+      "alerts": 62,
+      "true_positives": 54,
+      "false_positives": 8,
+      "precision": 0.8709677419354839,
+      "recall": 0.4778761061946903,
+      "f1": 0.6171428571428571,
+      "false_positive_rate": 0.005614035087719298,
+      "alert_rate": 0.04031209362808843,
+      "period": "2026-06"
+    }
+  ],
+  "bootstrap_rounds": 200,
+  "bootstrap": {
+    "precision": {
+      "mean": 0.8693252589164936,
+      "std": 0.025986011035096585,
+      "ci_lower_95": 0.8200805393421112,
+      "ci_upper_95": 0.9177236864921103
+    },
+    "recall": {
+      "mean": 0.5120518048404825,
+      "std": 0.03059045621657004,
+      "ci_lower_95": 0.4538904007916873,
+      "ci_upper_95": 0.576953125
+    },
+    "f1": {
+      "mean": 0.6439834103995844,
+      "std": 0.02728867169154261,
+      "ci_lower_95": 0.5924702606934953,
+      "ci_upper_95": 0.6994238156209988
+    },
+    "false_positive_rate": {
+      "mean": 0.005329137099971448,
+      "std": 0.0011035251683398696,
+      "ci_lower_95": 0.0032057158749326333,
+      "ci_upper_95": 0.00749199918856482
+    },
+    "alert_rate": {
+      "mean": 0.03817875,
+      "std": 0.002864914647506973,
+      "ci_lower_95": 0.0332375,
+      "ci_upper_95": 0.0440125
+    }
+  },
+  "feature_direction": [
+    {
+      "feature": "behavior_event_count_30d",
+      "overall_spearman": 0.3156269042522085,
+      "overall_sign": 1,
+      "monthly_direction_consistency": 1.0,
+      "months_evaluated": 3,
+      "monthly": [
+        {
+          "period": "2026-04",
+          "spearman": 0.29331307955774444,
+          "sign": 1
+        },
+        {
+          "period": "2026-05",
+          "spearman": 0.3089627149128554,
+          "sign": 1
+        },
+        {
+          "period": "2026-06",
+          "spearman": 0.33167281345968463,
+          "sign": 1
+        }
+      ]
+    },
+    {
+      "feature": "strategy_avoidance_ratio_30d",
+      "overall_spearman": 0.29320897955609193,
+      "overall_sign": 1,
+      "monthly_direction_consistency": 1.0,
+      "months_evaluated": 3,
+      "monthly": [
+        {
+          "period": "2026-04",
+          "spearman": 0.2837082136568508,
+          "sign": 1
+        },
+        {
+          "period": "2026-05",
+          "spearman": 0.28178294099823675,
+          "sign": 1
+        },
+        {
+          "period": "2026-06",
+          "spearman": 0.3096387348180685,
+          "sign": 1
+        }
+      ]
+    },
+    {
+      "feature": "strong_relation_fraud_1hop_count",
+      "overall_spearman": 0.4064960509600917,
+      "overall_sign": 1,
+      "monthly_direction_consistency": 1.0,
+      "months_evaluated": 3,
+      "monthly": [
+        {
+          "period": "2026-04",
+          "spearman": 0.35909936973550405,
+          "sign": 1
+        },
+        {
+          "period": "2026-05",
+          "spearman": 0.40970658427289797,
+          "sign": 1
+        },
+        {
+          "period": "2026-06",
+          "spearman": 0.42233049083199886,
+          "sign": 1
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "months": 3,
+    "months_with_alerts": 3,
+    "monthly_precision_cv": 0.013161283114475276,
+    "monthly_alert_rate_cv": 0.20620408287783723,
+    "feature_direction_consistency": 1.0,
+    "gates_passed": 6,
+    "gates_total": 6
+  },
+  "gates": {
+    "minimum_months": true,
+    "monthly_precision_cv_le_0_50": true,
+    "monthly_alert_rate_cv_le_0_60": true,
+    "bootstrap_precision_lower_bound": true,
+    "bootstrap_recall_lower_bound": true,
+    "feature_direction_consistency_ge_0_60": true
+  },
+  "recommendation": "可进入独立复核，但上线后仍需连续3个工作日观察。",
+  "synthetic_demo": true
+}

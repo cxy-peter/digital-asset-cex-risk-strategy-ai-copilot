@@ -1,0 +1,94 @@
+schema_version: cointr_strategy_test_environment.v2
+environment_id: cointr-shark-synthetic-strategy-test
+mode: simulation
+data_classification: synthetic_or_desensitized_only
+production_connection: false
+company_style_components:
+  - Rule Engine
+  - FEP Feature Management Platform
+  - Strategy Backtracking
+  - Ticket Module
+  - CMS
+  - STR
+  - Penalty Verification Center
+  - User Risk Profile
+catalog_snapshot_cadence: hourly
+event_allowlist:
+  - UserRegister
+  - UserLogin
+  - UserKycStart
+  - UserKyc
+  - FiatDeposit
+  - FiatWithdraw
+  - ChainDeposit
+  - ChainWithdraw
+  - InternalTransfer
+  - SpotTrade
+  - Convert
+  - CampaignEnroll
+  - CampaignReward
+  - ApiKeyCreate
+  - PasswordReset
+  - WithdrawAddressAdd
+  - TravelRuleReview
+  - KybReview
+  - RiskScoreDaily
+strategy_creation:
+  initial_status: DRAFT
+  allowed_statuses: [DRAFT, SIMULATION, PENDING_REVIEW]
+  feature_registration_required: true
+  event_registration_required: true
+  payload_confirmation_required: true
+  creator_marker: AI Agent
+  three_level_strategy_tags_required: true
+test_stages:
+  - feature_contract_validation
+  - historical_backtest
+  - simulation_execution
+  - independent_second_review
+  - release_readiness
+  - post_launch_observation
+  - weekly_monthly_effectiveness_review
+release_controls:
+  direct_production_release: false
+  post_launch_initial_observation_workdays: 3
+  independent_second_review_required: true
+  effectiveness_ticket_required: true
+  rollback_metrics:
+    - alert_rate
+    - false_positive_rate
+    - confirmed_risk_rate
+    - feature_psi
+    - user_feedback_count
+    - business_metric_delta
+    - error_rate
+    - p95_latency_ms
+  rollback_thresholds:
+    alert_rate: 0.05
+    false_positive_rate: 0.05
+    feature_psi: 0.20
+    error_rate: 0.01
+    p95_latency_ms: 500
+strategy_test_record:
+  required_fields:
+    - test_run_id
+    - strategy_id
+    - strategy_version
+    - data_snapshot_id
+    - event_contract_hash
+    - feature_catalog_version
+    - payload_hash
+    - development_metrics
+    - out_of_time_metrics
+    - reviewer_1
+    - reviewer_2
+    - effectiveness_ticket_id
+    - created_at
+    - updated_at
+guardrails:
+  - Unknown event codes are rejected.
+  - Only registered decision-time features may enter a strategy expression.
+  - AI-created strategies remain offline until independent human review is bound to the exact version and payload hash.
+  - Post-launch effectiveness is recorded through a ticket, not inferred from a single offline metric.
+  - CMS one-click STR means internal case creation only and never external automatic submission.
+  - This environment cannot connect to or mutate a production rules engine.

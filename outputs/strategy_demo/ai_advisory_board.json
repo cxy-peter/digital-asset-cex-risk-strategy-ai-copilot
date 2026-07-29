@@ -1,0 +1,158 @@
+{
+  "agent": "lead_risk_strategy_agent",
+  "mode": "deterministic_offline_board",
+  "decision": "REVISE",
+  "strategy_id": "TREE-ChainWithdraw-01",
+  "strategy_name": "Decision Tree候选规则 1",
+  "expression": "behavior_event_count_30d > 30.5 AND strong_relation_fraud_1hop_count > 0.5 AND strategy_avoidance_ratio_30d > 0.302633 AND behavior_event_count_30d > 42.5",
+  "executive_summary": "四个专业Agent已完成场景、特征模型、图谱行为和治理复核。当前建议：REVISE。AI层只提出/解释/质检候选，实际指标、回测、冲突分析和状态迁移由确定性引擎控制。",
+  "specialist_reviews": {
+    "scenario_typology_agent": {
+      "reviewer": "scenario_typology_agent",
+      "status": "succeeded",
+      "summary": "风险场景与黑灰产链路已和候选规则建立业务映射。",
+      "findings": [
+        {
+          "category": "scenario_alignment",
+          "severity": "low",
+          "statement": "候选策略Decision Tree候选规则 1针对ChainWithdraw，并使用behavior_event_count_30d, strategy_avoidance_ratio_30d, strong_relation_fraud_1hop_count构成可解释风险链路。",
+          "evidence_refs": [
+            "knowledge_analysis",
+            "behavior_analysis",
+            "TREE-ChainWithdraw-01"
+          ]
+        }
+      ],
+      "risks": [
+        "单一行为信号不能直接替代案件调查。"
+      ],
+      "revisions": [
+        "在策略说明中保留风险事件、黑灰产路径和反例。"
+      ],
+      "acceptance_tests": [
+        "每个规则条件均能映射到风险场景、字段口径和决策时点。"
+      ],
+      "evidence_refs": [
+        "knowledge_analysis",
+        "behavior_analysis"
+      ],
+      "attempts": 1,
+      "latency_ms": 0.0,
+      "error": null,
+      "raw_text": null
+    },
+    "feature_model_agent": {
+      "reviewer": "feature_model_agent",
+      "status": "succeeded",
+      "summary": "特征、模型和跨月份稳定性已由确定性测试层验证。",
+      "findings": [
+        {
+          "category": "oot_metrics",
+          "severity": "low",
+          "statement": "冻结策略OOT Precision=86.42%, Recall=48.61%, FPR=0.59%; stability=STABLE.",
+          "evidence_refs": [
+            "backtest_analysis",
+            "stability_analysis"
+          ]
+        }
+      ],
+      "risks": [
+        "合成数据上的稳定性不能替代生产三工作日观察。",
+        "特征PSI、方向变化和模型阈值需持续监控。"
+      ],
+      "revisions": [
+        "将跨月和Bootstrap稳定性作为上线评审必备附件。"
+      ],
+      "acceptance_tests": [
+        "OOT不参与阈值选择；Bootstrap区间和月度指标完整输出。"
+      ],
+      "evidence_refs": [
+        "feature_analysis",
+        "model_analysis",
+        "stability_analysis"
+      ],
+      "attempts": 1,
+      "latency_ms": 0.0,
+      "error": null,
+      "raw_text": null
+    },
+    "graph_behavior_agent": {
+      "reviewer": "graph_behavior_agent",
+      "status": "succeeded",
+      "summary": "Risk Graph强弱关系与交易行为证据已分层处理。",
+      "findings": [
+        {
+          "category": "graph_policy",
+          "severity": "low",
+          "statement": "Device/Email/Mobile/KYC/Withdraw Address作为强关系；IP降权，平台归集型充值地址默认排除。",
+          "evidence_refs": [
+            "graph_analysis",
+            "SOP::risk_graph"
+          ]
+        }
+      ],
+      "risks": [
+        "多跳扩散会增加噪声，必须和资金行为联合验证。"
+      ],
+      "revisions": [
+        "在命中解释中展示关系类型、路径和行为条件。"
+      ],
+      "acceptance_tests": [
+        "IP-only或deposit-address-only路径不得触发直接限制。"
+      ],
+      "evidence_refs": [
+        "graph_analysis",
+        "behavior_analysis"
+      ],
+      "attempts": 1,
+      "latency_ms": 0.0,
+      "error": null,
+      "raw_text": null
+    },
+    "governance_cms_str_agent": {
+      "reviewer": "governance_cms_str_agent",
+      "status": "degraded",
+      "summary": "策略冲突、人工复核、测试环境和CMS/STR边界已检查。",
+      "findings": [
+        {
+          "category": "portfolio_conflict",
+          "severity": "medium",
+          "statement": "组合冲突建议=REVISE_ACTION_PRECEDENCE；增量风险召回=0.69%.",
+          "evidence_refs": [
+            "conflict_analysis"
+          ]
+        }
+      ],
+      "risks": [
+        "AI候选不得绕过第二人复核、效果工单或STR保密约束。"
+      ],
+      "revisions": [
+        "在上线评审前解决高重叠规则和处置动作优先级冲突。"
+      ],
+      "acceptance_tests": [
+        "状态保持SIMULATION/PENDING_REVIEW；external_submission_allowed=false。"
+      ],
+      "evidence_refs": [
+        "conflict_analysis",
+        "strategy_test_environment",
+        "cms_str_integration"
+      ],
+      "attempts": 1,
+      "latency_ms": 0.0,
+      "error": null,
+      "raw_text": null
+    }
+  },
+  "evidence_summary": {
+    "top_scenario_count": 8,
+    "profiled_features": 21,
+    "graph_users": 10000,
+    "behavior_sample_size": 2000,
+    "stability_status": "STABLE",
+    "conflict_recommendation": "REVISE_ACTION_PRECEDENCE",
+    "test_stage": "not_created_yet"
+  },
+  "human_in_the_loop": true,
+  "automatic_enforcement": false,
+  "automatic_regulatory_submission": false
+}

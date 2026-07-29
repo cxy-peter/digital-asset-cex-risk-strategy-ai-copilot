@@ -1,0 +1,4 @@
+feature,overall_spearman,overall_sign,monthly_direction_consistency,months_evaluated
+behavior_event_count_30d,0.3156269042522085,1,1.0,3
+strategy_avoidance_ratio_30d,0.29320897955609193,1,1.0,3
+strong_relation_fraud_1hop_count,0.4064960509600917,1,1.0,3

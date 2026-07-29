@@ -1,0 +1,253 @@
+{
+  "schema_version": "cointr_strategy_test_plan.v1",
+  "test_run_id": "TESTRUN-TREE-ChainWithdraw-01-019-02cf7b58",
+  "strategy_id": "TREE-ChainWithdraw-01",
+  "strategy_version": 19,
+  "data_snapshot_id": "SNAP-1f3606e3f9f1627b",
+  "event_contract_hash": "049911eb70a9b37aceb3d0de08988360913c79dc85cfa27ecb1bf40db45ac666",
+  "feature_catalog_version": "FEP-SYNTHETIC-V1",
+  "payload_hash": "02cf7b58cabdad3f54905590a5fd0d826b329b5ec4b94e7fc40e1b82fbe37228",
+  "current_stage": "independent_second_review",
+  "release_status": "PENDING_SECOND_REVIEW",
+  "stages": [
+    {
+      "name": "feature_contract_validation",
+      "status": "completed",
+      "entry_gates": [
+        "registered event code",
+        "registered decision-time features"
+      ],
+      "exit_gates": [
+        "event contract has zero blocking errors",
+        "feature lineage is recorded"
+      ],
+      "evidence_refs": [
+        "049911eb70a9b37aceb3d0de08988360913c79dc85cfa27ecb1bf40db45ac666"
+      ]
+    },
+    {
+      "name": "historical_backtest",
+      "status": "completed",
+      "entry_gates": [
+        "frozen Train/Development/OOT split",
+        "mature point-in-time labels"
+      ],
+      "exit_gates": [
+        "OOT metrics generated",
+        "alert volume and review capacity checked"
+      ],
+      "evidence_refs": [
+        "SNAP-1f3606e3f9f1627b",
+        "strategy_stability_analysis"
+      ]
+    },
+    {
+      "name": "simulation_execution",
+      "status": "completed",
+      "entry_gates": [
+        "historical backtest completed",
+        "engine payload confirmed"
+      ],
+      "exit_gates": [
+        "simulation metrics satisfy governance thresholds",
+        "no production mutation"
+      ],
+      "evidence_refs": [
+        "TESTRUN-TREE-ChainWithdraw-01-019-02cf7b58"
+      ]
+    },
+    {
+      "name": "independent_second_review",
+      "status": "ready",
+      "entry_gates": [
+        "risk-strategy reviewer independent from creator",
+        "exact version and payload hash bound"
+      ],
+      "exit_gates": [
+        "reviewer 1 approved",
+        "reviewer 2 approved",
+        "high-impact action compliance review if needed",
+        "strategy action precedence conflict resolved"
+      ],
+      "evidence_refs": [
+        "02cf7b58cabdad3f54905590a5fd0d826b329b5ec4b94e7fc40e1b82fbe37228",
+        "strategy_conflict_analysis",
+        "ai_advisory_board"
+      ]
+    },
+    {
+      "name": "release_readiness",
+      "status": "pending",
+      "entry_gates": [
+        "two-person review completed",
+        "rollback and monitoring plan confirmed"
+      ],
+      "exit_gates": [
+        "release owner confirms execution window",
+        "strategy ticket created"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "name": "post_launch_observation",
+      "status": "not_started",
+      "entry_gates": [
+        "release completed outside this prototype",
+        "first three working days observation enabled"
+      ],
+      "exit_gates": [
+        "false positives, user feedback, business metrics and feature PSI reviewed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "name": "weekly_monthly_effectiveness_review",
+      "status": "pending",
+      "entry_gates": [
+        "effectiveness ticket linked to strategy version"
+      ],
+      "exit_gates": [
+        "retain, tune, pause or retire decision recorded"
+      ],
+      "evidence_refs": []
+    }
+  ],
+  "required_approvals": [
+    "risk_strategy",
+    "risk_operations",
+    "independent_second_reviewer",
+    "strategy_action_precedence_reviewer",
+    "ai_advisory_findings_owner"
+  ],
+  "monitoring_workdays": 3,
+  "monitoring_metrics": [
+    "alert_rate",
+    "false_positive_rate",
+    "confirmed_risk_rate",
+    "feature_psi",
+    "user_feedback_count",
+    "business_metric_delta",
+    "error_rate",
+    "p95_latency_ms"
+  ],
+  "rollback_thresholds": {
+    "alert_rate": 0.05,
+    "false_positive_rate": 0.05,
+    "feature_psi": 0.2,
+    "error_rate": 0.01,
+    "p95_latency_ms": 500.0
+  },
+  "blockers": [],
+  "production_connection": false,
+  "dispatch_performed": false,
+  "direct_production_release": false,
+  "execution_mode": "DRY_RUN_ONLY",
+  "company_style_test_environment": true,
+  "post_launch_observation_template": [
+    {
+      "observation_id": "OBS-TREE-ChainWithdraw-01-019-D1",
+      "strategy_id": "TREE-ChainWithdraw-01",
+      "strategy_version": 19,
+      "test_run_id": "TESTRUN-TREE-ChainWithdraw-01-019-02cf7b58",
+      "data_snapshot_id": "SNAP-1f3606e3f9f1627b",
+      "payload_hash": "02cf7b58cabdad3f54905590a5fd0d826b329b5ec4b94e7fc40e1b82fbe37228",
+      "observation_date": "2026-07-29",
+      "workday_index": 1,
+      "status": "PLANNED_NOT_EXECUTED",
+      "hit_count": null,
+      "confirmed_risk_count": null,
+      "false_positive_count": null,
+      "confirmation_rate": null,
+      "false_positive_rate": null,
+      "user_feedback_count": null,
+      "appeal_count": null,
+      "business_metric_delta": null,
+      "feature_psi": null,
+      "alert_volume_delta": null,
+      "action_success_rate": null,
+      "error_rate": null,
+      "p95_latency_ms": null,
+      "baseline_simulation": {
+        "alerts": 81,
+        "precision": 0.8641975308641975,
+        "recall": 0.4861111111111111,
+        "false_positive_rate": 0.005926724137931034,
+        "alert_rate": 0.0405
+      },
+      "operator_comment": "",
+      "evidence_refs": [],
+      "synthetic_template": true,
+      "production_observation_performed": false
+    },
+    {
+      "observation_id": "OBS-TREE-ChainWithdraw-01-019-D2",
+      "strategy_id": "TREE-ChainWithdraw-01",
+      "strategy_version": 19,
+      "test_run_id": "TESTRUN-TREE-ChainWithdraw-01-019-02cf7b58",
+      "data_snapshot_id": "SNAP-1f3606e3f9f1627b",
+      "payload_hash": "02cf7b58cabdad3f54905590a5fd0d826b329b5ec4b94e7fc40e1b82fbe37228",
+      "observation_date": "2026-07-30",
+      "workday_index": 2,
+      "status": "PLANNED_NOT_EXECUTED",
+      "hit_count": null,
+      "confirmed_risk_count": null,
+      "false_positive_count": null,
+      "confirmation_rate": null,
+      "false_positive_rate": null,
+      "user_feedback_count": null,
+      "appeal_count": null,
+      "business_metric_delta": null,
+      "feature_psi": null,
+      "alert_volume_delta": null,
+      "action_success_rate": null,
+      "error_rate": null,
+      "p95_latency_ms": null,
+      "baseline_simulation": {
+        "alerts": 81,
+        "precision": 0.8641975308641975,
+        "recall": 0.4861111111111111,
+        "false_positive_rate": 0.005926724137931034,
+        "alert_rate": 0.0405
+      },
+      "operator_comment": "",
+      "evidence_refs": [],
+      "synthetic_template": true,
+      "production_observation_performed": false
+    },
+    {
+      "observation_id": "OBS-TREE-ChainWithdraw-01-019-D3",
+      "strategy_id": "TREE-ChainWithdraw-01",
+      "strategy_version": 19,
+      "test_run_id": "TESTRUN-TREE-ChainWithdraw-01-019-02cf7b58",
+      "data_snapshot_id": "SNAP-1f3606e3f9f1627b",
+      "payload_hash": "02cf7b58cabdad3f54905590a5fd0d826b329b5ec4b94e7fc40e1b82fbe37228",
+      "observation_date": "2026-07-31",
+      "workday_index": 3,
+      "status": "PLANNED_NOT_EXECUTED",
+      "hit_count": null,
+      "confirmed_risk_count": null,
+      "false_positive_count": null,
+      "confirmation_rate": null,
+      "false_positive_rate": null,
+      "user_feedback_count": null,
+      "appeal_count": null,
+      "business_metric_delta": null,
+      "feature_psi": null,
+      "alert_volume_delta": null,
+      "action_success_rate": null,
+      "error_rate": null,
+      "p95_latency_ms": null,
+      "baseline_simulation": {
+        "alerts": 81,
+        "precision": 0.8641975308641975,
+        "recall": 0.4861111111111111,
+        "false_positive_rate": 0.005926724137931034,
+        "alert_rate": 0.0405
+      },
+      "operator_comment": "",
+      "evidence_refs": [],
+      "synthetic_template": true,
+      "production_observation_performed": false
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+strategy_id,name,status,event_code,action,expression,alerts,overlap_alerts,jaccard,selected_containment,existing_containment,selected_only_alerts,existing_only_alerts,overlap_true_positives,action_conflict,severity
+EXIST-CHAIN-001,高风险银行快速链上提币,evaluated,ChainWithdraw,MANUAL_REVIEW,bank_fraud_ratio_max >= 0.3 AND minutes_deposit_to_first_chain_out < 360 AND fiat_in_crypto_out_ratio >= 0.8,75,41,0.3565217391304348,0.5061728395061729,0.5466666666666666,40,34,39,False,low
+EXIST-CHAIN-002,强关系Fraud用户链上提现,evaluated,ChainWithdraw,RFI,strong_relation_fraud_1hop_count >= 1 AND chain_withdraw_count_24h >= 2,227,75,0.3218884120171674,0.9259259259259259,0.3303964757709251,6,152,67,True,high
+EXIST-CHAIN-004,新设备与代理IP提现保护,evaluated,ChainWithdraw,DELAY,new_device_flag == true AND proxy_flag == true AND new_withdraw_address_flag == true,13,1,0.010752688172043012,0.012345679012345678,0.07692307692307693,80,12,1,True,medium
+EXIST-CHAIN-003,高风险链上暴露,evaluated,ChainWithdraw,WITHDRAWAL_RESTRICTION,high_risk_chain_exposure >= 0.72 OR mixer_exposure >= 0.55 OR gambling_exposure >= 0.62,0,0,0.0,0.0,0.0,81,0,0,False,low

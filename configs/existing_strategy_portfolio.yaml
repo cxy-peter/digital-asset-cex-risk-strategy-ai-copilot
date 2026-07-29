@@ -1,0 +1,96 @@
+- strategy_id: EXIST-CHAIN-001
+  name: 高风险银行快速链上提币
+  domain: fund_security
+  event_code: ChainWithdraw
+  description: 模拟现有组合中的高风险银行与快速出金规则。
+  action: MANUAL_REVIEW
+  tag_level_1: fund_security
+  tag_level_2: rapid_cashout
+  tag_level_3: MANUAL_REVIEW
+  rule:
+    logic: AND
+    conditions:
+      - feature: bank_fraud_ratio_max
+        operator: ">="
+        value: 0.30
+      - feature: minutes_deposit_to_first_chain_out
+        operator: "<"
+        value: 360
+      - feature: fiat_in_crypto_out_ratio
+        operator: ">="
+        value: 0.80
+- strategy_id: EXIST-CHAIN-002
+  name: 强关系Fraud用户链上提现
+  domain: fund_security
+  event_code: ChainWithdraw
+  description: 模拟现有组合中的强关系Risk Graph规则。
+  action: RFI
+  tag_level_1: fund_security
+  tag_level_2: shared_identifier_fraud_ring
+  tag_level_3: RFI
+  rule:
+    logic: AND
+    conditions:
+      - feature: strong_relation_fraud_1hop_count
+        operator: ">="
+        value: 1
+      - feature: chain_withdraw_count_24h
+        operator: ">="
+        value: 2
+- strategy_id: EXIST-CHAIN-003
+  name: 高风险链上暴露
+  domain: fund_security
+  event_code: ChainWithdraw
+  description: 模拟现有组合中的链上高风险暴露规则。
+  action: WITHDRAWAL_RESTRICTION
+  tag_level_1: fund_security
+  tag_level_2: high_risk_chain_exposure
+  tag_level_3: WITHDRAWAL_RESTRICTION
+  rule:
+    logic: OR
+    conditions:
+      - feature: high_risk_chain_exposure
+        operator: ">="
+        value: 0.72
+      - feature: mixer_exposure
+        operator: ">="
+        value: 0.55
+      - feature: gambling_exposure
+        operator: ">="
+        value: 0.62
+- strategy_id: EXIST-CHAIN-004
+  name: 新设备与代理IP提现保护
+  domain: fund_security
+  event_code: ChainWithdraw
+  description: 模拟现有组合中的账户接管保护规则。
+  action: DELAY
+  tag_level_1: account_security
+  tag_level_2: account_takeover_withdrawal
+  tag_level_3: DELAY
+  rule:
+    logic: AND
+    conditions:
+      - feature: new_device_flag
+        operator: is_true
+      - feature: proxy_flag
+        operator: is_true
+      - feature: new_withdraw_address_flag
+        operator: is_true
+- strategy_id: EXIST-SCORE-001
+  name: T+1高风险客户持续监控
+  domain: aml_compliance
+  event_code: RiskScoreDaily
+  description: 模拟用户风险评分域的已有策略，主要用于跨事件冲突检查。
+  action: EDD
+  tag_level_1: aml_compliance
+  tag_level_2: dynamic_customer_risk
+  tag_level_3: EDD
+  rule:
+    logic: AND
+    conditions:
+      - feature: risk_score_t1
+        operator: ">="
+        value: 75
+      - feature: fraud_graph_score
+        operator: ">="
+        value: 0.45

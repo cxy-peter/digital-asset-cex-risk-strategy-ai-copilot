@@ -1,0 +1,885 @@
+products:
+- product_id: risk_event_hub
+  name: 风控事件接入与场景配置中心
+  layer: data_access
+  purpose: 将注册、登录、KYC、法币充提、链上充提、现货、内部转账、活动等业务事件标准化接入风控。
+  capabilities:
+  - event_schema
+  - parameter_registry
+  - device_fingerprint
+  - country_ip
+  - latency_sla
+  data_objects:
+  - event_code
+  - event_time
+  - user_id
+  - device_id
+  - ip_country
+  - transaction_context
+  domains:
+  - account_security
+  - transaction_security
+  - fund_security
+  - aml_compliance
+  - marketing_abuse
+  event_codes:
+  - UserRegister
+  - UserLogin
+  - UserKyc
+  - ChainWithdraw
+  - InternalTransfer
+  - SpotTrade
+  - CampaignReward
+  dependencies: []
+  source_evidence:
+  - W28_IMG_5710_5714_event_catalog
+  - weekly_event_configuration_review
+  prototype_status: implemented
+- product_id: realtime_feature_platform
+  name: 实时特征指标平台
+  layer: feature_platform
+  purpose: 管理实时、离线和衍生特征的创建、迭代、下线、释义、标签、应用场景与空置率。
+  capabilities:
+  - feature_lifecycle
+  - feature_tags
+  - vacancy_rate
+  - quantile_view
+  - semantic_search
+  - decision_time_validation
+  data_objects:
+  - feature_name
+  - definition
+  - freshness
+  - source
+  - owner
+  - event_scope
+  - missing_rate
+  domains:
+  - account_security
+  - transaction_security
+  - fund_security
+  - aml_compliance
+  - marketing_abuse
+  event_codes:
+  - RiskScoreDaily
+  - ChainWithdraw
+  - UserLogin
+  - InternalTransfer
+  - SpotTrade
+  - CampaignReward
+  dependencies:
+  - risk_event_hub
+  source_evidence:
+  - W25_core_risk_system_OKR
+  - W28_feature_platform_OKR
+  prototype_status: implemented
+- product_id: counter_service_180d
+  name: 180天实时计数器与窗口服务
+  layer: feature_platform
+  purpose: 为次数、金额、均值、最大值、去重数和时间间隔等策略特征提供统一窗口聚合。
+  capabilities:
+  - count
+  - sum
+  - average
+  - max
+  - distinct_count
+  - interval
+  - configurable_window
+  data_objects:
+  - user_id
+  - event_code
+  - window
+  - aggregation
+  - metric_value
+  domains:
+  - account_security
+  - transaction_security
+  - fund_security
+  - aml_compliance
+  - marketing_abuse
+  event_codes:
+  - RiskScoreDaily
+  - ChainWithdraw
+  - InternalTransfer
+  - UserLogin
+  - CampaignReward
+  dependencies:
+  - risk_event_hub
+  - realtime_feature_platform
+  source_evidence:
+  - W25_main_site_180d_counter_migration
+  - W28_counter_capability
+  prototype_status: modeled
+- product_id: transaction_position_table
+  name: 交易风控逻辑持仓表
+  layer: data_foundation
+  purpose: 统一交易、持仓和资金变化口径，为交易类策略与回溯提供准确底表。
+  capabilities:
+  - position_snapshot
+  - trade_aggregation
+  - consistency_check
+  - temporal_join
+  data_objects:
+  - user_id
+  - symbol
+  - position
+  - balance
+  - trade_amount
+  - snapshot_time
+  domains:
+  - transaction_security
+  - fund_security
+  event_codes:
+  - SpotTrade
+  - InternalTransfer
+  dependencies:
+  - risk_event_hub
+  source_evidence:
+  - W28_transaction_position_table_accuracy
+  prototype_status: catalog_only
+- product_id: rule_engine
+  name: 规则引擎与策略配置中心
+  layer: decision_engine
+  purpose: 用可解释DSL配置条件树、阈值、动作、策略标签和版本。
+  capabilities:
+  - rule_dsl
+  - nested_logic
+  - strategy_tags
+  - versioning
+  - event_binding
+  - action_binding
+  data_objects:
+  - strategy_id
+  - condition_tree
+  - expression
+  - action
+  - status
+  - version
+  domains:
+  - account_security
+  - transaction_security
+  - fund_security
+  - aml_compliance
+  - marketing_abuse
+  event_codes:
+  - RiskScoreDaily
+  - ChainWithdraw
+  - InternalTransfer
+  - UserLogin
+  - SpotTrade
+  - CampaignReward
+  dependencies:
+  - realtime_feature_platform
+  - risk_event_hub
+  source_evidence:
+  - W25_rule_engine_approval
+  - W27_test_environment_rule_engine
+  - W28_AI_assisted_rule_configuration
+  prototype_status: implemented
+- product_id: strategy_simulation
+  name: 策略回溯与测试环境
+  layer: decision_engine
+  purpose: 基于历史数据和模拟状态完成未上线策略独立回溯、Development选择、OOT验证和发布前效果检查。
+  capabilities:
+  - out_of_time_backtest
+  - candidate_comparison
+  - precision_recall
+  - false_positive_rate
+  - alert_capacity
+  - loss_capture
+  - stability
+  - test_run_id
+  - data_snapshot_id
+  - feature_vacancy
+  - quantile_view
+  - independent_evaluation
+  data_objects:
+  - strategy_version
+  - sample_snapshot
+  - alert_result
+  - label
+  - metrics
+  domains:
+  - account_security
+  - transaction_security
+  - fund_security
+  - aml_compliance
+  - marketing_abuse
+  event_codes:
+  - RiskScoreDaily
+  - ChainWithdraw
+  - InternalTransfer
+  - UserLogin
+  - SpotTrade
+  - CampaignReward
+  dependencies:
+  - rule_engine
+  - realtime_feature_platform
+  - transaction_position_table
+  source_evidence:
+  - W25_strategy_backtracking_1to1_simulation
+  - W28_simulation_state_independent_evaluation
+  prototype_status: implemented
+- product_id: strategy_approval
+  name: 策略上线审批、二人复核与效果工单
+  layer: governance
+  purpose: 管理DRAFT、SIMULATION、PENDING_REVIEW、APPROVED、ONLINE、PAUSED、RETIRED状态以及双人复核。
+  capabilities:
+  - status_machine
+  - dual_review
+  - audit_log
+  - rollback
+  - manual_override_preservation
+  - independent_second_review
+  - three_workday_observation
+  - weekly_monthly_review
+  - effectiveness_label
+  data_objects:
+  - approval
+  - reviewer
+  - reason
+  - status_transition
+  - audit_event
+  domains:
+  - account_security
+  - transaction_security
+  - fund_security
+  - aml_compliance
+  - marketing_abuse
+  event_codes:
+  - RiskScoreDaily
+  - ChainWithdraw
+  - InternalTransfer
+  - UserLogin
+  - SpotTrade
+  - CampaignReward
+  dependencies:
+  - rule_engine
+  - strategy_simulation
+  - strategy_effectiveness_ticket
+  source_evidence:
+  - W25_standardized_strategy_approval
+  - W28_strategy_lifecycle_governance
+  prototype_status: implemented
+- product_id: custom_alert_center
+  name: 风控策略命中与定制告警中心
+  layer: operations
+  purpose: 承接规则引擎与离线策略命中结果，生成带策略版本、特征快照和证据哈希的调查告警。
+  capabilities:
+  - transaction_monitoring
+  - rule_score
+  - anomaly_score
+  - sequence_window
+  - idempotent_alert
+  - evidence_hash
+  data_objects:
+  - transaction_event
+  - alert_id
+  - rule_score
+  - anomaly_score
+  - feature_snapshot
+  - evidence_hash
+  domains:
+  - transaction_security
+  - fund_security
+  - aml_compliance
+  event_codes:
+  - TransactionMonitoringAlert
+  - ChainWithdraw
+  - InternalTransfer
+  - SpotTrade
+  dependencies:
+  - rule_engine
+  - strategy_approval
+  source_evidence:
+  - W25_custom_alert
+  - W28_ticket_effectiveness_feedback
+  prototype_status: implemented
+- product_id: penalty_verification_center
+  name: 处罚与身份验证中心
+  layer: disposition
+  purpose: 对高风险用户执行延迟、限额、暂停出金、交易限制、冻结、VideoKYC等受控处置。
+  capabilities:
+  - withdrawal_restriction
+  - transaction_restriction
+  - batch_release
+  - video_kyc
+  - notification
+  - approval_gate
+  data_objects:
+  - user_id
+  - action
+  - reason
+  - operator
+  - approver
+  - effective_time
+  - release_time
+  domains:
+  - account_security
+  - fund_security
+  - aml_compliance
+  event_codes:
+  - RiskScoreDaily
+  - ChainWithdraw
+  - WithdrawAddressAdd
+  - UserLogin
+  dependencies:
+  - custom_alert_center
+  - strategy_approval
+  - user_risk_profile
+  source_evidence:
+  - W26_KA_exempt_manual_penalty_approval
+  - W28_penalty_center_expansion
+  prototype_status: implemented
+- product_id: user_risk_profile
+  name: 用户风险画像与L1-L4分层
+  layer: decision_intelligence
+  purpose: 结合Onboarding KYC与T+1行为评分，维护自动/人工风险来源、历史和差异化处置。
+  capabilities:
+  - onboarding_score
+  - dynamic_t1_score
+  - L1_L4_tier
+  - risk_history
+  - manual_override
+  - ordinary_profile_confidentiality
+  data_objects:
+  - user_id
+  - score
+  - tier
+  - risk_source
+  - history
+  - restriction_status
+  - rfi_status
+  domains:
+  - aml_compliance
+  - account_security
+  - fund_security
+  event_codes:
+  - RiskScoreDaily
+  - UserKyc
+  - ChainWithdraw
+  dependencies:
+  - realtime_feature_platform
+  - counter_service_180d
+  - risk_graph
+  source_evidence:
+  - W27_user_profile_audit_remediation
+  - systematic_automatic_customer_specific_scoring
+  prototype_status: implemented
+- product_id: risk_graph
+  name: Risk Graph关联风险分析
+  layer: decision_intelligence
+  purpose: 基于设备、邮箱、手机号、KYC证件、提现地址等关系，输出一跳/二跳风险及可审计关联路径。
+  capabilities:
+  - one_hop
+  - two_hop
+  - relation_weighting
+  - community_risk
+  - temporal_fund_flow
+  - ordered_path
+  - path_explanation
+  data_objects:
+  - user_node
+  - identifier_node
+  - wallet_node
+  - transaction_edge
+  - relation_weight
+  - ordered_path
+  domains:
+  - account_security
+  - fund_security
+  - aml_compliance
+  - marketing_abuse
+  event_codes:
+  - RiskScoreDaily
+  - ChainWithdraw
+  - UserLogin
+  - CampaignReward
+  dependencies:
+  - risk_event_hub
+  source_evidence:
+  - W28_RiskGraph_Fraud_analysis
+  - W27_graph_PRD_assignment
+  prototype_status: implemented
+- product_id: chainalysis_label_center
+  name: 链上地址标签与KYT风险中心
+  layer: external_intelligence
+  purpose: 接入高风险、制裁、混币器、赌博等链上标签并沉淀多级标签管理。
+  capabilities:
+  - address_label
+  - risk_exposure
+  - hop_distance
+  - tag_version
+  - strategy_binding
+  data_objects:
+  - address
+  - label
+  - provider
+  - risk_level
+  - exposure
+  - observed_at
+  domains:
+  - fund_security
+  - aml_compliance
+  event_codes:
+  - ChainWithdraw
+  - RiskScoreDaily
+  dependencies:
+  - risk_event_hub
+  source_evidence:
+  - W28_Chainalysis_tag_landing
+  - AML_fund_monitoring
+  prototype_status: modeled
+- product_id: fraud_model_lab
+  name: Fraud模型与特征实验室
+  layer: model_platform
+  purpose: 支持黑白样本构造、特征区分度、LR/Tree/XGBoost、阈值选择、难例分析和模型监控。
+  capabilities:
+  - sample_design
+  - auc_ks_iv_lift
+  - model_training
+  - threshold_search
+  - feature_importance
+  - hard_case_mining
+  data_objects:
+  - training_set
+  - feature_matrix
+  - model_version
+  - threshold
+  - benchmark
+  domains:
+  - account_security
+  - transaction_security
+  - fund_security
+  - aml_compliance
+  - marketing_abuse
+  event_codes:
+  - RiskScoreDaily
+  - ChainWithdraw
+  - UserLogin
+  - SpotTrade
+  - CampaignReward
+  dependencies:
+  - realtime_feature_platform
+  - risk_graph
+  - strategy_simulation
+  source_evidence:
+  - W28_Q4_fraud_feature_mining
+  - decision_tree_xgboost_test
+  prototype_status: implemented
+- product_id: bank_joint_defense
+  name: 银行联防联控与通道风险
+  layer: external_intelligence
+  purpose: 通过银行风险比例、卡一致性、联防反馈和高风险通道信息辅助判断资金来源与去向。
+  capabilities:
+  - bank_risk_ratio
+  - account_name_match
+  - card_count
+  - feedback_loop
+  - partner_rule
+  data_objects:
+  - bank_code
+  - bank_name
+  - card_owner
+  - fraud_ratio
+  - partner_feedback
+  domains:
+  - payment_fraud
+  - fund_security
+  - aml_compliance
+  event_codes:
+  - FiatDeposit
+  - FiatWithdraw
+  - ChainWithdraw
+  dependencies:
+  - risk_event_hub
+  - fraud_model_lab
+  source_evidence:
+  - W28_bank_joint_defense
+  - Q4_fraud_bank_features
+  prototype_status: modeled
+- product_id: account_security_monitor
+  name: 账户安全H+1/T+1监控
+  layer: monitoring
+  purpose: 监控注册、登录、设备、IP和敏感信息变更的异常波动并快速触发告警。
+  capabilities:
+  - h1_dashboard
+  - t1_dashboard
+  - baseline_deviation
+  - five_minute_alert
+  - ato_sequence
+  data_objects:
+  - metric_time
+  - historical_mean
+  - current_value
+  - deviation
+  - alert
+  domains:
+  - account_security
+  - marketing_abuse
+  event_codes:
+  - UserLogin
+  - WithdrawAddressAdd
+  - UserPasswordModification
+  dependencies:
+  - counter_service_180d
+  - custom_alert_center
+  source_evidence:
+  - W28_account_security_monitoring
+  prototype_status: modeled
+- product_id: fund_security_control
+  name: 资金安全与兜底策略中心
+  layer: decision_engine
+  purpose: 覆盖内部转账、共享订单、平台出金、异常资金转移和系统账户等资金安全场景。
+  capabilities:
+  - fund_flow_monitoring
+  - internal_transfer_rules
+  - withdrawal_protection
+  - loss_prevention
+  - action_escalation
+  data_objects:
+  - fund_event
+  - path
+  - amount
+  - counterparty
+  - account_type
+  - action
+  domains:
+  - fund_security
+  - aml_compliance
+  event_codes:
+  - InternalTransfer
+  - ChainWithdraw
+  dependencies:
+  - rule_engine
+  - risk_graph
+  - chainalysis_label_center
+  source_evidence:
+  - W28_fund_security_strategy_OKR
+  prototype_status: modeled
+- product_id: cms_case_management
+  name: CMS合规案件管理
+  layer: compliance_automation
+  purpose: 管理案件创建、审核、监管回复、补充材料、完成/取消等生命周期及审计日志。
+  capabilities:
+  - case_lifecycle
+  - status_history
+  - evidence_management
+  - handler_assignment
+  - search_export
+  data_objects:
+  - case_id
+  - uid
+  - source
+  - office
+  - status
+  - evidence
+  - reply_record
+  domains:
+  - regulatory_operations
+  - aml_compliance
+  event_codes:
+  - RegulatoryCase
+  dependencies: []
+  source_evidence:
+  - W25_W28_CMS_upgrade
+  - anti_fraud_case_fields
+  prototype_status: implemented
+- product_id: str_workflow
+  name: STR一键内部候选案件与历史查询
+  layer: compliance_automation
+  purpose: 支持AML策略命中后一键创建内部CMS/STR候选案件、查询用户风控历史并记录MASAK反馈；所有提交均需合规人工复核。
+  capabilities:
+  - aml_strategy_trigger
+  - cms_one_click_case
+  - risk_history_lookup
+  - dedup
+  - evidence_snapshot
+  - human_str_decision
+  - masak_feedback_status
+  data_objects:
+  - strategy_id
+  - strategy_version
+  - uid
+  - risk_history
+  - evidence
+  - str_decision
+  - masak_feedback
+  domains:
+  - aml_compliance
+  - regulatory_operations
+  event_codes:
+  - RiskScoreDaily
+  - RegulatoryCase
+  dependencies:
+  - rule_engine
+  - cms_case_management
+  - strategy_approval
+  - strategy_effectiveness_ticket
+  source_evidence:
+  - W28_IMG_5737_CMS_one_click_STR
+  - W28_AML_strategy_auto_STR
+  - W28_STR_MASAK_feedback
+  prototype_status: implemented
+- product_id: travel_rule
+  name: Travel Rule信息与豁免审批
+  layer: compliance_control
+  purpose: 管理订单金额、币种、对手方VASP信息、豁免名单和审批链路。
+  capabilities:
+  - required_fields
+  - exemption
+  - approval
+  - traceability
+  - transfer_context
+  data_objects:
+  - order_id
+  - amount
+  - currency
+  - originator
+  - beneficiary
+  - vasp
+  - exemption
+  domains:
+  - aml_compliance
+  - fund_security
+  event_codes:
+  - ChainWithdraw
+  - TravelRuleTransfer
+  dependencies:
+  - risk_event_hub
+  - list_management
+  source_evidence:
+  - W27_W28_Travel_Rule_optimization
+  prototype_status: catalog_only
+- product_id: kyc_kyb_vkyc
+  name: KYC智能分流与EDD辅助
+  layer: identity
+  purpose: 消费上游核验、字段一致性、PEP/制裁、资金来源及实际/预期活动偏离，路由人工RFI、EDD或VideoKYC。
+  capabilities:
+  - structured_verification
+  - consistency_check
+  - sanctions_pep_routing
+  - expected_activity_deviation
+  - risk_tier
+  - rfi_edd_vkyc
+  data_objects:
+  - user_id
+  - kyc_snapshot
+  - verification_result
+  - risk_factor
+  - risk_tier
+  - recommended_action
+  domains:
+  - aml_compliance
+  - account_security
+  event_codes:
+  - UserKycStart
+  - UserKyc
+  - RiskScoreDaily
+  dependencies:
+  - risk_event_hub
+  source_evidence:
+  - W27_KYC_fields
+  - MASAK_occupation_list
+  - W28_VKYC
+  prototype_status: implemented
+- product_id: list_management
+  name: 黑白名单、PEP与制裁名单管理
+  layer: external_intelligence
+  purpose: 管理Fraud黑名单、白名单/豁免、PEP、制裁及高风险标签，并控制可见性与处置差异。
+  capabilities:
+  - blacklist
+  - whitelist
+  - pep
+  - sanctions
+  - exemption
+  - tag_hierarchy
+  data_objects:
+  - entity
+  - list_type
+  - source
+  - effective_at
+  - reason
+  - status
+  domains:
+  - aml_compliance
+  - account_security
+  - fund_security
+  event_codes:
+  - RiskScoreDaily
+  - ChainWithdraw
+  - UserLogin
+  dependencies: []
+  source_evidence:
+  - W25_blacklist_followup
+  - W27_sanctions_pep_filter
+  prototype_status: catalog_only
+- product_id: audit_evidence_hub
+  name: 审计证据与系统拓扑资料中心
+  layer: governance
+  purpose: 管理审计控制项、交付材料、系统架构、数据口径、负责人、状态和证据追踪。
+  capabilities:
+  - control_matrix
+  - evidence_request
+  - ownership
+  - status_tracking
+  - system_topology
+  - audit_trace
+  data_objects:
+  - control_item
+  - evidence
+  - owner
+  - due_date
+  - status
+  - system_component
+  domains:
+  - regulatory_operations
+  - aml_compliance
+  event_codes:
+  - AuditEvidence
+  dependencies:
+  - strategy_approval
+  - cms_case_management
+  - str_workflow
+  source_evidence:
+  - W25_system_topology
+  - W28_audit_delivery_matrix
+  prototype_status: modeled
+- product_id: risk_knowledge_center
+  name: 风控知识、SOP与Risk Map中心
+  layer: knowledge
+  purpose: 沉淀行业、业务线、风险场景、黑灰产、特征、规则、模型、处置和监控指标。
+  capabilities:
+  - risk_map
+  - scenario_catalog
+  - feature_catalog
+  - model_matrix
+  - sop_retrieval
+  - strategy_patterns
+  data_objects:
+  - scenario
+  - risk_type
+  - attacker
+  - feature
+  - rule
+  - model
+  - action
+  - metric
+  domains:
+  - account_security
+  - transaction_security
+  - fund_security
+  - aml_compliance
+  - marketing_abuse
+  - payment_fraud
+  - credit_risk
+  event_codes:
+  - RiskScoreDaily
+  - ChainWithdraw
+  - InternalTransfer
+  - UserLogin
+  - SpotTrade
+  - CampaignReward
+  dependencies:
+  - realtime_feature_platform
+  - rule_engine
+  source_evidence:
+  - W27_Sylvia_anti_fraud_knowledge_assignment
+  prototype_status: implemented
+- product_id: risk_dashboard
+  name: 风控大盘与冻结客户看板
+  layer: monitoring
+  purpose: 汇总冻结状态、解除情况、异常案件、客户处理结果、周报/月报和风险域趋势。
+  capabilities:
+  - portfolio_view
+  - frozen_user_view
+  - trend
+  - drilldown
+  - report_ingestion
+  data_objects:
+  - user_id
+  - risk_domain
+  - restriction_status
+  - case_result
+  - metric_date
+  domains:
+  - account_security
+  - transaction_security
+  - fund_security
+  - aml_compliance
+  - marketing_abuse
+  event_codes:
+  - RiskScoreDaily
+  dependencies:
+  - user_risk_profile
+  - custom_alert_center
+  - strategy_effectiveness_ticket
+  source_evidence:
+  - W28_risk_dashboard_and_frozen_customers
+  prototype_status: modeled
+- product_id: market_kline_feed
+  name: Kline行情与市场异常数据服务
+  layer: external_intelligence
+  purpose: 为现货异常交易、价格偏离和市场操纵场景提供行情与K线特征。
+  capabilities:
+  - kline
+  - return
+  - volatility
+  - volume
+  - price_deviation
+  data_objects:
+  - symbol
+  - interval
+  - open
+  - high
+  - low
+  - close
+  - volume
+  domains:
+  - transaction_security
+  event_codes:
+  - SpotTrade
+  dependencies:
+  - risk_event_hub
+  source_evidence:
+  - W28_kline_data_capture
+  prototype_status: catalog_only
+- product_id: strategy_effectiveness_ticket
+  name: 策略运营效果打标工单
+  layer: governance
+  purpose: 由策略运营对上线或模拟策略效果进行版本化打标，为保留、调参、暂停或下线提供依据。
+  capabilities:
+  - effectiveness_label
+  - strategy_version_binding
+  - three_day_observation
+  - false_positive_feedback
+  - business_metric_delta
+  - weekly_monthly_review
+  data_objects:
+  - ticket_id
+  - strategy_id
+  - version
+  - test_run_id
+  - label
+  - metrics
+  - reviewer
+  - recommendation
+  domains:
+  - account_security
+  - transaction_security
+  - fund_security
+  - aml_compliance
+  - marketing_abuse
+  event_codes:
+  - RiskScoreDaily
+  - ChainWithdraw
+  - SpotTrade
+  - CampaignEnroll
+  dependencies:
+  - strategy_simulation
+  - strategy_approval
+  - custom_alert_center
+  source_evidence:
+  - W28_Ticket_Module_100pct_effectiveness_tagging
+  - strategy_full_lifecycle_SOP
+  prototype_status: implemented

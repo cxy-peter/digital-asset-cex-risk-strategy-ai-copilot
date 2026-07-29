@@ -1,0 +1,641 @@
+{
+  "tier_distribution": {
+    "L1": 3564,
+    "L2": 6187,
+    "L3.1": 236,
+    "L3.2": 13,
+    "L3.3": 0,
+    "L4": 0
+  },
+  "highest_tier": "L3.2",
+  "top_profiles": [
+    {
+      "user_id": "U0001752",
+      "onboarding_score": 0.615008,
+      "dynamic_t1_score": 0.596608,
+      "combined_score": 0.604336,
+      "automatic_tier": "L3.2",
+      "final_tier": "L3.2",
+      "risk_source": "manual_override",
+      "recommended_actions": "RFI|EDD|DAILY_LIMIT",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0004775",
+      "onboarding_score": 0.556764,
+      "dynamic_t1_score": 0.629977,
+      "combined_score": 0.599228,
+      "automatic_tier": "L3.2",
+      "final_tier": "L3.2",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|EDD|DAILY_LIMIT",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0009571",
+      "onboarding_score": 0.492176,
+      "dynamic_t1_score": 0.661692,
+      "combined_score": 0.590495,
+      "automatic_tier": "L3.2",
+      "final_tier": "L3.2",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|EDD|DAILY_LIMIT",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0008493",
+      "onboarding_score": 0.463984,
+      "dynamic_t1_score": 0.676281,
+      "combined_score": 0.587116,
+      "automatic_tier": "L3.2",
+      "final_tier": "L3.2",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|EDD|DAILY_LIMIT",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0009245",
+      "onboarding_score": 0.517473,
+      "dynamic_t1_score": 0.610135,
+      "combined_score": 0.571217,
+      "automatic_tier": "L3.2",
+      "final_tier": "L3.2",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|EDD|DAILY_LIMIT",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0007816",
+      "onboarding_score": 0.525093,
+      "dynamic_t1_score": 0.60016,
+      "combined_score": 0.568632,
+      "automatic_tier": "L3.2",
+      "final_tier": "L3.2",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|EDD|DAILY_LIMIT",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0006335",
+      "onboarding_score": 0.514537,
+      "dynamic_t1_score": 0.605721,
+      "combined_score": 0.567424,
+      "automatic_tier": "L3.2",
+      "final_tier": "L3.2",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|EDD|DAILY_LIMIT",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0004826",
+      "onboarding_score": 0.503048,
+      "dynamic_t1_score": 0.605361,
+      "combined_score": 0.56239,
+      "automatic_tier": "L3.2",
+      "final_tier": "L3.2",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|EDD|DAILY_LIMIT",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0000937",
+      "onboarding_score": 0.450551,
+      "dynamic_t1_score": 0.643232,
+      "combined_score": 0.562306,
+      "automatic_tier": "L3.2",
+      "final_tier": "L3.2",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|EDD|DAILY_LIMIT",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0001279",
+      "onboarding_score": 0.432743,
+      "dynamic_t1_score": 0.654441,
+      "combined_score": 0.561328,
+      "automatic_tier": "L3.2",
+      "final_tier": "L3.2",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|EDD|DAILY_LIMIT",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0001181",
+      "onboarding_score": 0.352905,
+      "dynamic_t1_score": 0.699822,
+      "combined_score": 0.554117,
+      "automatic_tier": "L3.2",
+      "final_tier": "L3.2",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|EDD|DAILY_LIMIT",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0003996",
+      "onboarding_score": 0.570204,
+      "dynamic_t1_score": 0.535959,
+      "combined_score": 0.550342,
+      "automatic_tier": "L3.2",
+      "final_tier": "L3.2",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|EDD|DAILY_LIMIT",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0000788",
+      "onboarding_score": 0.45427,
+      "dynamic_t1_score": 0.614895,
+      "combined_score": 0.547432,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0004585",
+      "onboarding_score": 0.499486,
+      "dynamic_t1_score": 0.579048,
+      "combined_score": 0.545632,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0003194",
+      "onboarding_score": 0.606394,
+      "dynamic_t1_score": 0.500108,
+      "combined_score": 0.544748,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0009330",
+      "onboarding_score": 0.416327,
+      "dynamic_t1_score": 0.626414,
+      "combined_score": 0.538178,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0009780",
+      "onboarding_score": 0.553878,
+      "dynamic_t1_score": 0.524029,
+      "combined_score": 0.536566,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0001226",
+      "onboarding_score": 0.538478,
+      "dynamic_t1_score": 0.534821,
+      "combined_score": 0.536357,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0002390",
+      "onboarding_score": 0.494456,
+      "dynamic_t1_score": 0.55856,
+      "combined_score": 0.531636,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0006400",
+      "onboarding_score": 0.551398,
+      "dynamic_t1_score": 0.516357,
+      "combined_score": 0.531074,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0007945",
+      "onboarding_score": 0.497193,
+      "dynamic_t1_score": 0.547804,
+      "combined_score": 0.526547,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0005612",
+      "onboarding_score": 0.539505,
+      "dynamic_t1_score": 0.511652,
+      "combined_score": 0.52335,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0002653",
+      "onboarding_score": 0.49796,
+      "dynamic_t1_score": 0.522896,
+      "combined_score": 0.512422,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0004642",
+      "onboarding_score": 0.433666,
+      "dynamic_t1_score": 0.569145,
+      "combined_score": 0.512244,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0007843",
+      "onboarding_score": 0.313747,
+      "dynamic_t1_score": 0.652098,
+      "combined_score": 0.509991,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0006347",
+      "onboarding_score": 0.529336,
+      "dynamic_t1_score": 0.490986,
+      "combined_score": 0.507093,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0008797",
+      "onboarding_score": 0.491615,
+      "dynamic_t1_score": 0.518174,
+      "combined_score": 0.507019,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0009643",
+      "onboarding_score": 0.446769,
+      "dynamic_t1_score": 0.549443,
+      "combined_score": 0.50632,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0002209",
+      "onboarding_score": 0.531937,
+      "dynamic_t1_score": 0.486783,
+      "combined_score": 0.505748,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0007338",
+      "onboarding_score": 0.470082,
+      "dynamic_t1_score": 0.526535,
+      "combined_score": 0.502825,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0007103",
+      "onboarding_score": 0.403018,
+      "dynamic_t1_score": 0.573265,
+      "combined_score": 0.501762,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0000289",
+      "onboarding_score": 0.559186,
+      "dynamic_t1_score": 0.457085,
+      "combined_score": 0.499967,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0006151",
+      "onboarding_score": 0.569167,
+      "dynamic_t1_score": 0.443529,
+      "combined_score": 0.496297,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0005936",
+      "onboarding_score": 0.56816,
+      "dynamic_t1_score": 0.443133,
+      "combined_score": 0.495645,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0001868",
+      "onboarding_score": 0.400177,
+      "dynamic_t1_score": 0.563541,
+      "combined_score": 0.494928,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0003101",
+      "onboarding_score": 0.471134,
+      "dynamic_t1_score": 0.511884,
+      "combined_score": 0.494769,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0002999",
+      "onboarding_score": 0.476232,
+      "dynamic_t1_score": 0.501659,
+      "combined_score": 0.49098,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0002831",
+      "onboarding_score": 0.478266,
+      "dynamic_t1_score": 0.498854,
+      "combined_score": 0.490207,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0004740",
+      "onboarding_score": 0.333206,
+      "dynamic_t1_score": 0.603869,
+      "combined_score": 0.49019,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0008844",
+      "onboarding_score": 0.458389,
+      "dynamic_t1_score": 0.513045,
+      "combined_score": 0.49009,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0007504",
+      "onboarding_score": 0.61142,
+      "dynamic_t1_score": 0.390405,
+      "combined_score": 0.483232,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0008039",
+      "onboarding_score": 0.40614,
+      "dynamic_t1_score": 0.53773,
+      "combined_score": 0.482462,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0000839",
+      "onboarding_score": 0.425804,
+      "dynamic_t1_score": 0.523001,
+      "combined_score": 0.482178,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0002061",
+      "onboarding_score": 0.396361,
+      "dynamic_t1_score": 0.543964,
+      "combined_score": 0.48197,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0002735",
+      "onboarding_score": 0.514343,
+      "dynamic_t1_score": 0.457385,
+      "combined_score": 0.481308,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0000018",
+      "onboarding_score": 0.445901,
+      "dynamic_t1_score": 0.506681,
+      "combined_score": 0.481154,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0001378",
+      "onboarding_score": 0.391209,
+      "dynamic_t1_score": 0.545401,
+      "combined_score": 0.48064,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0006805",
+      "onboarding_score": 0.388436,
+      "dynamic_t1_score": 0.546521,
+      "combined_score": 0.480125,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0000476",
+      "onboarding_score": 0.508508,
+      "dynamic_t1_score": 0.45883,
+      "combined_score": 0.479695,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    },
+    {
+      "user_id": "U0003501",
+      "onboarding_score": 0.192666,
+      "dynamic_t1_score": 0.687106,
+      "combined_score": 0.479442,
+      "automatic_tier": "L3.1",
+      "final_tier": "L3.1",
+      "risk_source": "automatic_t1",
+      "recommended_actions": "RFI|MANUAL_REVIEW",
+      "str_details_visible": false
+    }
+  ],
+  "manual_override_demo": {
+    "user_id": "U0001752",
+    "onboarding_score": 0.615008,
+    "dynamic_t1_score": 0.596608,
+    "combined_score": 0.604336,
+    "automatic_tier": "L3.2",
+    "final_tier": "L3.2",
+    "risk_source": "manual_override",
+    "recommended_actions": [
+      "RFI",
+      "EDD",
+      "DAILY_LIMIT"
+    ],
+    "risk_history": [
+      {
+        "source": "onboarding",
+        "score": 0.615008,
+        "calculated_at": "2026-07-29T14:27:16.065665+00:00"
+      },
+      {
+        "source": "automatic_t1",
+        "score": 0.596608,
+        "combined_score": 0.604336,
+        "tier": "L3.2",
+        "calculated_at": "2026-07-29T14:27:16.065668+00:00"
+      },
+      {
+        "source": "manual_override",
+        "tier": "L3.2",
+        "reason": "synthetic reviewer-confirmed tier used to verify T+1 override persistence",
+        "actor": "demo_risk_reviewer",
+        "created_at": "2026-07-29T14:27:16.065675+00:00",
+        "preserve_on_next_t1_run": true
+      }
+    ],
+    "ordinary_profile_fields": {
+      "risk_tier": "L3.2",
+      "risk_source": "manual_override",
+      "restriction_status": "none",
+      "rfi_status": "not_started"
+    },
+    "str_details": null,
+    "confidentiality_note": "STR details are restricted to compliance roles and are not shown in ordinary user profiles."
+  },
+  "manual_override_history": {
+    "user_id": "U0001752",
+    "snapshot_count": 1,
+    "override_count": 1,
+    "audit_event_count": 1
+  },
+  "batch_manifest": {
+    "batch_id": "T1-DEMO-2026-06-29",
+    "as_of_date": "2026-06-29",
+    "status": "SUCCEEDED",
+    "input_rows": 10000,
+    "persisted_rows": 10000,
+    "database": "/mnt/data/cointr-risk-strategy-ai-copilot/outputs/user_risk_scoring/risk_snapshots.sqlite",
+    "manual_override_count": 2
+  },
+  "str_visible_count": 0,
+  "scoring_policy": {
+    "layers": [
+      "onboarding_kyc",
+      "automatic_t1_behavior"
+    ],
+    "manual_override_preserved": true,
+    "manual_override_storage": "SQLite active override + immutable batch snapshot",
+    "batch_idempotency_key": [
+      "batch_id",
+      "user_id"
+    ],
+    "ordinary_profile_can_show_str": false
+  },
+  "artifacts": {
+    "profiles_csv": "/mnt/data/cointr-risk-strategy-ai-copilot/outputs/user_risk_scoring/user_risk_profiles.csv",
+    "summary_json": "/mnt/data/cointr-risk-strategy-ai-copilot/outputs/user_risk_scoring/user_risk_scoring_summary.json",
+    "snapshots_sqlite": "/mnt/data/cointr-risk-strategy-ai-copilot/outputs/user_risk_scoring/risk_snapshots.sqlite"
+  }
+}

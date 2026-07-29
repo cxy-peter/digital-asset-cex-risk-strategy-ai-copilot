@@ -1,0 +1,476 @@
+{
+  "scope": "internal_candidate_case_preview_only",
+  "strategy": {
+    "strategy_id": "TPL-rapid_cashout_high_precision",
+    "name": "快进快出高精度组合",
+    "domain": "fund_security",
+    "event_code": "ChainWithdraw",
+    "description": "资金闭环、提现速度与图谱关系组合。",
+    "rule": {
+      "logic": "AND",
+      "conditions": [
+        {
+          "feature": "fiat_in_crypto_out_ratio",
+          "operator": ">=",
+          "value": 0.85
+        },
+        {
+          "feature": "minutes_deposit_to_first_chain_out",
+          "operator": "<",
+          "value": 240
+        }
+      ],
+      "groups": [
+        {
+          "logic": "OR",
+          "conditions": [
+            {
+              "feature": "withdraw_address_fraud_1hop_count",
+              "operator": ">=",
+              "value": 1
+            },
+            {
+              "feature": "device_fraud_1hop_count",
+              "operator": ">=",
+              "value": 1
+            },
+            {
+              "feature": "high_risk_chain_exposure",
+              "operator": ">=",
+              "value": 0.2
+            }
+          ],
+          "groups": []
+        }
+      ]
+    },
+    "action": "RFI",
+    "action_params": {},
+    "source": "expert",
+    "rationale": [
+      "来自知识库专家规则模板",
+      "需以当前标签口径重新回测"
+    ],
+    "required_features": [
+      "device_fraud_1hop_count",
+      "fiat_in_crypto_out_ratio",
+      "high_risk_chain_exposure",
+      "minutes_deposit_to_first_chain_out",
+      "withdraw_address_fraud_1hop_count"
+    ],
+    "status": "DRAFT",
+    "tags": [
+      "fund",
+      "closed_loop",
+      "graph"
+    ],
+    "tag_level_1": "fund_security",
+    "tag_level_2": "rapid_fiat_convert_chain_out",
+    "tag_level_3": "CMS_STR_CANDIDATE"
+  },
+  "strategy_expression": "fiat_in_crypto_out_ratio >= 0.85 AND minutes_deposit_to_first_chain_out < 240 AND (withdraw_address_fraud_1hop_count >= 1 OR device_fraud_1hop_count >= 1 OR high_risk_chain_exposure >= 0.2)",
+  "synthetic_backtest_metrics": {
+    "sample_size": 10000,
+    "positives": 619,
+    "alerts": 153,
+    "true_positives": 145,
+    "false_positives": 8,
+    "false_negatives": 474,
+    "true_negatives": 9373,
+    "precision": 0.9477124183006536,
+    "recall": 0.23424878836833601,
+    "f1": 0.3756476683937824,
+    "false_positive_rate": 0.0008527875493017802,
+    "alert_rate": 0.0153,
+    "lift": 15.310378324727845,
+    "captured_loss_rate": 0.22033845455080697,
+    "alert_amount": 813102.4654540964,
+    "captured_loss_amount": 810723.8329846028,
+    "monthly_precision_std": 0.03492285495820048,
+    "monthly_alert_rate_std": 0.0032878345043956007,
+    "stability_score": 0.9617893105374039,
+    "explainability_score": 0.7,
+    "operational_score": 1.0,
+    "reward": 0.0,
+    "relative_advantage": 0.0
+  },
+  "data_snapshot_id": "SNAP-56af0c8c28727e1d",
+  "integration": {
+    "enabled": true,
+    "one_click_semantics": "Create or prefill an internal CMS/STR candidate case; human compliance review is mandatory before any filing.",
+    "cases": [
+      {
+        "schema_version": "cms_str_case_preview.v1",
+        "case_id": "CMSSTR-TPL-rapid_cashout_high_precision-d9caaafdec",
+        "dedup_key": "d9caaafdec401a7e9b8673fa6f15f682646415a8ebdc24b674f065e6518f7c8c",
+        "user_id": "U0007857",
+        "strategy_id": "TPL-rapid_cashout_high_precision",
+        "strategy_version": 1,
+        "event_code": "ChainWithdraw",
+        "strategy_tag_level_3": "CMS_STR_CANDIDATE",
+        "status": "DRAFT_CASE",
+        "masak_feedback_status": "NOT_SUBMITTED",
+        "feature_snapshot": {
+          "device_fraud_1hop_count": 0,
+          "fiat_in_crypto_out_ratio": 0.8787464276794292,
+          "high_risk_chain_exposure": 0.2085345017852886,
+          "minutes_deposit_to_first_chain_out": 124.32503089891902,
+          "withdraw_address_fraud_1hop_count": 2
+        },
+        "strategy_expression": "fiat_in_crypto_out_ratio >= 0.85 AND minutes_deposit_to_first_chain_out < 240 AND (withdraw_address_fraud_1hop_count >= 1 OR device_fraud_1hop_count >= 1 OR high_risk_chain_exposure >= 0.2)",
+        "risk_history_summary": {
+          "risk_tier": "UNKNOWN",
+          "fraud_label_in_demo": 1,
+          "data_snapshot_id": "SNAP-56af0c8c28727e1d"
+        },
+        "graph_path_summary": {
+          "device_fraud_1hop_count": 0,
+          "withdraw_address_fraud_1hop_count": 2,
+          "kyc_id_fraud_1hop_count": 0,
+          "fraud_2hop_count": 19,
+          "community_fraud_ratio": 0.23529411764705882
+        },
+        "evidence_hash": "d8f737cfc09b133abf21c090d721c067a8ebf6b813022db3a77871a282c4dc45",
+        "human_review_required": true,
+        "external_submission_allowed": false,
+        "automatic_filing_performed": false
+      },
+      {
+        "schema_version": "cms_str_case_preview.v1",
+        "case_id": "CMSSTR-TPL-rapid_cashout_high_precision-b074d27c8a",
+        "dedup_key": "b074d27c8a4b9f4820f52505b5715de3347d7b052e5a4b30f336406a50896fe7",
+        "user_id": "U0006232",
+        "strategy_id": "TPL-rapid_cashout_high_precision",
+        "strategy_version": 1,
+        "event_code": "ChainWithdraw",
+        "strategy_tag_level_3": "CMS_STR_CANDIDATE",
+        "status": "DRAFT_CASE",
+        "masak_feedback_status": "NOT_SUBMITTED",
+        "feature_snapshot": {
+          "device_fraud_1hop_count": 0,
+          "fiat_in_crypto_out_ratio": 0.8565384603990923,
+          "high_risk_chain_exposure": 0.003180974218085,
+          "minutes_deposit_to_first_chain_out": 149.33818178263755,
+          "withdraw_address_fraud_1hop_count": 1
+        },
+        "strategy_expression": "fiat_in_crypto_out_ratio >= 0.85 AND minutes_deposit_to_first_chain_out < 240 AND (withdraw_address_fraud_1hop_count >= 1 OR device_fraud_1hop_count >= 1 OR high_risk_chain_exposure >= 0.2)",
+        "risk_history_summary": {
+          "risk_tier": "UNKNOWN",
+          "fraud_label_in_demo": 0,
+          "data_snapshot_id": "SNAP-56af0c8c28727e1d"
+        },
+        "graph_path_summary": {
+          "device_fraud_1hop_count": 0,
+          "withdraw_address_fraud_1hop_count": 1,
+          "kyc_id_fraud_1hop_count": 1,
+          "fraud_2hop_count": 18,
+          "community_fraud_ratio": 0.07407407407407407
+        },
+        "evidence_hash": "2137aa158d30b487c5f04922b9ad46111a76b7b99b4138fc3d9eebba46b3eaed",
+        "human_review_required": true,
+        "external_submission_allowed": false,
+        "automatic_filing_performed": false
+      },
+      {
+        "schema_version": "cms_str_case_preview.v1",
+        "case_id": "CMSSTR-TPL-rapid_cashout_high_precision-dd955c634b",
+        "dedup_key": "dd955c634b2cb7f6334c3ddc6a6ba31ea2c4474de31cc14f340f19ef7b2f51b2",
+        "user_id": "U0006191",
+        "strategy_id": "TPL-rapid_cashout_high_precision",
+        "strategy_version": 1,
+        "event_code": "ChainWithdraw",
+        "strategy_tag_level_3": "CMS_STR_CANDIDATE",
+        "status": "DRAFT_CASE",
+        "masak_feedback_status": "NOT_SUBMITTED",
+        "feature_snapshot": {
+          "device_fraud_1hop_count": 0,
+          "fiat_in_crypto_out_ratio": 1.0003312963227944,
+          "high_risk_chain_exposure": 0.1824344593992695,
+          "minutes_deposit_to_first_chain_out": 139.86595207919416,
+          "withdraw_address_fraud_1hop_count": 1
+        },
+        "strategy_expression": "fiat_in_crypto_out_ratio >= 0.85 AND minutes_deposit_to_first_chain_out < 240 AND (withdraw_address_fraud_1hop_count >= 1 OR device_fraud_1hop_count >= 1 OR high_risk_chain_exposure >= 0.2)",
+        "risk_history_summary": {
+          "risk_tier": "UNKNOWN",
+          "fraud_label_in_demo": 1,
+          "data_snapshot_id": "SNAP-56af0c8c28727e1d"
+        },
+        "graph_path_summary": {
+          "device_fraud_1hop_count": 0,
+          "withdraw_address_fraud_1hop_count": 1,
+          "kyc_id_fraud_1hop_count": 0,
+          "fraud_2hop_count": 12,
+          "community_fraud_ratio": 0.0625
+        },
+        "evidence_hash": "543e2420ed1cd7cf9c0f0df980d5b654da66fbcfd441685252362051379dec6a",
+        "human_review_required": true,
+        "external_submission_allowed": false,
+        "automatic_filing_performed": false
+      },
+      {
+        "schema_version": "cms_str_case_preview.v1",
+        "case_id": "CMSSTR-TPL-rapid_cashout_high_precision-88642ef7b7",
+        "dedup_key": "88642ef7b7b55383012135c5bf51bb575158a8309f86ab90c4b030e982f06de1",
+        "user_id": "U0008358",
+        "strategy_id": "TPL-rapid_cashout_high_precision",
+        "strategy_version": 1,
+        "event_code": "ChainWithdraw",
+        "strategy_tag_level_3": "CMS_STR_CANDIDATE",
+        "status": "DRAFT_CASE",
+        "masak_feedback_status": "NOT_SUBMITTED",
+        "feature_snapshot": {
+          "device_fraud_1hop_count": 1,
+          "fiat_in_crypto_out_ratio": 0.9696219807275512,
+          "high_risk_chain_exposure": 0.052216298675059,
+          "minutes_deposit_to_first_chain_out": 108.59077131568502,
+          "withdraw_address_fraud_1hop_count": 2
+        },
+        "strategy_expression": "fiat_in_crypto_out_ratio >= 0.85 AND minutes_deposit_to_first_chain_out < 240 AND (withdraw_address_fraud_1hop_count >= 1 OR device_fraud_1hop_count >= 1 OR high_risk_chain_exposure >= 0.2)",
+        "risk_history_summary": {
+          "risk_tier": "UNKNOWN",
+          "fraud_label_in_demo": 1,
+          "data_snapshot_id": "SNAP-56af0c8c28727e1d"
+        },
+        "graph_path_summary": {
+          "device_fraud_1hop_count": 1,
+          "withdraw_address_fraud_1hop_count": 2,
+          "kyc_id_fraud_1hop_count": 0,
+          "fraud_2hop_count": 7,
+          "community_fraud_ratio": 0.21428571428571427
+        },
+        "evidence_hash": "0715bbabdbac2edce001e84ff6ca53fbb138ce2b4e18df22f25c8a98cba3f02d",
+        "human_review_required": true,
+        "external_submission_allowed": false,
+        "automatic_filing_performed": false
+      },
+      {
+        "schema_version": "cms_str_case_preview.v1",
+        "case_id": "CMSSTR-TPL-rapid_cashout_high_precision-25672874ca",
+        "dedup_key": "25672874cac2e58b31132e0c742d620cc5f3c87bd7ad4702213e57f6dc2fc140",
+        "user_id": "U0009367",
+        "strategy_id": "TPL-rapid_cashout_high_precision",
+        "strategy_version": 1,
+        "event_code": "ChainWithdraw",
+        "strategy_tag_level_3": "CMS_STR_CANDIDATE",
+        "status": "DRAFT_CASE",
+        "masak_feedback_status": "NOT_SUBMITTED",
+        "feature_snapshot": {
+          "device_fraud_1hop_count": 2,
+          "fiat_in_crypto_out_ratio": 0.9198216405955888,
+          "high_risk_chain_exposure": 0.0863600806660768,
+          "minutes_deposit_to_first_chain_out": 114.84873502908432,
+          "withdraw_address_fraud_1hop_count": 0
+        },
+        "strategy_expression": "fiat_in_crypto_out_ratio >= 0.85 AND minutes_deposit_to_first_chain_out < 240 AND (withdraw_address_fraud_1hop_count >= 1 OR device_fraud_1hop_count >= 1 OR high_risk_chain_exposure >= 0.2)",
+        "risk_history_summary": {
+          "risk_tier": "UNKNOWN",
+          "fraud_label_in_demo": 1,
+          "data_snapshot_id": "SNAP-56af0c8c28727e1d"
+        },
+        "graph_path_summary": {
+          "device_fraud_1hop_count": 2,
+          "withdraw_address_fraud_1hop_count": 0,
+          "kyc_id_fraud_1hop_count": 0,
+          "fraud_2hop_count": 7,
+          "community_fraud_ratio": 0.10526315789473684
+        },
+        "evidence_hash": "854e9ab704a18704fb1e061a7c3fd66817695e3544afedf1b47ba8d32ede80c9",
+        "human_review_required": true,
+        "external_submission_allowed": false,
+        "automatic_filing_performed": false
+      },
+      {
+        "schema_version": "cms_str_case_preview.v1",
+        "case_id": "CMSSTR-TPL-rapid_cashout_high_precision-829013fb1f",
+        "dedup_key": "829013fb1f4bdd0f6cedd92b55b06f4b9c0c880b7d1db3dfb430371d220426dc",
+        "user_id": "U0005438",
+        "strategy_id": "TPL-rapid_cashout_high_precision",
+        "strategy_version": 1,
+        "event_code": "ChainWithdraw",
+        "strategy_tag_level_3": "CMS_STR_CANDIDATE",
+        "status": "DRAFT_CASE",
+        "masak_feedback_status": "NOT_SUBMITTED",
+        "feature_snapshot": {
+          "device_fraud_1hop_count": 2,
+          "fiat_in_crypto_out_ratio": 0.8857777182053546,
+          "high_risk_chain_exposure": 0.0424335759151383,
+          "minutes_deposit_to_first_chain_out": 235.973081092958,
+          "withdraw_address_fraud_1hop_count": 0
+        },
+        "strategy_expression": "fiat_in_crypto_out_ratio >= 0.85 AND minutes_deposit_to_first_chain_out < 240 AND (withdraw_address_fraud_1hop_count >= 1 OR device_fraud_1hop_count >= 1 OR high_risk_chain_exposure >= 0.2)",
+        "risk_history_summary": {
+          "risk_tier": "UNKNOWN",
+          "fraud_label_in_demo": 1,
+          "data_snapshot_id": "SNAP-56af0c8c28727e1d"
+        },
+        "graph_path_summary": {
+          "device_fraud_1hop_count": 2,
+          "withdraw_address_fraud_1hop_count": 0,
+          "kyc_id_fraud_1hop_count": 0,
+          "fraud_2hop_count": 3,
+          "community_fraud_ratio": 0.13333333333333333
+        },
+        "evidence_hash": "5d074735b5a9da50be84f9244e64975b6605c4575d3c8c806e483f902710a2f6",
+        "human_review_required": true,
+        "external_submission_allowed": false,
+        "automatic_filing_performed": false
+      },
+      {
+        "schema_version": "cms_str_case_preview.v1",
+        "case_id": "CMSSTR-TPL-rapid_cashout_high_precision-2b4eb16df5",
+        "dedup_key": "2b4eb16df50387b3627e503e83c5473c434261ecd5274d11735e6590fcebb734",
+        "user_id": "U0008201",
+        "strategy_id": "TPL-rapid_cashout_high_precision",
+        "strategy_version": 1,
+        "event_code": "ChainWithdraw",
+        "strategy_tag_level_3": "CMS_STR_CANDIDATE",
+        "status": "DRAFT_CASE",
+        "masak_feedback_status": "NOT_SUBMITTED",
+        "feature_snapshot": {
+          "device_fraud_1hop_count": 1,
+          "fiat_in_crypto_out_ratio": 1.025257212113585,
+          "high_risk_chain_exposure": 0.0338927424275896,
+          "minutes_deposit_to_first_chain_out": 166.36292587597384,
+          "withdraw_address_fraud_1hop_count": 0
+        },
+        "strategy_expression": "fiat_in_crypto_out_ratio >= 0.85 AND minutes_deposit_to_first_chain_out < 240 AND (withdraw_address_fraud_1hop_count >= 1 OR device_fraud_1hop_count >= 1 OR high_risk_chain_exposure >= 0.2)",
+        "risk_history_summary": {
+          "risk_tier": "UNKNOWN",
+          "fraud_label_in_demo": 1,
+          "data_snapshot_id": "SNAP-56af0c8c28727e1d"
+        },
+        "graph_path_summary": {
+          "device_fraud_1hop_count": 1,
+          "withdraw_address_fraud_1hop_count": 0,
+          "kyc_id_fraud_1hop_count": 0,
+          "fraud_2hop_count": 3,
+          "community_fraud_ratio": 0.15
+        },
+        "evidence_hash": "f33a0e107f0dafadad1bc461d65de56f3bfb49df09f6aeab1b94634206a4b022",
+        "human_review_required": true,
+        "external_submission_allowed": false,
+        "automatic_filing_performed": false
+      },
+      {
+        "schema_version": "cms_str_case_preview.v1",
+        "case_id": "CMSSTR-TPL-rapid_cashout_high_precision-7cd4bac178",
+        "dedup_key": "7cd4bac178ceaae66733b5f9ca4ba88aabdf82902bb127302e9a5938fbb41696",
+        "user_id": "U0004899",
+        "strategy_id": "TPL-rapid_cashout_high_precision",
+        "strategy_version": 1,
+        "event_code": "ChainWithdraw",
+        "strategy_tag_level_3": "CMS_STR_CANDIDATE",
+        "status": "DRAFT_CASE",
+        "masak_feedback_status": "NOT_SUBMITTED",
+        "feature_snapshot": {
+          "device_fraud_1hop_count": 0,
+          "fiat_in_crypto_out_ratio": 1.030975732426726,
+          "high_risk_chain_exposure": 6.94061862696824e-05,
+          "minutes_deposit_to_first_chain_out": 93.62990215753854,
+          "withdraw_address_fraud_1hop_count": 1
+        },
+        "strategy_expression": "fiat_in_crypto_out_ratio >= 0.85 AND minutes_deposit_to_first_chain_out < 240 AND (withdraw_address_fraud_1hop_count >= 1 OR device_fraud_1hop_count >= 1 OR high_risk_chain_exposure >= 0.2)",
+        "risk_history_summary": {
+          "risk_tier": "UNKNOWN",
+          "fraud_label_in_demo": 1,
+          "data_snapshot_id": "SNAP-56af0c8c28727e1d"
+        },
+        "graph_path_summary": {
+          "device_fraud_1hop_count": 0,
+          "withdraw_address_fraud_1hop_count": 1,
+          "kyc_id_fraud_1hop_count": 0,
+          "fraud_2hop_count": 6,
+          "community_fraud_ratio": 0.0625
+        },
+        "evidence_hash": "e23612f61d21e0bcc88a560d0c81f60426f687131a4187c4b59205222536dd32",
+        "human_review_required": true,
+        "external_submission_allowed": false,
+        "automatic_filing_performed": false
+      },
+      {
+        "schema_version": "cms_str_case_preview.v1",
+        "case_id": "CMSSTR-TPL-rapid_cashout_high_precision-9a183c30f0",
+        "dedup_key": "9a183c30f0d1cd38ff161546ad8a9a24464f7a6dc56d708af6ca454fecff7ce6",
+        "user_id": "U0009775",
+        "strategy_id": "TPL-rapid_cashout_high_precision",
+        "strategy_version": 1,
+        "event_code": "ChainWithdraw",
+        "strategy_tag_level_3": "CMS_STR_CANDIDATE",
+        "status": "DRAFT_CASE",
+        "masak_feedback_status": "NOT_SUBMITTED",
+        "feature_snapshot": {
+          "device_fraud_1hop_count": 0,
+          "fiat_in_crypto_out_ratio": 0.974085540240654,
+          "high_risk_chain_exposure": 0.0381233668276029,
+          "minutes_deposit_to_first_chain_out": 146.1850883297789,
+          "withdraw_address_fraud_1hop_count": 1
+        },
+        "strategy_expression": "fiat_in_crypto_out_ratio >= 0.85 AND minutes_deposit_to_first_chain_out < 240 AND (withdraw_address_fraud_1hop_count >= 1 OR device_fraud_1hop_count >= 1 OR high_risk_chain_exposure >= 0.2)",
+        "risk_history_summary": {
+          "risk_tier": "UNKNOWN",
+          "fraud_label_in_demo": 1,
+          "data_snapshot_id": "SNAP-56af0c8c28727e1d"
+        },
+        "graph_path_summary": {
+          "device_fraud_1hop_count": 0,
+          "withdraw_address_fraud_1hop_count": 1,
+          "kyc_id_fraud_1hop_count": 0,
+          "fraud_2hop_count": 0,
+          "community_fraud_ratio": 0.14285714285714285
+        },
+        "evidence_hash": "55e620eefaaf3e65d56e93c35dbd4bc3afe15ae103548effc8f3e7f3032fe34f",
+        "human_review_required": true,
+        "external_submission_allowed": false,
+        "automatic_filing_performed": false
+      },
+      {
+        "schema_version": "cms_str_case_preview.v1",
+        "case_id": "CMSSTR-TPL-rapid_cashout_high_precision-39dafa5718",
+        "dedup_key": "39dafa5718a2526805d1ee19264c2d81c177bcef87783fdd6de41bc38bb95f2a",
+        "user_id": "U0000341",
+        "strategy_id": "TPL-rapid_cashout_high_precision",
+        "strategy_version": 1,
+        "event_code": "ChainWithdraw",
+        "strategy_tag_level_3": "CMS_STR_CANDIDATE",
+        "status": "DRAFT_CASE",
+        "masak_feedback_status": "NOT_SUBMITTED",
+        "feature_snapshot": {
+          "device_fraud_1hop_count": 2,
+          "fiat_in_crypto_out_ratio": 0.8856582869673352,
+          "high_risk_chain_exposure": 0.1747389407344776,
+          "minutes_deposit_to_first_chain_out": 186.1357871647437,
+          "withdraw_address_fraud_1hop_count": 0
+        },
+        "strategy_expression": "fiat_in_crypto_out_ratio >= 0.85 AND minutes_deposit_to_first_chain_out < 240 AND (withdraw_address_fraud_1hop_count >= 1 OR device_fraud_1hop_count >= 1 OR high_risk_chain_exposure >= 0.2)",
+        "risk_history_summary": {
+          "risk_tier": "UNKNOWN",
+          "fraud_label_in_demo": 1,
+          "data_snapshot_id": "SNAP-56af0c8c28727e1d"
+        },
+        "graph_path_summary": {
+          "device_fraud_1hop_count": 2,
+          "withdraw_address_fraud_1hop_count": 0,
+          "kyc_id_fraud_1hop_count": 0,
+          "fraud_2hop_count": 4,
+          "community_fraud_ratio": 0.3
+        },
+        "evidence_hash": "145edbdb66709a45685d4c23cf5e179bac5d72b6f79d9ef0cbeeb0dd2687c532",
+        "human_review_required": true,
+        "external_submission_allowed": false,
+        "automatic_filing_performed": false
+      }
+    ],
+    "case_count": 10,
+    "database": "/mnt/data/cointr-risk-strategy-ai-copilot/outputs/cms_str_case_previews.sqlite",
+    "external_submission_allowed": false,
+    "automatic_filing_performed": false,
+    "masak_feedback_status": "NOT_SUBMITTED"
+  },
+  "truth_boundary": {
+    "synthetic_data": true,
+    "human_review_required": true,
+    "external_submission_allowed": false,
+    "automatic_filing_performed": false,
+    "production_connection": false
+  }
+}

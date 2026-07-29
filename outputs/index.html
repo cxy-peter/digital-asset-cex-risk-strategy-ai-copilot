@@ -1,0 +1,822 @@
+<!DOCTYPE html><html lang='zh-CN'><head><meta charset='utf-8'>
+<title>Digital Asset Risk Strategy AI Copilot</title>
+<style>body{font-family:system-ui;margin:0;background:#f4f7fb;color:#172033}header{background:#17324d;color:white;padding:30px}main{max-width:1200px;margin:auto;padding:28px}section{background:white;border:1px solid #dbe3ee;border-radius:12px;padding:20px;margin-bottom:18px}table{border-collapse:collapse;width:100%}td,th{padding:10px;border-bottom:1px solid #e5eaf0;text-align:left}code,pre{white-space:pre-wrap;word-break:break-word}</style></head>
+<body><header><h1>Digital Asset Risk Strategy AI Copilot</h1><p>Internship-derived, synthetic-data prototype aligned to Rule Engine, FEP, Strategy Backtracking, Ticket Module, CMS/STR, Penalty/Verification Center and User Risk Profile.</p></header><main>
+<section><h2>Boundary</h2><p>KEP is excluded. Anti-Fraud operations metrics are maintained as a separate project. No production connection, automatic enforcement or external regulatory filing exists.</p></section>
+<section><h2>AI Strategy Advisory Board</h2><p><strong>Lead Agent Decision:</strong> REVISE</p><pre>{
+  "agent": "lead_risk_strategy_agent",
+  "mode": "deterministic_offline_board",
+  "decision": "REVISE",
+  "strategy_id": "TREE-ChainWithdraw-01",
+  "strategy_name": "Decision Tree候选规则 1",
+  "expression": "behavior_event_count_30d > 30.5 AND strong_relation_fraud_1hop_count > 0.5 AND strategy_avoidance_ratio_30d > 0.302633 AND behavior_event_count_30d > 42.5",
+  "executive_summary": "四个专业Agent已完成场景、特征模型、图谱行为和治理复核。当前建议：REVISE。AI层只提出/解释/质检候选，实际指标、回测、冲突分析和状态迁移由确定性引擎控制。",
+  "specialist_reviews": {
+    "scenario_typology_agent": {
+      "reviewer": "scenario_typology_agent",
+      "status": "succeeded",
+      "summary": "风险场景与黑灰产链路已和候选规则建立业务映射。",
+      "findings": [
+        {
+          "category": "scenario_alignment",
+          "severity": "low",
+          "statement": "候选策略Decision Tree候选规则 1针对ChainWithdraw，并使用behavior_event_count_30d, strategy_avoidance_ratio_30d, strong_relation_fraud_1hop_count构成可解释风险链路。",
+          "evidence_refs": [
+            "knowledge_analysis",
+            "behavior_analysis",
+            "TREE-ChainWithdraw-01"
+          ]
+        }
+      ],
+      "risks": [
+        "单一行为信号不能直接替代案件调查。"
+      ],
+      "revisions": [
+        "在策略说明中保留风险事件、黑灰产路径和反例。"
+      ],
+      "acceptance_tests": [
+        "每个规则条件均能映射到风险场景、字段口径和决策时点。"
+      ],
+      "evidence_refs": [
+        "knowledge_analysis",
+        "behavior_analysis"
+      ],
+      "attempts": 1,
+      "latency_ms": 0.0,
+      "error": null,
+      "raw_text": null
+    },
+    "feature_model_agent": {
+      "reviewer": "feature_model_agent",
+      "status": "succeeded",
+      "summary": "特征、模型和跨月份稳定性已由确定性测试层验证。",
+      "findings": [
+        {
+          "category": "oot_metrics",
+          "severity": "low",
+          "statement": "冻结策略OOT Precision=86.42%, Recall=48.61%, FPR=0.59%; stability=STABLE.",
+          "evidence_refs": [
+            "backtest_analysis",
+            "stability_analysis"
+          ]
+        }
+      ],
+      "risks": [
+        "合成数据上的稳定性不能替代生产三工作日观察。",
+        "特征PSI、方向变化和模型阈值需持续监控。"
+      ],
+      "revisions": [
+        "将跨月和Bootstrap稳定性作为上线评审必备附件。"
+      ],
+      "acceptance_tests": [
+        "OOT不参与阈值选择；Bootstrap区间和月度指标完整输出。"
+      ],
+      "evidence_refs": [
+        "feature_analysis",
+        "model_analysis",
+        "stability_analysis"
+      ],
+      "attempts": 1,
+      "latency_ms": 0.0,
+      "error": null,
+      "raw_text": null
+    },
+    "graph_behavior_agent": {
+      "reviewer": "graph_behavior_agent",
+      "status": "succeeded",
+      "summary": "Risk Graph强弱关系与交易行为证据已分层处理。",
+      "findings": [
+        {
+          "category": "graph_policy",
+          "severity": "low",
+          "statement": "Device/Email/Mobile/KYC/Withdraw Address作为强关系；IP降权，平台归集型充值地址默认排除。",
+          "evidence_refs": [
+            "graph_analysis",
+            "SOP::risk_graph"
+          ]
+        }
+      ],
+      "risks": [
+        "多跳扩散会增加噪声，必须和资金行为联合验证。"
+      ],
+      "revisions": [
+        "在命中解释中展示关系类型、路径和行为条件。"
+      ],
+      "acceptance_tests": [
+        "IP-only或deposit-address-only路径不得触发直接限制。"
+      ],
+      "evidence_refs": [
+        "graph_analysis",
+        "behavior_analysis"
+      ],
+      "attempts": 1,
+      "latency_ms": 0.0,
+      "error": null,
+      "raw_text": null
+    },
+    "governance_cms_str_agent": {
+      "reviewer": "governance_cms_str_agent",
+      "status": "degraded",
+      "summary": "策略冲突、人工复核、测试环境和CMS/STR边界已检查。",
+      "findings": [
+        {
+          "category": "portfolio_conflict",
+          "severity": "medium",
+          "statement": "组合冲突建议=REVISE_ACTION_PRECEDENCE；增量风险召回=0.69%.",
+          "evidence_refs": [
+            "conflict_analysis"
+          ]
+        }
+      ],
+      "risks": [
+        "AI候选不得绕过第二人复核、效果工单或STR保密约束。"
+      ],
+      "revisions": [
+        "在上线评审前解决高重叠规则和处置动作优先级冲突。"
+      ],
+      "acceptance_tests": [
+        "状态保持SIMULATION/PENDING_REVIEW；external_submission_allowed=false。"
+      ],
+      "evidence_refs": [
+        "conflict_analysis",
+        "strategy_test_environment",
+        "cms_str_integration"
+      ],
+      "attempts": 1,
+      "latency_ms": 0.0,
+      "error": null,
+      "raw_text": null
+    }
+  },
+  "evidence_summary": {
+    "top_scenario_count": 8,
+    "profiled_features": 21,
+    "graph_users": 10000,
+    "behavior_sample_size": 2000,
+    "stability_status": "STABLE",
+    "conflict_recommendation": "REVISE_ACTION_PRECEDENCE",
+    "test_stage": "not_created_yet"
+  },
+  "human_in_the_loop": true,
+  "automatic_enforcement": false,
+  "automatic_regulatory_submission": false
+}</pre><p><a href="/console">Interactive FastAPI Console (when served locally)</a></p></section>
+<section><h2>Selected Strategy</h2><pre>{
+  "strategy_id": "TREE-ChainWithdraw-01",
+  "name": "Decision Tree候选规则 1",
+  "domain": "fund_security",
+  "event_code": "ChainWithdraw",
+  "description": "从深度受限决策树高风险叶节点提取，叶节点坏样本率=98.9%，样本=209。",
+  "rule": {
+    "logic": "AND",
+    "conditions": [
+      {
+        "feature": "behavior_event_count_30d",
+        "operator": ">",
+        "value": 30.5
+      },
+      {
+        "feature": "strong_relation_fraud_1hop_count",
+        "operator": ">",
+        "value": 0.5
+      },
+      {
+        "feature": "strategy_avoidance_ratio_30d",
+        "operator": ">",
+        "value": 0.302633
+      },
+      {
+        "feature": "behavior_event_count_30d",
+        "operator": ">",
+        "value": 42.5
+      }
+    ],
+    "groups": []
+  },
+  "action": "MANUAL_REVIEW",
+  "action_params": {},
+  "source": "tree",
+  "rationale": [
+    "深度受限以提高可解释性",
+    "原始单位阈值，可直接进入规则回测",
+    "候选规则仍需独立回测和人工审批"
+  ],
+  "required_features": [
+    "behavior_event_count_30d",
+    "strategy_avoidance_ratio_30d",
+    "strong_relation_fraud_1hop_count"
+  ],
+  "status": "DRAFT",
+  "tags": [
+    "tree_extracted",
+    "interpretable"
+  ],
+  "tag_level_1": "fund_security",
+  "tag_level_2": "rapid_fiat_convert_chain_out",
+  "tag_level_3": "MANUAL_REVIEW"
+}</pre></section>
+<section><h2>P0 Stability & Portfolio Conflict</h2><pre>{
+  "stability": {
+    "strategy_id": "TREE-ChainWithdraw-01",
+    "status": "STABLE",
+    "monthly": [
+      {
+        "sample_size": 714,
+        "positives": 42,
+        "alerts": 18,
+        "true_positives": 16,
+        "false_positives": 2,
+        "precision": 0.8888888888888888,
+        "recall": 0.38095238095238093,
+        "f1": 0.5333333333333333,
+        "false_positive_rate": 0.002976190476190476,
+        "alert_rate": 0.025210084033613446,
+        "period": "2026-04"
+      },
+      {
+        "sample_size": 1748,
+        "positives": 104,
+        "alerts": 72,
+        "true_positives": 62,
+        "false_positives": 10,
+        "precision": 0.8611111111111112,
+        "recall": 0.5961538461538461,
+        "f1": 0.7045454545454546,
+        "false_positive_rate": 0.006082725060827251,
+        "alert_rate": 0.041189931350114416,
+        "period": "2026-05"
+      },
+      {
+        "sample_size": 1538,
+        "positives": 113,
+        "alerts": 62,
+        "true_positives": 54,
+        "false_positives": 8,
+        "precision": 0.8709677419354839,
+        "recall": 0.4778761061946903,
+        "f1": 0.6171428571428571,
+        "false_positive_rate": 0.005614035087719298,
+        "alert_rate": 0.04031209362808843,
+        "period": "2026-06"
+      }
+    ],
+    "bootstrap_rounds": 200,
+    "bootstrap": {
+      "precision": {
+        "mean": 0.8693252589164936,
+        "std": 0.025986011035096585,
+        "ci_lower_95": 0.8200805393421112,
+        "ci_upper_95": 0.9177236864921103
+      },
+      "recall": {
+        "mean": 0.5120518048404825,
+        "std": 0.03059045621657004,
+        "ci_lower_95": 0.4538904007916873,
+        "ci_upper_95": 0.576953125
+      },
+      "f1": {
+        "mean": 0.6439834103995844,
+        "std": 0.02728867169154261,
+        "ci_lower_95": 0.5924702606934953,
+        "ci_upper_95": 0.6994238156209988
+      },
+      "false_positive_rate": {
+        "mean": 0.005329137099971448,
+        "std": 0.0011035251683398696,
+        "ci_lower_95": 0.0032057158749326333,
+        "ci_upper_95": 0.00749199918856482
+      },
+      "alert_rate": {
+        "mean": 0.03817875,
+        "std": 0.002864914647506973,
+        "ci_lower_95": 0.0332375,
+        "ci_upper_95": 0.0440125
+      }
+    },
+    "feature_direction": [
+      {
+        "feature": "behavior_event_count_30d",
+        "overall_spearman": 0.3156269042522085,
+        "overall_sign": 1,
+        "monthly_direction_consistency": 1.0,
+        "months_evaluated": 3,
+        "monthly": [
+          {
+            "period": "2026-04",
+            "spearman": 0.29331307955774444,
+            "sign": 1
+          },
+          {
+            "period": "2026-05",
+            "spearman": 0.3089627149128554,
+            "sign": 1
+          },
+          {
+            "period": "2026-06",
+            "spearman": 0.33167281345968463,
+            "sign": 1
+          }
+        ]
+      },
+      {
+        "feature": "strategy_avoidance_ratio_30d",
+        "overall_spearman": 0.29320897955609193,
+        "overall_sign": 1,
+        "monthly_direction_consistency": 1.0,
+        "months_evaluated": 3,
+        "monthly": [
+          {
+            "period": "2026-04",
+            "spearman": 0.2837082136568508,
+            "sign": 1
+          },
+          {
+            "period": "2026-05",
+            "spearman": 0.28178294099823675,
+            "sign": 1
+          },
+          {
+            "period": "2026-06",
+            "spearman": 0.3096387348180685,
+            "sign": 1
+          }
+        ]
+      },
+      {
+        "feature": "strong_relation_fraud_1hop_count",
+        "overall_spearman": 0.4064960509600917,
+        "overall_sign": 1,
+        "monthly_direction_consistency": 1.0,
+        "months_evaluated": 3,
+        "monthly": [
+          {
+            "period": "2026-04",
+            "spearman": 0.35909936973550405,
+            "sign": 1
+          },
+          {
+            "period": "2026-05",
+            "spearman": 0.40970658427289797,
+            "sign": 1
+          },
+          {
+            "period": "2026-06",
+            "spearman": 0.42233049083199886,
+            "sign": 1
+          }
+        ]
+      }
+    ],
+    "summary": {
+      "months": 3,
+      "months_with_alerts": 3,
+      "monthly_precision_cv": 0.013161283114475276,
+      "monthly_alert_rate_cv": 0.20620408287783723,
+      "feature_direction_consistency": 1.0,
+      "gates_passed": 6,
+      "gates_total": 6
+    },
+    "gates": {
+      "minimum_months": true,
+      "monthly_precision_cv_le_0_50": true,
+      "monthly_alert_rate_cv_le_0_60": true,
+      "bootstrap_precision_lower_bound": true,
+      "bootstrap_recall_lower_bound": true,
+      "feature_direction_consistency_ge_0_60": true
+    },
+    "recommendation": "可进入独立复核，但上线后仍需连续3个工作日观察。",
+    "synthetic_demo": true
+  },
+  "conflict": {
+    "selected_strategy": {
+      "strategy_id": "TREE-ChainWithdraw-01",
+      "name": "Decision Tree候选规则 1",
+      "event_code": "ChainWithdraw",
+      "action": "MANUAL_REVIEW",
+      "expression": "behavior_event_count_30d > 30.5 AND strong_relation_fraud_1hop_count > 0.5 AND strategy_avoidance_ratio_30d > 0.302633 AND behavior_event_count_30d > 42.5",
+      "alerts": 81,
+      "true_positives": 70
+    },
+    "portfolio_size": 5,
+    "compatible_portfolio_size": 4,
+    "comparisons": [
+      {
+        "strategy_id": "EXIST-CHAIN-001",
+        "name": "高风险银行快速链上提币",
+        "status": "evaluated",
+        "event_code": "ChainWithdraw",
+        "action": "MANUAL_REVIEW",
+        "expression": "bank_fraud_ratio_max >= 0.3 AND minutes_deposit_to_first_chain_out < 360 AND fiat_in_crypto_out_ratio >= 0.8",
+        "alerts": 75,
+        "overlap_alerts": 41,
+        "jaccard": 0.3565217391304348,
+        "selected_containment": 0.5061728395061729,
+        "existing_containment": 0.5466666666666666,
+        "selected_only_alerts": 40,
+        "existing_only_alerts": 34,
+        "overlap_true_positives": 39,
+        "action_conflict": false,
+        "severity": "low"
+      },
+      {
+        "strategy_id": "EXIST-CHAIN-002",
+        "name": "强关系Fraud用户链上提现",
+        "status": "evaluated",
+        "event_code": "ChainWithdraw",
+        "action": "RFI",
+        "expression": "strong_relation_fraud_1hop_count >= 1 AND chain_withdraw_count_24h >= 2",
+        "alerts": 227,
+        "overlap_alerts": 75,
+        "jaccard": 0.3218884120171674,
+        "selected_containment": 0.9259259259259259,
+        "existing_containment": 0.3303964757709251,
+        "selected_only_alerts": 6,
+        "existing_only_alerts": 152,
+        "overlap_true_positives": 67,
+        "action_conflict": true,
+        "severity": "high"
+      },
+      {
+        "strategy_id": "EXIST-CHAIN-004",
+        "name": "新设备与代理IP提现保护",
+        "status": "evaluated",
+        "event_code": "ChainWithdraw",
+        "action": "DELAY",
+        "expression": "new_device_flag == true AND proxy_flag == true AND new_withdraw_address_flag == true",
+        "alerts": 13,
+        "overlap_alerts": 1,
+        "jaccard": 0.010752688172043012,
+        "selected_containment": 0.012345679012345678,
+        "existing_containment": 0.07692307692307693,
+        "selected_only_alerts": 80,
+        "existing_only_alerts": 12,
+        "overlap_true_positives": 1,
+        "action_conflict": true,
+        "severity": "medium"
+      },
+      {
+        "strategy_id": "EXIST-CHAIN-003",
+        "name": "高风险链上暴露",
+        "status": "evaluated",
+        "event_code": "ChainWithdraw",
+        "action": "WITHDRAWAL_RESTRICTION",
+        "expression": "high_risk_chain_exposure >= 0.72 OR mixer_exposure >= 0.55 OR gambling_exposure >= 0.62",
+        "alerts": 0,
+        "overlap_alerts": 0,
+        "jaccard": 0.0,
+        "selected_containment": 0.0,
+        "existing_containment": 0.0,
+        "selected_only_alerts": 81,
+        "existing_only_alerts": 0,
+        "overlap_true_positives": 0,
+        "action_conflict": false,
+        "severity": "low"
+      }
+    ],
+    "incremental": {
+      "alerts": 4,
+      "true_positives": 1,
+      "precision": 0.25,
+      "recall_contribution": 0.006944444444444444,
+      "duplicate_alerts": 77,
+      "duplicate_workload_rate": 0.9506172839506173
+    },
+    "action_conflict_count": 2,
+    "high_overlap_count": 1,
+    "recommendation": "REVISE_ACTION_PRECEDENCE",
+    "requires_human_review": true,
+    "synthetic_demo": true
+  }
+}</pre></section>
+<section><h2>Company-style Test Environment</h2><pre>{
+  "schema_version": "cointr_strategy_test_plan.v1",
+  "test_run_id": "TESTRUN-TREE-ChainWithdraw-01-019-02cf7b58",
+  "strategy_id": "TREE-ChainWithdraw-01",
+  "strategy_version": 19,
+  "data_snapshot_id": "SNAP-1f3606e3f9f1627b",
+  "event_contract_hash": "049911eb70a9b37aceb3d0de08988360913c79dc85cfa27ecb1bf40db45ac666",
+  "feature_catalog_version": "FEP-SYNTHETIC-V1",
+  "payload_hash": "02cf7b58cabdad3f54905590a5fd0d826b329b5ec4b94e7fc40e1b82fbe37228",
+  "current_stage": "independent_second_review",
+  "release_status": "PENDING_SECOND_REVIEW",
+  "stages": [
+    {
+      "name": "feature_contract_validation",
+      "status": "completed",
+      "entry_gates": [
+        "registered event code",
+        "registered decision-time features"
+      ],
+      "exit_gates": [
+        "event contract has zero blocking errors",
+        "feature lineage is recorded"
+      ],
+      "evidence_refs": [
+        "049911eb70a9b37aceb3d0de08988360913c79dc85cfa27ecb1bf40db45ac666"
+      ]
+    },
+    {
+      "name": "historical_backtest",
+      "status": "completed",
+      "entry_gates": [
+        "frozen Train/Development/OOT split",
+        "mature point-in-time labels"
+      ],
+      "exit_gates": [
+        "OOT metrics generated",
+        "alert volume and review capacity checked"
+      ],
+      "evidence_refs": [
+        "SNAP-1f3606e3f9f1627b",
+        "strategy_stability_analysis"
+      ]
+    },
+    {
+      "name": "simulation_execution",
+      "status": "completed",
+      "entry_gates": [
+        "historical backtest completed",
+        "engine payload confirmed"
+      ],
+      "exit_gates": [
+        "simulation metrics satisfy governance thresholds",
+        "no production mutation"
+      ],
+      "evidence_refs": [
+        "TESTRUN-TREE-ChainWithdraw-01-019-02cf7b58"
+      ]
+    },
+    {
+      "name": "independent_second_review",
+      "status": "ready",
+      "entry_gates": [
+        "risk-strategy reviewer independent from creator",
+        "exact version and payload hash bound"
+      ],
+      "exit_gates": [
+        "reviewer 1 approved",
+        "reviewer 2 approved",
+        "high-impact action compliance review if needed",
+        "strategy action precedence conflict resolved"
+      ],
+      "evidence_refs": [
+        "02cf7b58cabdad3f54905590a5fd0d826b329b5ec4b94e7fc40e1b82fbe37228",
+        "strategy_conflict_analysis",
+        "ai_advisory_board"
+      ]
+    },
+    {
+      "name": "release_readiness",
+      "status": "pending",
+      "entry_gates": [
+        "two-person review completed",
+        "rollback and monitoring plan confirmed"
+      ],
+      "exit_gates": [
+        "release owner confirms execution window",
+        "strategy ticket created"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "name": "post_launch_observation",
+      "status": "not_started",
+      "entry_gates": [
+        "release completed outside this prototype",
+        "first three working days observation enabled"
+      ],
+      "exit_gates": [
+        "false positives, user feedback, business metrics and feature PSI reviewed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "name": "weekly_monthly_effectiveness_review",
+      "status": "pending",
+      "entry_gates": [
+        "effectiveness ticket linked to strategy version"
+      ],
+      "exit_gates": [
+        "retain, tune, pause or retire decision recorded"
+      ],
+      "evidence_refs": []
+    }
+  ],
+  "required_approvals": [
+    "risk_strategy",
+    "risk_operations",
+    "independent_second_reviewer",
+    "strategy_action_precedence_reviewer",
+    "ai_advisory_findings_owner"
+  ],
+  "monitoring_workdays": 3,
+  "monitoring_metrics": [
+    "alert_rate",
+    "false_positive_rate",
+    "confirmed_risk_rate",
+    "feature_psi",
+    "user_feedback_count",
+    "business_metric_delta",
+    "error_rate",
+    "p95_latency_ms"
+  ],
+  "rollback_thresholds": {
+    "alert_rate": 0.05,
+    "false_positive_rate": 0.05,
+    "feature_psi": 0.2,
+    "error_rate": 0.01,
+    "p95_latency_ms": 500.0
+  },
+  "blockers": [],
+  "production_connection": false,
+  "dispatch_performed": false,
+  "direct_production_release": false,
+  "execution_mode": "DRY_RUN_ONLY",
+  "company_style_test_environment": true,
+  "post_launch_observation_template": [
+    {
+      "observation_id": "OBS-TREE-ChainWithdraw-01-019-D1",
+      "strategy_id": "TREE-ChainWithdraw-01",
+      "strategy_version": 19,
+      "test_run_id": "TESTRUN-TREE-ChainWithdraw-01-019-02cf7b58",
+      "data_snapshot_id": "SNAP-1f3606e3f9f1627b",
+      "payload_hash": "02cf7b58cabdad3f54905590a5fd0d826b329b5ec4b94e7fc40e1b82fbe37228",
+      "observation_date": "2026-07-29",
+      "workday_index": 1,
+      "status": "PLANNED_NOT_EXECUTED",
+      "hit_count": null,
+      "confirmed_risk_count": null,
+      "false_positive_count": null,
+      "confirmation_rate": null,
+      "false_positive_rate": null,
+      "user_feedback_count": null,
+      "appeal_count": null,
+      "business_metric_delta": null,
+      "feature_psi": null,
+      "alert_volume_delta": null,
+      "action_success_rate": null,
+      "error_rate": null,
+      "p95_latency_ms": null,
+      "baseline_simulation": {
+        "alerts": 81,
+        "precision": 0.8641975308641975,
+        "recall": 0.4861111111111111,
+        "false_positive_rate": 0.005926724137931034,
+        "alert_rate": 0.0405
+      },
+      "operator_comment": "",
+      "evidence_refs": [],
+      "synthetic_template": true,
+      "production_observation_performed": false
+    },
+    {
+      "observation_id": "OBS-TREE-ChainWithdraw-01-019-D2",
+      "strategy_id": "TREE-ChainWithdraw-01",
+      "strategy_version": 19,
+      "test_run_id": "TESTRUN-TREE-ChainWithdraw-01-019-02cf7b58",
+      "data_snapshot_id": "SNAP-1f3606e3f9f1627b",
+      "payload_hash": "02cf7b58cabdad3f54905590a5fd0d826b329b5ec4b94e7fc40e1b82fbe37228",
+      "observation_date": "2026-07-30",
+      "workday_index": 2,
+      "status": "PLANNED_NOT_EXECUTED",
+      "hit_count": null,
+      "confirmed_risk_count": null,
+      "false_positive_count": null,
+      "confirmation_rate": null,
+      "false_positive_rate": null,
+      "user_feedback_count": null,
+      "appeal_count": null,
+      "business_metric_delta": null,
+      "feature_psi": null,
+      "alert_volume_delta": null,
+      "action_success_rate": null,
+      "error_rate": null,
+      "p95_latency_ms": null,
+      "baseline_simulation": {
+        "alerts": 81,
+        "precision": 0.8641975308641975,
+        "recall": 0.4861111111111111,
+        "false_positive_rate": 0.005926724137931034,
+        "alert_rate": 0.0405
+      },
+      "operator_comment": "",
+      "evidence_refs": [],
+      "synthetic_template": true,
+      "production_observation_performed": false
+    },
+    {
+      "observation_id": "OBS-TREE-ChainWithdraw-01-019-D3",
+      "strategy_id": "TREE-ChainWithdraw-01",
+      "strategy_version": 19,
+      "test_run_id": "TESTRUN-TREE-ChainWithdraw-01-019-02cf7b58",
+      "data_snapshot_id": "SNAP-1f3606e3f9f1627b",
+      "payload_hash": "02cf7b58cabdad3f54905590a5fd0d826b329b5ec4b94e7fc40e1b82fbe37228",
+      "observation_date": "2026-07-31",
+      "workday_index": 3,
+      "status": "PLANNED_NOT_EXECUTED",
+      "hit_count": null,
+      "confirmed_risk_count": null,
+      "false_positive_count": null,
+      "confirmation_rate": null,
+      "false_positive_rate": null,
+      "user_feedback_count": null,
+      "appeal_count": null,
+      "business_metric_delta": null,
+      "feature_psi": null,
+      "alert_volume_delta": null,
+      "action_success_rate": null,
+      "error_rate": null,
+      "p95_latency_ms": null,
+      "baseline_simulation": {
+        "alerts": 81,
+        "precision": 0.8641975308641975,
+        "recall": 0.4861111111111111,
+        "false_positive_rate": 0.005926724137931034,
+        "alert_rate": 0.0405
+      },
+      "operator_comment": "",
+      "evidence_refs": [],
+      "synthetic_template": true,
+      "production_observation_performed": false
+    }
+  ]
+}</pre></section>
+<section><h2>Strategy Effectiveness Ticket</h2><pre>{
+  "schema_version": "strategy_effectiveness_ticket.v1",
+  "ticket_id": "EFF-TREE-ChainWithdraw-01-019-02cf7b58",
+  "strategy_id": "TREE-ChainWithdraw-01",
+  "strategy_version": 19,
+  "test_run_id": "TESTRUN-TREE-ChainWithdraw-01-019-02cf7b58",
+  "data_snapshot_id": "SNAP-1f3606e3f9f1627b",
+  "evaluation_phase": "SIMULATION",
+  "environment": "synthetic_test",
+  "label": "STRATEGY_CONFLICT",
+  "metrics": {
+    "sample_size": 2000,
+    "hit_count": 81,
+    "confirmed_risk_count": 70,
+    "false_positive_count": 11,
+    "confirmation_rate": 0.8641975308641975,
+    "false_positive_rate": 0.005926724137931034,
+    "recall": 0.4861111111111111,
+    "f1": 0.6222222222222222,
+    "alert_rate": 0.0405,
+    "captured_loss_rate": 0.5214790341032601,
+    "stability_score": 0.985162036862479,
+    "user_feedback_count": null,
+    "business_metric_delta": null,
+    "feature_psi": null
+  },
+  "labeler": "strategy_operations_demo",
+  "observation_start": "2026-07-29",
+  "observation_end": "2026-07-29",
+  "evidence_refs": [
+    "TESTRUN-TREE-ChainWithdraw-01-019-02cf7b58",
+    "02cf7b58cabdad3f54905590a5fd0d826b329b5ec4b94e7fc40e1b82fbe37228",
+    "SNAP-1f3606e3f9f1627b"
+  ],
+  "recommendation": "候选与现有策略存在高重叠或处置动作优先级冲突；先完成策略合并、增量贡献和动作优先级复核。",
+  "status": "PENDING_REVIEW",
+  "synthetic_demo": true
+}</pre></section>
+<section><h2>CMS/STR Internal Case Preview</h2><pre>{
+  "enabled": false,
+  "reason": "strategy tag level 3 is MANUAL_REVIEW, not a CMS/STR trigger",
+  "external_submission_allowed": false,
+  "automatic_filing_performed": false,
+  "cases": [],
+  "artifact": "/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/cms_str_case_previews.json"
+}</pre></section>
+<section><h2>Artifacts</h2><table><thead><tr><th>Artifact</th><th>Path</th></tr></thead><tbody><tr><td>markdown</td><td><a href="strategy_demo/strategy_report.md">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/strategy_report.md</a></td></tr>
+<tr><td>html</td><td><a href="strategy_demo/strategy_dashboard.html">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/strategy_dashboard.html</a></td></tr>
+<tr><td>json</td><td><a href="strategy_demo/strategy_package.json">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/strategy_package.json</a></td></tr>
+<tr><td>engine_payload</td><td><a href="strategy_demo/risk_engine_payload.json">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/risk_engine_payload.json</a></td></tr>
+<tr><td>trace</td><td><a href="strategy_demo/agent_trace.json">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/agent_trace.json</a></td></tr>
+<tr><td>candidate_csv</td><td><a href="strategy_demo/candidate_ranking.csv">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/candidate_ranking.csv</a></td></tr>
+<tr><td>feature_csv</td><td><a href="strategy_demo/feature_profiles.csv">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/feature_profiles.csv</a></td></tr>
+<tr><td>model_csv</td><td><a href="strategy_demo/model_benchmarks.csv">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/model_benchmarks.csv</a></td></tr>
+<tr><td>development_model_csv</td><td><a href="strategy_demo/model_development_benchmarks.csv">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/model_development_benchmarks.csv</a></td></tr>
+<tr><td>evaluation_protocol_json</td><td><a href="strategy_demo/evaluation_protocol.json">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/evaluation_protocol.json</a></td></tr>
+<tr><td>product_stack_csv</td><td><a href="strategy_demo/relevant_product_stack.csv">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/relevant_product_stack.csv</a></td></tr>
+<tr><td>risk_scoring_json</td><td><a href="strategy_demo/risk_scoring_context.json">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/risk_scoring_context.json</a></td></tr>
+<tr><td>disposition_json</td><td><a href="strategy_demo/disposition_context.json">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/disposition_context.json</a></td></tr>
+<tr><td>registry_record_json</td><td><a href="strategy_demo/registry_record.json">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/registry_record.json</a></td></tr>
+<tr><td>strategy_test_environment_json</td><td><a href="strategy_demo/strategy_test_environment.json">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/strategy_test_environment.json</a></td></tr>
+<tr><td>effectiveness_ticket_json</td><td><a href="strategy_demo/strategy_effectiveness_ticket.json">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/strategy_effectiveness_ticket.json</a></td></tr>
+<tr><td>post_launch_observation_csv</td><td><a href="strategy_demo/post_launch_observation_template.csv">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/post_launch_observation_template.csv</a></td></tr>
+<tr><td>cms_str_integration_json</td><td><a href="strategy_demo/cms_str_integration.json">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/cms_str_integration.json</a></td></tr>
+<tr><td>strategy_stability_json</td><td><a href="strategy_demo/strategy_stability_analysis.json">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/strategy_stability_analysis.json</a></td></tr>
+<tr><td>monthly_stability_csv</td><td><a href="strategy_demo/monthly_stability.csv">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/monthly_stability.csv</a></td></tr>
+<tr><td>bootstrap_stability_csv</td><td><a href="strategy_demo/bootstrap_stability.csv">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/bootstrap_stability.csv</a></td></tr>
+<tr><td>feature_direction_stability_csv</td><td><a href="strategy_demo/feature_direction_stability.csv">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/feature_direction_stability.csv</a></td></tr>
+<tr><td>strategy_conflict_json</td><td><a href="strategy_demo/strategy_conflict_analysis.json">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/strategy_conflict_analysis.json</a></td></tr>
+<tr><td>strategy_conflict_comparisons_csv</td><td><a href="strategy_demo/strategy_conflict_comparisons.csv">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/strategy_conflict_comparisons.csv</a></td></tr>
+<tr><td>ai_advisory_board_json</td><td><a href="strategy_demo/ai_advisory_board.json">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/ai_advisory_board.json</a></td></tr>
+<tr><td>ai_advisory_board_markdown</td><td><a href="strategy_demo/ai_advisory_board.md">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/ai_advisory_board.md</a></td></tr>
+<tr><td>suspected_mislabel_review_csv</td><td><a href="strategy_demo/suspected_mislabel_review_queue.csv">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/strategy_demo/suspected_mislabel_review_queue.csv</a></td></tr>
+<tr><td>run_trace</td><td><a href="agent_run_trace.json">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/agent_run_trace.json</a></td></tr>
+<tr><td>project_manifest</td><td><a href="project_manifest.json">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/project_manifest.json</a></td></tr>
+<tr><td>project_statistics</td><td><a href="project_statistics.md">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/project_statistics.md</a></td></tr>
+<tr><td>event_contract_validation</td><td><a href="event_contract_validation.json">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/event_contract_validation.json</a></td></tr>
+<tr><td>cms_str_trigger_demo</td><td><a href="cms_str_trigger_demo/README.md">/mnt/data/cointr-risk-strategy-ai-copilot/outputs/cms_str_trigger_demo/README.md</a></td></tr></tbody></table></section>
+</main></body></html>

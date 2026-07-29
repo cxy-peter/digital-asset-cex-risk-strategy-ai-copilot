@@ -1,0 +1,167 @@
+- template_id: rapid_cashout_high_precision
+  domain: fund_security
+  event_code: ChainWithdraw
+  name: 快进快出高精度组合
+  description: 资金闭环、提现速度与图谱关系组合。
+  action: RFI
+  rule:
+    logic: AND
+    conditions:
+    - feature: fiat_in_crypto_out_ratio
+      operator: '>='
+      value: 0.85
+    - feature: minutes_deposit_to_first_chain_out
+      operator: <
+      value: 240
+    groups:
+    - logic: OR
+      conditions:
+      - feature: withdraw_address_fraud_1hop_count
+        operator: '>='
+        value: 1
+      - feature: device_fraud_1hop_count
+        operator: '>='
+        value: 1
+      - feature: high_risk_chain_exposure
+        operator: '>='
+        value: 0.2
+  tags:
+  - fund
+  - closed_loop
+  - graph
+  tag_level_1: fund_security
+  tag_level_2: rapid_fiat_convert_chain_out
+  tag_level_3: CMS_STR_CANDIDATE
+- template_id: rapid_cashout_recall
+  domain: fund_security
+  event_code: ChainWithdraw
+  name: 快进快出召回型规则
+  description: 扩大速度与次数覆盖，进入人工审核。
+  action: MANUAL_REVIEW
+  rule:
+    logic: AND
+    conditions:
+    - feature: minutes_deposit_to_first_chain_out
+      operator: <
+      value: 720
+    - feature: chain_withdraw_count_24h
+      operator: '>='
+      value: 2
+    - feature: fiat_in_crypto_out_ratio
+      operator: '>='
+      value: 0.65
+  tags:
+  - fund
+  - velocity
+  tag_level_1: fund_security
+  tag_level_2: rapid_fiat_convert_chain_out
+  tag_level_3: MANUAL_REVIEW
+- template_id: ato_sensitive_action
+  domain: account_security
+  event_code: WithdrawAddressAdd
+  name: 账户接管敏感操作
+  description: 新设备、近期安全项变化与新提现地址。
+  action: VIDEO_KYC
+  rule:
+    logic: AND
+    conditions:
+    - feature: new_device_flag
+      operator: is_true
+    - feature: new_withdraw_address_flag
+      operator: is_true
+    groups:
+    - logic: OR
+      conditions:
+      - feature: recent_password_change_flag
+        operator: is_true
+      - feature: failed_login_count_24h
+        operator: '>='
+        value: 5
+      - feature: geo_velocity_kmh
+        operator: '>='
+        value: 800
+  tags:
+  - ato
+  tag_level_1: account_security
+  tag_level_2: account_takeover
+  tag_level_3: PENALTY_VERIFICATION
+- template_id: campaign_device_farm
+  domain: marketing_abuse
+  event_code: CampaignEnroll
+  name: 活动设备农场
+  description: 设备簇、模拟器和代理网络组合。
+  action: REJECT
+  rule:
+    logic: AND
+    conditions:
+    - feature: device_user_count_30d
+      operator: '>='
+      value: 3
+    groups:
+    - logic: OR
+      conditions:
+      - feature: emulator_flag
+        operator: is_true
+      - feature: proxy_flag
+        operator: is_true
+      - feature: inviter_cluster_size
+        operator: '>='
+        value: 8
+  tags:
+  - campaign
+  tag_level_1: marketing_abuse
+  tag_level_2: campaign_device_farm
+  tag_level_3: REJECT_OR_RESTRICT
+- template_id: risk_graph_strong_relation
+  domain: fund_security
+  event_code: RiskScoreDaily
+  name: 强关系一跳Fraud关联
+  description: 设备、证件、手机号或提现地址一跳强关系。
+  action: MANUAL_REVIEW
+  rule:
+    logic: OR
+    conditions:
+    - feature: device_fraud_1hop_count
+      operator: '>='
+      value: 1
+    - feature: withdraw_address_fraud_1hop_count
+      operator: '>='
+      value: 1
+    - feature: kyc_document_similarity_count
+      operator: '>='
+      value: 2
+  tags:
+  - graph
+  tag_level_1: fund_security
+  tag_level_2: shared_identifier_fraud_ring
+  tag_level_3: CMS_CASE_ONLY
+- template_id: kyc_initial_high_risk
+  domain: aml_compliance
+  event_code: UserKyc
+  name: Onboarding高风险用户
+  description: KYC初始风险分层，不使用未来才产生的IBAN或交易字段。
+  action: EDD
+  rule:
+    logic: OR
+    conditions:
+    - feature: occupation_risk_score
+      operator: '>='
+      value: 0.8
+    - feature: nationality_risk_score
+      operator: '>='
+      value: 0.8
+    groups:
+    - logic: AND
+      conditions:
+      - feature: age_risk_score
+        operator: '>='
+        value: 0.6
+      - feature: address_risk_score
+        operator: '>='
+        value: 0.6
+  tags:
+  - kyc
+  - onboarding
+  tag_level_1: aml_compliance
+  tag_level_2: onboarding_high_risk
+  tag_level_3: RFI_EDD

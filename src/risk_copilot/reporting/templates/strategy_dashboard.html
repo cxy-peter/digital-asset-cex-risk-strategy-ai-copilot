@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Risk Strategy Copilot</title>
+<style>
+:root{--bg:#f3f6fa;--panel:#fff;--text:#172033;--muted:#68748a;--line:#dce3ec;--accent:#3159b8;--good:#14724f;--warn:#a76700}
+body{margin:0;background:var(--bg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text)}
+header{background:#172033;color:#fff;padding:28px 34px}header h1{margin:0 0 8px;font-size:30px}header p{margin:3px 0;color:#cbd4e1}
+main{max-width:1600px;margin:auto;padding:24px 30px 50px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.card,.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 8px rgba(20,30,48,.05)}.card{padding:16px}.card h3{font-size:13px;color:var(--muted);margin:0 0 9px}.value{font-size:26px;font-weight:750}.panel{margin-top:18px;padding:19px;overflow:auto}.panel h2{margin:0 0 14px}.badge{display:inline-block;border-radius:999px;padding:4px 9px;background:#e9eef7;font-size:12px}.badge.good{background:#dff3e9;color:var(--good)}.badge.warn{background:#fff0d3;color:var(--warn)}table{border-collapse:collapse;width:100%;font-size:13px}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:#f7f9fc;position:sticky;top:0}code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}pre{white-space:pre-wrap;word-break:break-word;background:#111827;color:#e5edf8;padding:15px;border-radius:9px;font-size:12px}.muted{color:var(--muted);font-size:12px}
+</style>
+</head>
+<body>
+<header><h1>Digital Asset Risk Strategy Copilot</h1><p>{{ package.request.query }}</p><p>Synthetic/desensitized internship-derived prototype — not a production deployment.</p></header>
+<main>
+<section class="grid">
+<div class="card"><h3>Selected Strategy</h3><div class="value" style="font-size:18px">{{ package.selected_strategy.name }}</div><p class="muted">{{ package.selected_strategy.source }} / {{ package.selected_strategy.action.value }}</p></div>
+<div class="card"><h3>Precision</h3><div class="value">{{ '%.2f%%'|format(package.selected_metrics.precision*100) }}</div></div>
+<div class="card"><h3>Recall</h3><div class="value">{{ '%.2f%%'|format(package.selected_metrics.recall*100) }}</div></div>
+<div class="card"><h3>Alert Rate</h3><div class="value">{{ '%.2f%%'|format(package.selected_metrics.alert_rate*100) }}</div></div>
+<div class="card"><h3>Governance</h3><div class="value" style="font-size:18px">{{ package.governance.next_status.value }}</div><span class="badge {{ 'good' if package.governance.decision=='approve' else 'warn' }}">{{ package.governance.decision }}</span></div>
+<div class="card"><h3>Mapped Products</h3><div class="value">{{ product_rows|length }}</div><p class="muted">dependency closure</p></div>
+<div class="card"><h3>Risk Tier L4</h3><div class="value">{{ tier_distribution.get('L4', 0) }}</div><p class="muted">synthetic profiles</p></div>
+<div class="card"><h3>Registry Version</h3><div class="value">{{ registry_record.get('version', '-') }}</div><p class="muted">SQLite audit registry</p></div>
+<div class="card"><h3>Strategy Test Environment</h3><div class="value" style="font-size:18px">{{ deployment_plan.get('release_status', 'REVISION_REQUIRED') }}</div><p class="muted">production connection: {{ deployment_plan.get('production_connection', false) }}</p></div>
+<div class="card"><h3>AI Lead Decision</h3><div class="value" style="font-size:16px">{{ ai_advisory_board.get('decision', 'NOT_RUN') }}</div><p class="muted">{{ ai_advisory_board.get('mode', 'offline') }}</p></div>
+<div class="card"><h3>Cross-month Stability</h3><div class="value" style="font-size:18px">{{ stability_analysis.get('status', 'NOT_RUN') }}</div><p class="muted">gates {{ stability_analysis.get('summary', {}).get('gates_passed', 0) }}/{{ stability_analysis.get('summary', {}).get('gates_total', 0) }}</p></div>
+<div class="card"><h3>Portfolio Conflict</h3><div class="value" style="font-size:15px">{{ conflict_analysis.get('recommendation', 'NOT_RUN') }}</div><p class="muted">incremental recall {{ '%.2f%%'|format(conflict_analysis.get('incremental', {}).get('recall_contribution', 0)*100) }}</p></div>
+</section>
+<section class="panel"><h2>Selected Rule</h2><code>{{ selected_expression }}</code></section>
+<section class="panel"><h2>Relevant Risk Product Stack</h2><table><thead><tr><th>Product</th><th>Layer</th><th>Purpose</th><th>Status</th></tr></thead><tbody>{% for p in product_rows %}<tr><td>{{ p.name }}<br><code>{{ p.product_id }}</code></td><td>{{ p.layer }}</td><td>{{ p.purpose }}</td><td>{{ p.prototype_status }}</td></tr>{% endfor %}</tbody></table></section>
+<section class="panel"><h2>User Risk Tier Distribution</h2><table><thead><tr>{% for tier in ['L1','L2','L3.1','L3.2','L3.3','L4'] %}<th>{{ tier }}</th>{% endfor %}</tr></thead><tbody><tr>{% for tier in ['L1','L2','L3.1','L3.2','L3.3','L4'] %}<td>{{ tier_distribution.get(tier, 0) }}</td>{% endfor %}</tr></tbody></table></section>
+<section class="panel"><h2>AI Strategy Advisory Board</h2><p><strong>Lead decision:</strong> {{ ai_advisory_board.get('decision', 'NOT_RUN') }}</p><p>{{ ai_advisory_board.get('executive_summary', '') }}</p><table><thead><tr><th>Specialist Agent</th><th>Status</th><th>Summary</th><th>Risks</th></tr></thead><tbody>{% for name, r in ai_advisory_board.get('specialist_reviews', {}).items() %}<tr><td>{{ name }}</td><td>{{ r.status }}</td><td>{{ r.summary }}</td><td>{{ r.risks|join('; ') }}</td></tr>{% endfor %}</tbody></table></section>
+<section class="panel"><h2>Cross-month & Bootstrap Stability</h2><pre>{{ stability_analysis|tojson(indent=2) }}</pre></section>
+<section class="panel"><h2>Strategy Conflict & Incremental Contribution</h2><pre>{{ conflict_analysis|tojson(indent=2) }}</pre></section>
+<section class="panel"><h2>Disposition Proposal</h2><pre>{{ disposition_plan|tojson(indent=2) }}</pre></section>
+<section class="panel"><h2>Strategy Registry</h2><pre>{{ registry_record|tojson(indent=2) }}</pre></section>
+<section class="panel"><h2>Rule Engine / FEP Test & Effectiveness Plan</h2><pre>{{ deployment_plan|tojson(indent=2) }}</pre></section>
+<section class="panel"><h2>Strategy Effectiveness Ticket</h2><pre>{{ effectiveness_ticket|tojson(indent=2) }}</pre></section>
+<section class="panel"><h2>CMS/STR Internal Case Preview</h2><pre>{{ cms_str_integration|tojson(indent=2) }}</pre></section>
+<section class="panel"><h2>Candidate Frontier</h2>{{ scatter_html|safe }}</section>
+<section class="panel"><h2>Model Baselines</h2>{{ model_html|safe }}</section>
+<section class="panel"><h2>Development Ranking + OOT Final Evaluation</h2><table><thead><tr><th>Dev Rank</th><th>Name</th><th>Source</th><th>Action</th><th>Expression</th><th>OOT Alerts</th><th>OOT Precision</th><th>OOT Recall</th><th>OOT F1</th><th>Dev Reward</th></tr></thead><tbody>{% for c in candidates %}<tr><td>{{ c.development_rank }}</td><td>{{ c.name }}</td><td>{{ c.source }}</td><td>{{ c.action }}</td><td><code>{{ c.expression }}</code></td><td>{{ c.alerts }}</td><td>{{ '%.2f%%'|format(c.precision*100) }}</td><td>{{ '%.2f%%'|format(c.recall*100) }}</td><td>{{ '%.3f'|format(c.f1) }}</td><td>{{ '%.4f'|format(c.reward) }}</td></tr>{% endfor %}</tbody></table></section>
+<section class="panel"><h2>Governance Reasons</h2><ul>{% for reason in package.governance.reasons %}<li>{{ reason }}</li>{% endfor %}</ul></section>
+<section class="panel"><h2>Agent Execution</h2><table><thead><tr><th>Agent</th><th>Summary</th><th>Tool Calls</th><th>Warnings</th></tr></thead><tbody>{% for r in package.agent_results %}<tr><td>{{ r.agent }}</td><td>{{ r.summary }}</td><td>{{ r.actions|length }}</td><td>{{ r.warnings|join('; ') }}</td></tr>{% endfor %}</tbody></table></section>
+<section class="panel"><h2>Engine Payload</h2><pre>{{ engine_payload }}</pre></section>
+</main></body></html>

@@ -1,0 +1,30 @@
+schema_version: strategy_taxonomy.v1
+purpose: CoinTR-style three-level strategy tags reconstructed from internship product materials.
+levels:
+  level_1:
+    account_security: 账户安全
+    transaction_security: 交易安全
+    fund_security: 资金安全
+    aml_compliance: AML与合规
+    marketing_abuse: 活动反作弊
+  level_2:
+    account_takeover: 账户接管
+    rapid_fiat_convert_chain_out: 法币入金-换币-链上提币快进快出
+    bank_channel_fraud: 银行通道与卡风险
+    shared_identifier_fraud_ring: 设备/证件/手机号/提现地址团伙关联
+    campaign_device_farm: 活动设备农场与批量小号
+    onboarding_high_risk: Onboarding高风险客户
+    transaction_anomaly: 交易异常与对敲
+    chain_risk_exposure: 链上高风险地址暴露
+  level_3:
+    MONITOR_ONLY: 只监控不处置
+    MANUAL_REVIEW: 人工审核
+    RFI_EDD: RFI/EDD调查
+    PENALTY_VERIFICATION: 处罚/验证中心
+    CMS_CASE_ONLY: 创建CMS调查案件候选
+    CMS_STR_CANDIDATE: 创建CMS/STR候选案件并等待人工复核
+    REJECT_OR_RESTRICT: 高影响限制候选，必须额外审批
+rules:
+  - level_3 does not authorize automatic enforcement.
+  - CMS_STR_CANDIDATE means internal case creation only, not external regulatory submission.
+  - every tag update is versioned and bound to strategy payload hash.

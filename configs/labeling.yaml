@@ -1,0 +1,36 @@
+schema_version: risk_labeling.v1
+maturity_days: 30
+event_time_field: event_time
+label_observed_at_field: label_observed_at
+disposition_field: case_disposition
+accepted_dispositions:
+- confirmed_suspicious
+- cleared
+labels:
+  fraud_confirmed:
+    meaning: Mature investigation outcome confirming a fraud typology.
+    training_eligible: true
+  aml_suspicion_confirmed:
+    meaning: Mature investigation outcome confirming that activity remains suspicious.
+    training_eligible: true
+  case_disposition:
+    meaning: Human investigation disposition; not itself a binary model target.
+    training_eligible: false
+  sar_str_filed:
+    meaning: Downstream filing outcome with reviewer-selection bias.
+    training_eligible: false
+training_targets:
+  allowed:
+  - fraud_confirmed
+  - aml_suspicion_confirmed
+  prohibited:
+  - sar_str_filed
+review_targets:
+- fraud_label
+- fraud_confirmed
+- aml_suspicion_confirmed
+point_in_time_rules:
+- event_time must not be later than the training cutoff
+- label_observed_at must not be later than the training cutoff
+- filing status is an operational conversion metric, not ground truth
+- unknown or still-open dispositions are excluded

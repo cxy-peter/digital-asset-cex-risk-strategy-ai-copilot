@@ -1,0 +1,47 @@
+schema_version: strategy_effectiveness.v1
+environment: synthetic_test
+labels:
+  EFFECTIVE:
+    definition: 命中质量、召回、误伤、业务影响与稳定性整体符合预期。
+  PARTIALLY_EFFECTIVE:
+    definition: 有实际风险识别价值，但阈值、覆盖或处置仍需优化。
+  INEFFECTIVE:
+    definition: 命中无法形成有效风险确认，或样本表现明显低于准入标准。
+  FALSE_POSITIVE_HEAVY:
+    definition: 误伤率或用户反馈显著偏高。
+  INSUFFICIENT_SAMPLE:
+    definition: 样本或观察窗口不足，暂不能得出上线有效性结论。
+  NEEDS_THRESHOLD_ADJUSTMENT:
+    definition: 策略方向正确，但阈值导致覆盖或误伤不平衡。
+  DATA_QUALITY_ISSUE:
+    definition: 特征缺失、延迟、重复计算或口径漂移影响评估。
+  STRATEGY_CONFLICT:
+    definition: 与现有策略重复、冲突或处置叠加。
+observation:
+  initial_workdays: 3
+  periodic_review: [weekly, monthly]
+metrics:
+  - hit_count
+  - confirmed_risk_count
+  - false_positive_count
+  - confirmation_rate
+  - false_positive_rate
+  - user_feedback_count
+  - appeal_count
+  - business_metric_delta
+  - feature_psi
+  - alert_volume_delta
+  - action_success_rate
+required_ticket_fields:
+  - ticket_id
+  - strategy_id
+  - strategy_version
+  - test_run_id
+  - data_snapshot_id
+  - evaluation_phase
+  - label
+  - labeler
+  - observation_start
+  - observation_end
+  - evidence_refs
+  - recommendation

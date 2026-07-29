@@ -1,0 +1,424 @@
+{
+  "valid": true,
+  "event_count": 21,
+  "feature_count": 120,
+  "error_count": 0,
+  "warning_count": 56,
+  "issues": [
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "failed_login_count_24h is decision-available for UserLogin, but the event is not listed among the feature's primary lineage events",
+      "event_code": "UserLogin",
+      "feature_name": "failed_login_count_24h"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "emulator_flag is decision-available for UserLogin, but the event is not listed among the feature's primary lineage events",
+      "event_code": "UserLogin",
+      "feature_name": "emulator_flag"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "risk_score_t1 is decision-available for UserLogin, but the event is not listed among the feature's primary lineage events",
+      "event_code": "UserLogin",
+      "feature_name": "risk_score_t1"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "occupation_risk_score is decision-available for UserKycStart, but the event is not listed among the feature's primary lineage events",
+      "event_code": "UserKycStart",
+      "feature_name": "occupation_risk_score"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "bank_name_mismatch_flag is decision-available for FiatDeposit, but the event is not listed among the feature's primary lineage events",
+      "event_code": "FiatDeposit",
+      "feature_name": "bank_name_mismatch_flag"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "device_user_count_24h is decision-available for FiatDeposit, but the event is not listed among the feature's primary lineage events",
+      "event_code": "FiatDeposit",
+      "feature_name": "device_user_count_24h"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "proxy_flag is decision-available for FiatDeposit, but the event is not listed among the feature's primary lineage events",
+      "event_code": "FiatDeposit",
+      "feature_name": "proxy_flag"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "risk_score_t1 is decision-available for FiatDeposit, but the event is not listed among the feature's primary lineage events",
+      "event_code": "FiatDeposit",
+      "feature_name": "risk_score_t1"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "strong_relation_fraud_1hop_count is decision-available for FiatDeposit, but the event is not listed among the feature's primary lineage events",
+      "event_code": "FiatDeposit",
+      "feature_name": "strong_relation_fraud_1hop_count"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "single_fiat_deposit_over_10000_cnt_30d is decision-available for ChainWithdraw, but the event is not listed among the feature's primary lineage events",
+      "event_code": "ChainWithdraw",
+      "feature_name": "single_fiat_deposit_over_10000_cnt_30d"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "small_fiat_deposit_count_24h is decision-available for ChainWithdraw, but the event is not listed among the feature's primary lineage events",
+      "event_code": "ChainWithdraw",
+      "feature_name": "small_fiat_deposit_count_24h"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "bank_fraud_ratio_max is decision-available for ChainWithdraw, but the event is not listed among the feature's primary lineage events",
+      "event_code": "ChainWithdraw",
+      "feature_name": "bank_fraud_ratio_max"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "new_device_flag is decision-available for ChainWithdraw, but the event is not listed among the feature's primary lineage events",
+      "event_code": "ChainWithdraw",
+      "feature_name": "new_device_flag"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "device_user_count_24h is decision-available for ChainWithdraw, but the event is not listed among the feature's primary lineage events",
+      "event_code": "ChainWithdraw",
+      "feature_name": "device_user_count_24h"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "proxy_flag is decision-available for ChainWithdraw, but the event is not listed among the feature's primary lineage events",
+      "event_code": "ChainWithdraw",
+      "feature_name": "proxy_flag"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "high_risk_chain_exposure is decision-available for ChainWithdraw, but the event is not listed among the feature's primary lineage events",
+      "event_code": "ChainWithdraw",
+      "feature_name": "high_risk_chain_exposure"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "mixer_exposure is decision-available for ChainWithdraw, but the event is not listed among the feature's primary lineage events",
+      "event_code": "ChainWithdraw",
+      "feature_name": "mixer_exposure"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "gambling_exposure is decision-available for ChainWithdraw, but the event is not listed among the feature's primary lineage events",
+      "event_code": "ChainWithdraw",
+      "feature_name": "gambling_exposure"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "risk_score_t1 is decision-available for ChainWithdraw, but the event is not listed among the feature's primary lineage events",
+      "event_code": "ChainWithdraw",
+      "feature_name": "risk_score_t1"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "device_fraud_1hop_count is decision-available for ChainWithdraw, but the event is not listed among the feature's primary lineage events",
+      "event_code": "ChainWithdraw",
+      "feature_name": "device_fraud_1hop_count"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "fraud_2hop_count is decision-available for ChainWithdraw, but the event is not listed among the feature's primary lineage events",
+      "event_code": "ChainWithdraw",
+      "feature_name": "fraud_2hop_count"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "fraud_graph_score is decision-available for ChainWithdraw, but the event is not listed among the feature's primary lineage events",
+      "event_code": "ChainWithdraw",
+      "feature_name": "fraud_graph_score"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "community_fraud_ratio is decision-available for ChainWithdraw, but the event is not listed among the feature's primary lineage events",
+      "event_code": "ChainWithdraw",
+      "feature_name": "community_fraud_ratio"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "trade_pair_count_30d is decision-available for ChainWithdraw, but the event is not listed among the feature's primary lineage events",
+      "event_code": "ChainWithdraw",
+      "feature_name": "trade_pair_count_30d"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "fraud_2hop_count is decision-available for InternalTransfer, but the event is not listed among the feature's primary lineage events",
+      "event_code": "InternalTransfer",
+      "feature_name": "fraud_2hop_count"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "fraud_graph_score is decision-available for InternalTransfer, but the event is not listed among the feature's primary lineage events",
+      "event_code": "InternalTransfer",
+      "feature_name": "fraud_graph_score"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "risk_score_t1 is decision-available for InternalTransfer, but the event is not listed among the feature's primary lineage events",
+      "event_code": "InternalTransfer",
+      "feature_name": "risk_score_t1"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "device_user_count_24h is decision-available for InternalTransfer, but the event is not listed among the feature's primary lineage events",
+      "event_code": "InternalTransfer",
+      "feature_name": "device_user_count_24h"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "proxy_flag is decision-available for InternalTransfer, but the event is not listed among the feature's primary lineage events",
+      "event_code": "InternalTransfer",
+      "feature_name": "proxy_flag"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "risk_score_t1 is decision-available for CampaignReward, but the event is not listed among the feature's primary lineage events",
+      "event_code": "CampaignReward",
+      "feature_name": "risk_score_t1"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "inviter_cluster_size is decision-available for CampaignReward, but the event is not listed among the feature's primary lineage events",
+      "event_code": "CampaignReward",
+      "feature_name": "inviter_cluster_size"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "campaign_history_abuse_count is decision-available for CampaignReward, but the event is not listed among the feature's primary lineage events",
+      "event_code": "CampaignReward",
+      "feature_name": "campaign_history_abuse_count"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "email_similarity_cluster_size is decision-available for CampaignReward, but the event is not listed among the feature's primary lineage events",
+      "event_code": "CampaignReward",
+      "feature_name": "email_similarity_cluster_size"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "proxy_flag is decision-available for CampaignReward, but the event is not listed among the feature's primary lineage events",
+      "event_code": "CampaignReward",
+      "feature_name": "proxy_flag"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "emulator_flag is decision-available for CampaignReward, but the event is not listed among the feature's primary lineage events",
+      "event_code": "CampaignReward",
+      "feature_name": "emulator_flag"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "geo_velocity_kmh is decision-available for ApiKeyCreate, but the event is not listed among the feature's primary lineage events",
+      "event_code": "ApiKeyCreate",
+      "feature_name": "geo_velocity_kmh"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "proxy_flag is decision-available for PasswordReset, but the event is not listed among the feature's primary lineage events",
+      "event_code": "PasswordReset",
+      "feature_name": "proxy_flag"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "withdraw_address_fraud_1hop_count is decision-available for WithdrawAddressAdd, but the event is not listed among the feature's primary lineage events",
+      "event_code": "WithdrawAddressAdd",
+      "feature_name": "withdraw_address_fraud_1hop_count"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "fiat_in_crypto_out_ratio is decision-available for RiskScoreDaily, but the event is not listed among the feature's primary lineage events",
+      "event_code": "RiskScoreDaily",
+      "feature_name": "fiat_in_crypto_out_ratio"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "minutes_deposit_to_first_chain_out is decision-available for RiskScoreDaily, but the event is not listed among the feature's primary lineage events",
+      "event_code": "RiskScoreDaily",
+      "feature_name": "minutes_deposit_to_first_chain_out"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "bank_fraud_ratio_max is decision-available for RiskScoreDaily, but the event is not listed among the feature's primary lineage events",
+      "event_code": "RiskScoreDaily",
+      "feature_name": "bank_fraud_ratio_max"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "high_risk_chain_exposure is decision-available for RiskScoreDaily, but the event is not listed among the feature's primary lineage events",
+      "event_code": "RiskScoreDaily",
+      "feature_name": "high_risk_chain_exposure"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "counterparty_fraud_ratio is decision-available for RiskScoreDaily, but the event is not listed among the feature's primary lineage events",
+      "event_code": "RiskScoreDaily",
+      "feature_name": "counterparty_fraud_ratio"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "community_fraud_ratio is decision-available for RiskScoreDaily, but the event is not listed among the feature's primary lineage events",
+      "event_code": "RiskScoreDaily",
+      "feature_name": "community_fraud_ratio"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "occupation_risk_score is decision-available for RiskScoreDaily, but the event is not listed among the feature's primary lineage events",
+      "event_code": "RiskScoreDaily",
+      "feature_name": "occupation_risk_score"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "nationality_risk_score is decision-available for RiskScoreDaily, but the event is not listed among the feature's primary lineage events",
+      "event_code": "RiskScoreDaily",
+      "feature_name": "nationality_risk_score"
+    },
+    {
+      "severity": "warning",
+      "code": "EVENT_NOT_IN_FEATURE_LINEAGE",
+      "message": "address_risk_score is decision-available for RiskScoreDaily, but the event is not listed among the feature's primary lineage events",
+      "event_code": "RiskScoreDaily",
+      "feature_name": "address_risk_score"
+    },
+    {
+      "severity": "warning",
+      "code": "FEATURE_NOT_DECISION_AVAILABLE_FOR_LINEAGE_EVENT",
+      "message": "ip_user_count_24h lists UserRegister as a lineage event but is not declared decision-available in that event contract",
+      "event_code": "UserRegister",
+      "feature_name": "ip_user_count_24h"
+    },
+    {
+      "severity": "warning",
+      "code": "FEATURE_NOT_DECISION_AVAILABLE_FOR_LINEAGE_EVENT",
+      "message": "fund_stay_minutes_median lists FiatWithdraw as a lineage event but is not declared decision-available in that event contract",
+      "event_code": "FiatWithdraw",
+      "feature_name": "fund_stay_minutes_median"
+    },
+    {
+      "severity": "warning",
+      "code": "FEATURE_NOT_DECISION_AVAILABLE_FOR_LINEAGE_EVENT",
+      "message": "amount_roundness_score lists FiatDeposit as a lineage event but is not declared decision-available in that event contract",
+      "event_code": "FiatDeposit",
+      "feature_name": "amount_roundness_score"
+    },
+    {
+      "severity": "warning",
+      "code": "FEATURE_NOT_DECISION_AVAILABLE_FOR_LINEAGE_EVENT",
+      "message": "amount_roundness_score lists ChainWithdraw as a lineage event but is not declared decision-available in that event contract",
+      "event_code": "ChainWithdraw",
+      "feature_name": "amount_roundness_score"
+    },
+    {
+      "severity": "warning",
+      "code": "FEATURE_NOT_DECISION_AVAILABLE_FOR_LINEAGE_EVENT",
+      "message": "inviter_risk_score lists CampaignEnroll as a lineage event but is not declared decision-available in that event contract",
+      "event_code": "CampaignEnroll",
+      "feature_name": "inviter_risk_score"
+    },
+    {
+      "severity": "warning",
+      "code": "FEATURE_NOT_DECISION_AVAILABLE_FOR_LINEAGE_EVENT",
+      "message": "kyc_country_risk lists UserKyc as a lineage event but is not declared decision-available in that event contract",
+      "event_code": "UserKyc",
+      "feature_name": "kyc_country_risk"
+    },
+    {
+      "severity": "warning",
+      "code": "FEATURE_NOT_DECISION_AVAILABLE_FOR_LINEAGE_EVENT",
+      "message": "direct_related_user_count lists InternalTransfer as a lineage event but is not declared decision-available in that event contract",
+      "event_code": "InternalTransfer",
+      "feature_name": "direct_related_user_count"
+    },
+    {
+      "severity": "warning",
+      "code": "FEATURE_NOT_DECISION_AVAILABLE_FOR_LINEAGE_EVENT",
+      "message": "direct_related_user_count lists RiskScoreDaily as a lineage event but is not declared decision-available in that event contract",
+      "event_code": "RiskScoreDaily",
+      "feature_name": "direct_related_user_count"
+    },
+    {
+      "severity": "warning",
+      "code": "FEATURE_NOT_DECISION_AVAILABLE_FOR_LINEAGE_EVENT",
+      "message": "second_hop_user_count lists RiskScoreDaily as a lineage event but is not declared decision-available in that event contract",
+      "event_code": "RiskScoreDaily",
+      "feature_name": "second_hop_user_count"
+    }
+  ],
+  "event_contract_hashes": {
+    "UserRegister": "b806499fbeba5204e382232583688623e19fd8467ba27938183df989044ba292",
+    "UserLogin": "15784b400a2c9d0804659ab1a82f0a42706d94b103473a5bbb20a89b598e2998",
+    "UserKycStart": "e08b94e216f095837ba7d87a41338d01c248ac5f1baa14555c6ad8f8a6253f86",
+    "UserKyc": "264a81054aa2f983c8ed1e6771f2b9c4e743d63658ad97094213d61f1326109f",
+    "FiatDeposit": "642ebd59a6553ac4154639c3d94e2d2bb30c05962039bb997c7dcf2311bee4a2",
+    "FiatWithdraw": "56711f8cb30260f607fa185c3116fd5a68de1db97075050e456994e532f933fa",
+    "ChainDeposit": "354f373ab1dba2923e7e84d84762cea1e006e2f83d3275de080da04ebb39c167",
+    "ChainWithdraw": "049911eb70a9b37aceb3d0de08988360913c79dc85cfa27ecb1bf40db45ac666",
+    "InternalTransfer": "24f586543034d36c0744c2e9aa141ba4f5663ed7605ebae70966c60c499b0b77",
+    "SpotTrade": "f1c9743a3d5475bc23ba0176727b5d9b6cee84255d1e8d9325366c35a53d3cd8",
+    "Convert": "fb00d21a98d76c48b58e67147e59ffc164257c00d8e9e151948716beac9d0ea4",
+    "CampaignEnroll": "4377dc762cf813e09865fd32f811bdde4e354178ceb6087f82afb2a9ecd83094",
+    "CampaignReward": "6f5889467423d07521159ffdd7acd6df15894d030b8e5a6c0ed27063f6565f68",
+    "ApiKeyCreate": "72030f6fe5ae1c80ad797d934117634db5bce59d99ef7912d8b452102a4672a0",
+    "PasswordReset": "4be80a29b07113d1f272770e8bdf51805bde8030e9a1e683bfbd9583ea5f5f79",
+    "WithdrawAddressAdd": "58938b85e3b085cb905179f685bc44ee50f1766748fb2907f5a466638b2aead0",
+    "TravelRuleReview": "113a4f089cd98340ff8922650a79f24e57d7cb0215ddfe806ead74b8610e1f63",
+    "KybReview": "d5f40911b99c7c758ed98c7bb939f81c406194a2ad88780abf3d440a07aca420",
+    "RiskScoreDaily": "a8784a0d1289fdcbfada1d5e3e7fcb6f79067c586646a9f38e68bd4e48f4e982",
+    "RegulatoryCaseReview": "1ad64e4854379436ed290995cdff56c155f03a640d473ee08729d00ae36d986e",
+    "TransactionMonitoringAlert": "1ba44fda04b9b6a2df6ba25ca2a36a2115c1a603619de80f6f0bcf84eb9b0262"
+  }
+}

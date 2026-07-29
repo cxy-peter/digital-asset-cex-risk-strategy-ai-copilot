@@ -1,0 +1,152 @@
+{
+  "strategyId": "TREE-ChainWithdraw-01",
+  "strategyName": "Decision Tree候选规则 1",
+  "domain": "fund_security",
+  "eventCode": "ChainWithdraw",
+  "strategyTags": {
+    "level1": "fund_security",
+    "level2": "rapid_fiat_convert_chain_out",
+    "level3": "MANUAL_REVIEW",
+    "flat": [
+      "tree_extracted",
+      "interpretable"
+    ]
+  },
+  "eventContract": {
+    "version": "ChainWithdraw@sha256:049911eb70a9",
+    "sha256": "049911eb70a9b37aceb3d0de08988360913c79dc85cfa27ecb1bf40db45ac666",
+    "warningCount": 16,
+    "errorCount": 0
+  },
+  "version": 1,
+  "status": "PENDING_REVIEW",
+  "executionMode": "SIMULATION_ONLY",
+  "conditionTree": {
+    "logic": "AND",
+    "conditions": [
+      {
+        "feature": "behavior_event_count_30d",
+        "operator": ">",
+        "value": 30.5
+      },
+      {
+        "feature": "strong_relation_fraud_1hop_count",
+        "operator": ">",
+        "value": 0.5
+      },
+      {
+        "feature": "strategy_avoidance_ratio_30d",
+        "operator": ">",
+        "value": 0.302633
+      },
+      {
+        "feature": "behavior_event_count_30d",
+        "operator": ">",
+        "value": 42.5
+      }
+    ],
+    "groups": []
+  },
+  "expression": "behavior_event_count_30d > 30.5 AND strong_relation_fraud_1hop_count > 0.5 AND strategy_avoidance_ratio_30d > 0.302633 AND behavior_event_count_30d > 42.5",
+  "action": {
+    "type": "MANUAL_REVIEW",
+    "parameters": {},
+    "requiresHumanApproval": true
+  },
+  "guardrails": {
+    "directOnlineRelease": false,
+    "requiredApprovals": [
+      "risk_strategy",
+      "risk_operations"
+    ],
+    "strDetailsVisibleInOrdinaryProfile": false,
+    "manualRiskOverridePreserved": true,
+    "kaVipExemptExtraApproval": true,
+    "cmsOneClickCreatesInternalCaseOnly": true,
+    "automaticRegulatorySubmission": false,
+    "strategyEffectivenessTicketRequired": true
+  },
+  "simulationSnapshot": {
+    "selectionPartition": "development",
+    "evaluationPartition": "out_of_time",
+    "sampleSize": 2000,
+    "alerts": 81,
+    "precision": 0.8641975308641975,
+    "recall": 0.4861111111111111,
+    "f1": 0.6222222222222222,
+    "falsePositiveRate": 0.005926724137931034,
+    "alertRate": 0.0405,
+    "lift": 12.002743484224967,
+    "capturedLossRate": 0.5214790341032601,
+    "stabilityScore": 0.985162036862479,
+    "reward": 0.708605735461994,
+    "relativeAdvantage": 1.4008069279243056
+  },
+  "audit": {
+    "request_id": "SMOKE",
+    "strategy_id": "TREE-ChainWithdraw-01",
+    "event_code": "ChainWithdraw",
+    "event_contract_version": "ChainWithdraw@sha256:049911eb70a9",
+    "event_contract_hash": "049911eb70a9b37aceb3d0de08988360913c79dc85cfa27ecb1bf40db45ac666",
+    "event_contract_warning_count": 16,
+    "event_contract_error_count": 0,
+    "domain": "fund_security",
+    "action": "MANUAL_REVIEW",
+    "strategy_tags": {
+      "level_1": "fund_security",
+      "level_2": "rapid_fiat_convert_chain_out",
+      "level_3": "MANUAL_REVIEW",
+      "flat": [
+        "tree_extracted",
+        "interpretable"
+      ]
+    },
+    "rule_expression": "behavior_event_count_30d > 30.5 AND strong_relation_fraud_1hop_count > 0.5 AND strategy_avoidance_ratio_30d > 0.302633 AND behavior_event_count_30d > 42.5",
+    "required_features": [
+      "behavior_event_count_30d",
+      "strategy_avoidance_ratio_30d",
+      "strong_relation_fraud_1hop_count"
+    ],
+    "risk_source": "ai_assisted_candidate",
+    "manual_override_policy": {
+      "risk_source_field": "risk_source",
+      "manual_value_not_silently_overwritten": true,
+      "history_required": true
+    },
+    "str_confidentiality": {
+      "str_details_roles": [
+        "compliance"
+      ],
+      "ordinary_profile_can_show_str": false,
+      "audit_log_required": true
+    },
+    "reviewed_at": "2026-07-29T14:27:18.570710+00:00",
+    "data_scope": "synthetic_or_aggregated_demo"
+  },
+  "disclaimer": "Synthetic/desensitized prototype; payload is not connected to any production system.",
+  "dispositionProposal": {
+    "strategy_id": "TREE-ChainWithdraw-01",
+    "detection_action": "MANUAL_REVIEW",
+    "execution_mode": "PROPOSE_ONLY",
+    "required_approvals": [
+      "risk_strategy",
+      "risk_operations"
+    ],
+    "customer_segment_gate": {
+      "segments": [
+        "KA",
+        "VIP",
+        "EXEMPT"
+      ],
+      "extra_approval": true,
+      "reason": "avoid material customer mis-penalty and preserve auditability"
+    },
+    "release_controls": {
+      "batch_release_supported": true,
+      "release_requires_reason": true,
+      "operator_and_approver_separation": true
+    },
+    "notification_required": true,
+    "direct_execution_allowed": false
+  }
+}

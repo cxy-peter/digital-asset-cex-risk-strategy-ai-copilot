@@ -1,0 +1,52 @@
+status_transitions:
+  DRAFT:
+  - SIMULATION
+  - RETIRED
+  SIMULATION:
+  - PENDING_REVIEW
+  - DRAFT
+  - RETIRED
+  PENDING_REVIEW:
+  - APPROVED
+  - DRAFT
+  - RETIRED
+  APPROVED:
+  - ONLINE
+  - DRAFT
+  ONLINE:
+  - PAUSED
+  - RETIRED
+  PAUSED:
+  - ONLINE
+  - RETIRED
+  RETIRED: []
+simulation_gates:
+  minimum_precision: 0.5
+  minimum_recall: 0.05
+  maximum_false_positive_rate: 0.05
+  maximum_alert_rate: 0.05
+  minimum_sample_size: 1000
+human_in_loop:
+  required: true
+  minimum_approvers: 2
+  roles:
+  - risk_strategy
+  - risk_operations
+  extra_approval_for:
+  - KA
+  - VIP
+  - EXEMPT
+  restricted_actions:
+  - FREEZE
+  - REJECT
+  - WITHDRAWAL_RESTRICTION
+  - TRANSACTION_RESTRICTION
+confidentiality:
+  str_details_roles:
+  - compliance
+  ordinary_profile_can_show_str: false
+  audit_log_required: true
+manual_override:
+  risk_source_field: risk_source
+  manual_value_not_silently_overwritten: true
+  history_required: true

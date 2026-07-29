@@ -1,0 +1,1191 @@
+- scenario_id: BANK-PAY-ATO
+  industry: banking
+  business_line: 支付/账户
+  event_stage: 登录与敏感操作
+  risk_domain: account_security
+  risk_types:
+  - 账户接管
+  - 撞库
+  - SIM Swap
+  definition: 攻击者取得账户控制权后发起支付或修改安全设置。
+  attacker_profiles:
+  - 撞库团伙
+  - 社工团伙
+  - 木马操作者
+  black_grey_tools:
+  - 撞库字典
+  - 短信劫持
+  - 钓鱼页
+  - 远控木马
+  - 代理IP
+  attack_preferences:
+  - 夜间操作
+  - 新设备
+  - 异地高速跳转
+  - 先改密再绑卡
+  manifestations:
+  - 登录失败陡增
+  - 新设备+新收款人
+  - 短时大额支付
+  data_sources:
+  - 登录日志
+  - 设备指纹
+  - 支付订单
+  - 安全设置日志
+  candidate_features:
+  - new_device_flag
+  - failed_login_count_1h
+  - geo_velocity_kmh
+  - recent_password_change_flag
+  expert_rules:
+  - 新设备 AND 失败登录>=5 AND 敏感操作
+  - 改密后2小时内新增收款人并大额支付
+  recommended_models:
+  - LogisticRegression
+  - XGBoost
+  - SequenceModel
+  model_tradeoffs:
+    LogisticRegression: 解释性强，适合审批和基线。
+    XGBoost: 捕捉非线性组合，但需SHAP解释。
+    SequenceModel: 适合操作序列，但数据和部署成本高。
+  actions:
+  - VIDEO_KYC
+  - DELAY
+  - TRANSACTION_RESTRICTION
+  monitoring_metrics:
+  - ATO识别率
+  - 高风险拦截率
+  - 误伤率
+- scenario_id: BANK-CARD-FRAUD
+  industry: banking
+  business_line: 支付/银行卡
+  event_stage: 授权交易
+  risk_domain: payment_fraud
+  risk_types:
+  - 盗卡
+  - 卡测试
+  - 无卡支付欺诈
+  definition: 使用被盗卡信息完成支付或测试卡有效性。
+  attacker_profiles:
+  - 盗卡团伙
+  - 卡料交易者
+  black_grey_tools:
+  - 卡料库
+  - 代理IP
+  - 自动化脚本
+  - 设备农场
+  attack_preferences:
+  - 小额多笔测试后大额消费
+  - 跨境商户
+  - 高频失败
+  manifestations:
+  - 分钟级多次授权
+  - 同设备多卡
+  - 金额阶梯上升
+  data_sources:
+  - 授权流水
+  - 设备
+  - 商户
+  - 拒付
+  candidate_features:
+  - small_txn_count_10m
+  - card_count_per_device
+  - decline_ratio
+  - merchant_risk_score
+  expert_rules:
+  - 10分钟>=5笔小额且拒绝率>50%
+  - 同设备绑定>=4张卡
+  recommended_models:
+  - Rules
+  - XGBoost
+  - GraphModel
+  model_tradeoffs:
+    Rules: 强模式实时拦截。
+    XGBoost: 组合识别。
+    GraphModel: 识别卡-设备-商户团伙。
+  actions:
+  - DELAY
+  - MANUAL_REVIEW
+  - REJECT
+  monitoring_metrics:
+  - 拒付率
+  - Precision
+  - 每千笔误伤
+- scenario_id: BANK-MULE
+  industry: banking
+  business_line: 支付/账户
+  event_stage: 入账与转账
+  risk_domain: aml_compliance
+  risk_types:
+  - 跑分
+  - 人头账户
+  - 资金归集
+  definition: 账户被用于接收并快速分散非法资金。
+  attacker_profiles:
+  - 跑分平台
+  - 卡商
+  - 洗钱团伙
+  black_grey_tools:
+  - 群控手机
+  - 人头卡
+  - 收款码
+  - 自动转账脚本
+  attack_preferences:
+  - 多来源入账
+  - 短停留
+  - 多收款方分散
+  manifestations:
+  - fan-in高
+  - fund_stay短
+  - 夜间集中转出
+  data_sources:
+  - 账户流水
+  - 设备
+  - 对手关系
+  - 案件标签
+  candidate_features:
+  - fan_in_degree_24h
+  - fan_out_degree_24h
+  - fund_stay_minutes_median
+  - counterparty_fraud_ratio
+  expert_rules:
+  - 入度>=10 AND 中位停留<30分钟
+  - 入账后90%以上当日转出
+  recommended_models:
+  - DecisionTree
+  - XGBoost
+  - GraphCommunity
+  model_tradeoffs:
+    DecisionTree: 可提取规则。
+    XGBoost: 效果强。
+    GraphCommunity: 团伙发现强但解释和实时性需治理。
+  actions:
+  - RFI
+  - EDD
+  - DAILY_LIMIT
+  - FREEZE
+  monitoring_metrics:
+  - 可疑账户率
+  - 资金捕获率
+  - 审核量
+- scenario_id: BANK-MERCHANT
+  industry: banking
+  business_line: 收单/商户
+  event_stage: 商户交易
+  risk_domain: payment_fraud
+  risk_types:
+  - 虚假商户
+  - 交易洗钱
+  - 套现
+  definition: 商户通过虚假交易、拆单或对敲实现套现与洗钱。
+  attacker_profiles:
+  - 黑商户
+  - 中介
+  - 卡商
+  black_grey_tools:
+  - 虚假订单
+  - 批量卡
+  - 自动下单
+  - 空壳公司
+  attack_preferences:
+  - 金额集中
+  - 退款异常
+  - 同卡多商户
+  - 无物流
+  manifestations:
+  - 交易-退款闭环
+  - 客单价异常
+  - 设备复用
+  data_sources:
+  - 商户交易
+  - 退款
+  - 设备
+  - 物流
+  - KYB
+  candidate_features:
+  - refund_ratio
+  - unique_cards
+  - device_cluster_size
+  - expected_volume_gap
+  expert_rules:
+  - 退款率>40% AND 交易量突增
+  - 多个商户共用设备/法人
+  recommended_models:
+  - XGBoost
+  - IsolationForest
+  - GraphModel
+  model_tradeoffs:
+    XGBoost: 有标签时稳定。
+    IsolationForest: 发现未知异常但误报高。
+    GraphModel: 识别商户网络。
+  actions:
+  - MANUAL_REVIEW
+  - DAILY_LIMIT
+  - TRANSACTION_RESTRICTION
+  monitoring_metrics:
+  - 拒付率
+  - 退款率
+  - 商户坏率
+- scenario_id: BANK-CREDIT-APP
+  industry: banking
+  business_line: 授信
+  event_stage: 申请准入
+  risk_domain: credit_risk
+  risk_types:
+  - 身份欺诈
+  - 资料造假
+  - 团伙骗贷
+  definition: 通过虚假身份、收入、公司或联系人骗取授信。
+  attacker_profiles:
+  - 骗贷中介
+  - 资料包装团伙
+  black_grey_tools:
+  - 伪造流水
+  - 虚假公司
+  - 接码平台
+  - 设备农场
+  attack_preferences:
+  - 短期多平台申请
+  - 资料高度相似
+  - 同设备多人
+  manifestations:
+  - 申请速度快
+  - 收入与交易不一致
+  - 联系人共用
+  data_sources:
+  - 申请表
+  - 征信
+  - 设备
+  - 运营商
+  - 银行流水
+  candidate_features:
+  - application_velocity
+  - income_consistency
+  - device_user_count
+  - contact_graph_score
+  expert_rules:
+  - 同设备申请>=3且资料相似
+  - 申报收入与流水偏差>3倍
+  recommended_models:
+  - Scorecard
+  - XGBoost
+  - GraphModel
+  model_tradeoffs:
+    Scorecard: 监管友好。
+    XGBoost: 精度高。
+    GraphModel: 团伙反欺诈。
+  actions:
+  - MANUAL_REVIEW
+  - RFI
+  - REJECT
+  monitoring_metrics:
+  - 通过率
+  - 坏账率
+  - 欺诈损失
+- scenario_id: BANK-CORP
+  industry: banking
+  business_line: 对公
+  event_stage: 开户与交易
+  risk_domain: merchant_kyb
+  risk_types:
+  - 空壳公司
+  - UBO隐藏
+  - 公转私
+  definition: 企业主体或UBO被用于转移非法资金。
+  attacker_profiles:
+  - 空壳公司服务商
+  - 洗钱团伙
+  black_grey_tools:
+  - 代办注册
+  - 虚假办公地址
+  - 多层股权
+  attack_preferences:
+  - 新设公司
+  - 短期大额
+  - 多公司共法人地址
+  manifestations:
+  - 企业年龄短
+  - 交易与经营范围不匹配
+  data_sources:
+  - 工商/KYB
+  - 账户流水
+  - 股权图谱
+  candidate_features:
+  - company_age_days
+  - ubo_risk_score
+  - industry_risk_score
+  - expected_volume_gap
+  expert_rules:
+  - 企业<90天且交易量超过申报5倍
+  - UBO/地址关联多个高风险企业
+  recommended_models:
+  - Rules
+  - XGBoost
+  - GraphModel
+  model_tradeoffs:
+    Rules: 合规硬约束。
+    XGBoost: 动态评分。
+    GraphModel: 穿透UBO关系。
+  actions:
+  - RFI
+  - EDD
+  - DAILY_LIMIT
+  - FREEZE
+  monitoring_metrics:
+  - KYB审查时效
+  - 高风险企业率
+- scenario_id: BANK-AML-TM
+  industry: banking
+  business_line: 交易/AML
+  event_stage: 持续监控
+  risk_domain: aml_compliance
+  risk_types:
+  - 分层洗钱
+  - 结构化交易
+  - 贸易洗钱
+  definition: 通过多账户、多层交易掩盖资金来源与去向。
+  attacker_profiles:
+  - 洗钱团伙
+  - 地下钱庄
+  black_grey_tools:
+  - 人头账户
+  - 虚假贸易单据
+  - 现金拆分
+  attack_preferences:
+  - 拆分阈值以下
+  - 多层转账
+  - 跨境快速流转
+  manifestations:
+  - 金额整度高
+  - 路径深
+  - 对手集中
+  data_sources:
+  - 交易流水
+  - 对手图谱
+  - 名单
+  - 案件
+  candidate_features:
+  - amount_roundness_score
+  - fan_out_degree_24h
+  - counterparty_fraud_ratio
+  - risk_level_change_30d
+  expert_rules:
+  - 连续多日阈值下拆分且最终归集
+  - 多层路径接近高风险账户
+  recommended_models:
+  - Rules
+  - GraphModel
+  - SequenceModel
+  model_tradeoffs:
+    Rules: 可解释。
+    GraphModel: 路径识别。
+    SequenceModel: 时间模式。
+  actions:
+  - RFI
+  - EDD
+  - FREEZE
+  - ESCALATE_COMPLIANCE
+  monitoring_metrics:
+  - STR转化率
+  - 案件准确率
+  - 误报率
+- scenario_id: BANK-OPS
+  industry: banking
+  business_line: 运营/监管
+  event_stage: 案件审核
+  risk_domain: regulatory_operations
+  risk_types:
+  - 案件积压
+  - 重复录入
+  - 回复错误
+  definition: 流程质量不足造成监管超时、罚款和重复劳动。
+  attacker_profiles:
+  - 内部流程风险
+  black_grey_tools:
+  - 手工复制
+  - 多系统切换
+  attack_preferences:
+  - 高峰期积压
+  - 字段缺失
+  - 重复上传
+  manifestations:
+  - '>10天超时'
+  - 重回复
+  - 证据不合规
+  data_sources:
+  - 案件系统
+  - 回复日志
+  - 系统日志
+  candidate_features:
+  - case_age_days
+  - state_dwell_hours
+  - upload_completeness
+  - evidence_compliance
+  - reply_timeliness_hours
+  - rereply_flag
+  expert_rules:
+  - 案件>10天预警
+  - 回复>72小时升级
+  - 同UID>=3次且重回复优先审查
+  recommended_models:
+  - Rules
+  - SurvivalAnalysis
+  - QueueForecast
+  model_tradeoffs:
+    Rules: SLA直接。
+    SurvivalAnalysis: 预测超时风险。
+    QueueForecast: 排班优化。
+  actions:
+  - ALERT
+  - ESCALATE_COMPLIANCE
+  monitoring_metrics:
+  - 超时率
+  - 72小时回复率
+  - 处理人质量分
+- scenario_id: CEX-ONBOARD
+  industry: digital_asset
+  business_line: 注册/KYC
+  event_stage: 用户准入
+  risk_domain: aml_compliance
+  risk_types:
+  - 批量小号
+  - 身份冒用
+  - 代办KYC
+  definition: 使用虚假或被盗身份批量注册账户。
+  attacker_profiles:
+  - 羊毛党
+  - 身份商
+  - 诈骗团伙
+  black_grey_tools:
+  - 接码平台
+  - 云手机
+  - 模拟器
+  - 证件模板
+  - 代理IP
+  attack_preferences:
+  - 同设备多账户
+  - KYC极快
+  - 资料相似
+  manifestations:
+  - 设备簇大
+  - 邮箱相似
+  - 证件相似
+  - KYC耗时异常
+  data_sources:
+  - 注册/KYC事件
+  - 设备指纹
+  - 相似度服务
+  candidate_features:
+  - device_user_count_24h
+  - kyc_duration_minutes
+  - email_similarity_cluster_size
+  - kyc_document_similarity_count
+  expert_rules:
+  - 同设备>=3且证件/邮箱相似
+  - KYC<5分钟且代理IP
+  recommended_models:
+  - Rules
+  - DecisionTree
+  - GraphModel
+  model_tradeoffs:
+    Rules: 拦截明确。
+    DecisionTree: 可自动抽规则。
+    GraphModel: 团伙发现。
+  actions:
+  - MANUAL_REVIEW
+  - VIDEO_KYC
+  - REJECT
+  monitoring_metrics:
+  - KYC欺诈率
+  - 通过率
+  - 人工审核量
+- scenario_id: CEX-ATO
+  industry: digital_asset
+  business_line: 账户安全
+  event_stage: 登录/改密/API/地址
+  risk_domain: account_security
+  risk_types:
+  - 账户盗用
+  - SIM Swap
+  - 社工
+  definition: 攻击者控制账户后绑定地址、创建API或提现。
+  attacker_profiles:
+  - 撞库团伙
+  - 钓鱼团伙
+  black_grey_tools:
+  - 钓鱼页
+  - 木马
+  - 代理IP
+  - 短信劫持
+  attack_preferences:
+  - 新设备异地
+  - 失败登录
+  - 改密后快速提现
+  manifestations:
+  - geo velocity高
+  - 新设备
+  - 新地址
+  - 安全项短期变化
+  data_sources:
+  - 登录
+  - 设备
+  - 安全设置
+  - 提现
+  candidate_features:
+  - new_device_flag
+  - failed_login_count_1h
+  - geo_velocity_kmh
+  - recent_password_change_flag
+  - new_withdraw_address_flag
+  expert_rules:
+  - 新设备+改密7d+新提现地址
+  - 异地高速度+失败登录>=5
+  recommended_models:
+  - Rules
+  - XGBoost
+  - SequenceModel
+  model_tradeoffs:
+    Rules: 毫秒级。
+    XGBoost: 组合信号。
+    SequenceModel: 完整操作链。
+  actions:
+  - VIDEO_KYC
+  - DELAY
+  - WITHDRAWAL_RESTRICTION
+  - FREEZE
+  monitoring_metrics:
+  - ATO识别率
+  - 高风险拦截率
+  - 用户申诉率
+- scenario_id: CEX-FIAT-IN
+  industry: digital_asset
+  business_line: 法币入金
+  event_stage: 入金
+  risk_domain: fund_security
+  risk_types:
+  - 第三方入金
+  - 诈骗资金
+  - 跑分
+  definition: 使用他人银行账户或高风险资金进入平台。
+  attacker_profiles:
+  - 跑分团伙
+  - 诈骗团伙
+  black_grey_tools:
+  - 人头银行卡
+  - 网银脚本
+  attack_preferences:
+  - KYC后立即入金
+  - 多卡
+  - 高风险银行
+  manifestations:
+  - 首次入金极快
+  - 银行卡数量多
+  - 账户姓名不符
+  data_sources:
+  - 法币订单
+  - 银行信息
+  - KYC
+  candidate_features:
+  - minutes_kyc_to_first_fiat_deposit
+  - unique_deposit_bankcards_30d
+  - bank_fraud_ratio_max
+  - bank_name_mismatch_flag
+  expert_rules:
+  - KYC后<3小时且高风险银行
+  - 30天入金卡>=3
+  recommended_models:
+  - DecisionTree
+  - XGBoost
+  - Rules
+  model_tradeoffs:
+    DecisionTree: 阈值易解释。
+    XGBoost: 捕捉银行+行为交互。
+    Rules: 合规字段硬校验。
+  actions:
+  - RFI
+  - MANUAL_REVIEW
+  - DELAY
+  monitoring_metrics:
+  - 入金Fraud率
+  - Precision
+  - 人工量
+- scenario_id: CEX-RAPID-CASHOUT
+  industry: digital_asset
+  business_line: 资金安全
+  event_stage: 入金-交易-提现
+  risk_domain: fund_security
+  risk_types:
+  - 快进快出
+  - 资金通道
+  - 洗钱
+  definition: 法币入金后快速换币并链上提现。
+  attacker_profiles:
+  - 洗钱团伙
+  - 诈骗资金转移
+  black_grey_tools:
+  - 自动交易脚本
+  - 固定提现地址
+  - 人头账户
+  attack_preferences:
+  - 停留时间短
+  - 金额闭环
+  - 交易目的单一
+  manifestations:
+  - fiat_in_crypto_out_ratio高
+  - 首次链上提现快
+  - 交易币对少
+  data_sources:
+  - 法币订单
+  - 现货
+  - 链上提现
+  - 事件序列
+  candidate_features:
+  - fiat_in_crypto_out_ratio
+  - minutes_deposit_to_first_chain_out
+  - fund_stay_minutes_median
+  - trade_pair_count_30d
+  expert_rules:
+  - 闭环比>=0.85 AND 入金至提现<4小时
+  - 首次充值<3小时 AND 链上提现次数高
+  recommended_models:
+  - DecisionTree
+  - XGBoost
+  - SequenceModel
+  model_tradeoffs:
+    DecisionTree: 适合提取可解释组合。
+    XGBoost: 对比例和速度组合效果好。
+    SequenceModel: 完整路径，但需更多样本。
+  actions:
+  - RFI
+  - EDD
+  - DELAY
+  - WITHDRAWAL_RESTRICTION
+  monitoring_metrics:
+  - Precision
+  - Recall
+  - 捕获资金率
+  - 告警率
+- scenario_id: CEX-CHAIN-IN
+  industry: digital_asset
+  business_line: 链上AML
+  event_stage: 链上充值
+  risk_domain: aml_compliance
+  risk_types:
+  - 高风险地址入金
+  - 制裁
+  - 赌博
+  - 混币器
+  definition: 高风险链上来源向平台充值。
+  attacker_profiles:
+  - 洗钱者
+  - 制裁规避者
+  black_grey_tools:
+  - 混币器
+  - 跨链桥
+  - DEX
+  - 隐私币
+  attack_preferences:
+  - 多跳拆分
+  - 桥接后入金
+  - 冷钱包中转
+  manifestations:
+  - 高风险敞口
+  - 跳数近
+  - 资金迅速离开
+  data_sources:
+  - KYT标签
+  - 链上路径
+  - 用户行为
+  candidate_features:
+  - high_risk_chain_exposure
+  - sanctioned_address_flag
+  - mixer_exposure
+  - gambling_exposure
+  - source_hop_distance
+  expert_rules:
+  - 制裁地址直接命中
+  - 高风险敞口>=20%且2跳内
+  recommended_models:
+  - Rules
+  - GraphModel
+  - AnomalyDetection
+  model_tradeoffs:
+    Rules: 制裁硬拦截。
+    GraphModel: 多跳路径。
+    AnomalyDetection: 新型路径。
+  actions:
+  - FREEZE
+  - EDD
+  - ESCALATE_COMPLIANCE
+  monitoring_metrics:
+  - 高风险资金捕获率
+  - 误报率
+- scenario_id: CEX-CHAIN-OUT
+  industry: digital_asset
+  business_line: 资金安全
+  event_stage: 链上提现
+  risk_domain: fund_security
+  risk_types:
+  - 新地址提现
+  - 团伙归集
+  - 账户盗用
+  definition: 向新地址或团伙共用地址快速转出。
+  attacker_profiles:
+  - 诈骗团伙
+  - ATO攻击者
+  - 洗钱团伙
+  black_grey_tools:
+  - 批量地址
+  - 自动提现脚本
+  attack_preferences:
+  - 新地址
+  - 共用地址
+  - 高频小额/大额
+  manifestations:
+  - 地址一跳Fraud
+  - 提现时间短
+  - 设备异常
+  data_sources:
+  - 提现
+  - 地址图谱
+  - 设备
+  candidate_features:
+  - new_withdraw_address_flag
+  - withdraw_address_fraud_1hop_count
+  - minutes_deposit_to_first_chain_out
+  - new_device_flag
+  expert_rules:
+  - 新地址 AND 一跳Fraud>=1
+  - 新设备+提现>阈值
+  recommended_models:
+  - Rules
+  - GraphModel
+  - XGBoost
+  model_tradeoffs:
+    Rules: 高风险组合即时。
+    GraphModel: 地址团伙。
+    XGBoost: 复杂交互。
+  actions:
+  - VIDEO_KYC
+  - DELAY
+  - WITHDRAWAL_RESTRICTION
+  monitoring_metrics:
+  - 提现拦截准确率
+  - 申诉率
+- scenario_id: CEX-INTERNAL
+  industry: digital_asset
+  business_line: 内部转账
+  event_stage: 平台内转账
+  risk_domain: fund_security
+  risk_types:
+  - 团伙归集
+  - 分层转移
+  - 绕过链上费用
+  definition: 通过平台内部账户网络归集或分散资金。
+  attacker_profiles:
+  - 洗钱团伙
+  - 羊毛团伙
+  black_grey_tools:
+  - 批量账号
+  - 自动转账脚本
+  attack_preferences:
+  - 多账户向中心归集
+  - 中心向多账户分发
+  manifestations:
+  - fan-in/out高
+  - 对手Fraud比例高
+  - 社区Fraud比例高
+  data_sources:
+  - 内部转账
+  - Risk Graph
+  - 用户画像
+  candidate_features:
+  - fan_in_degree_24h
+  - fan_out_degree_24h
+  - counterparty_fraud_ratio
+  - community_fraud_ratio
+  expert_rules:
+  - 入度>=10且对手Fraud比例>=0.3
+  - 社区Fraud比例>=0.2且转账额大
+  recommended_models:
+  - GraphCommunity
+  - XGBoost
+  - Rules
+  model_tradeoffs:
+    GraphCommunity: 团伙结构强。
+    XGBoost: 融合行为。
+    Rules: 实时兜底。
+  actions:
+  - ALERT
+  - MANUAL_REVIEW
+  - TRANSACTION_RESTRICTION
+  monitoring_metrics:
+  - 团伙发现数
+  - 覆盖率
+  - 误伤率
+- scenario_id: CEX-MARKET-ABUSE
+  industry: digital_asset
+  business_line: 交易安全
+  event_stage: 现货/订单
+  risk_domain: transaction_security
+  risk_types:
+  - 对敲
+  - 刷量
+  - 操纵
+  definition: 同人或团伙通过相互交易制造虚假成交。
+  attacker_profiles:
+  - 做市作弊团伙
+  - 项目方
+  black_grey_tools:
+  - API机器人
+  - 多账户
+  attack_preferences:
+  - 同价同量同时间
+  - 高撤单
+  - 对手集中
+  manifestations:
+  - wash similarity高
+  - cancel ratio高
+  - 共同设备
+  data_sources:
+  - 订单簿
+  - 成交
+  - 设备
+  - 账户关系
+  candidate_features:
+  - wash_trade_similarity
+  - cancel_ratio_1h
+  - device_user_count_24h
+  - spot_trade_count_24h
+  expert_rules:
+  - 对敲相似度>=0.9且共同设备
+  - 撤单率>90%且短时高频
+  recommended_models:
+  - Rules
+  - GraphModel
+  - SequenceModel
+  model_tradeoffs:
+    Rules: 确定模式。
+    GraphModel: 账户关系。
+    SequenceModel: 订单序列。
+  actions:
+  - ALERT
+  - MANUAL_REVIEW
+  - TRANSACTION_RESTRICTION
+  monitoring_metrics:
+  - 异常成交额
+  - 策略Precision
+- scenario_id: CEX-CAMPAIGN
+  industry: digital_asset
+  business_line: 活动营销
+  event_stage: 报名/任务/发奖
+  risk_domain: marketing_abuse
+  risk_types:
+  - 羊毛党
+  - 批量小号
+  - 邀请裂变作弊
+  definition: 批量账号通过设备、代理和任务脚本套取奖励。
+  attacker_profiles:
+  - 羊毛工作室
+  - 群控团伙
+  black_grey_tools:
+  - 云手机
+  - 模拟器
+  - 群控
+  - 代理IP
+  - 接码平台
+  attack_preferences:
+  - 同设备/IP
+  - 轨迹高度一致
+  - 共享奖励地址
+  manifestations:
+  - 设备簇
+  - 邀请簇
+  - 任务轨迹相似
+  - 奖励地址共用
+  data_sources:
+  - 活动
+  - 设备
+  - 邀请关系
+  - 发奖
+  candidate_features:
+  - device_user_count_30d
+  - emulator_flag
+  - proxy_flag
+  - inviter_cluster_size
+  - campaign_task_similarity
+  - reward_address_cluster_size
+  expert_rules:
+  - 设备>=3且模拟器
+  - 任务相似>=0.95且共享奖励地址
+  recommended_models:
+  - Rules
+  - Clustering
+  - GraphModel
+  model_tradeoffs:
+    Rules: 报名/发奖两段拦截。
+    Clustering: 发现新团伙。
+    GraphModel: 邀请和地址网络。
+  actions:
+  - REJECT
+  - MANUAL_REVIEW
+  monitoring_metrics:
+  - 作弊率
+  - 奖励节省金额
+  - 用户投诉
+- scenario_id: CEX-TRAVEL-RULE
+  industry: digital_asset
+  business_line: Travel Rule
+  event_stage: 充提信息审核
+  risk_domain: aml_compliance
+  risk_types:
+  - 信息缺失
+  - 主体不一致
+  - 高风险VASP
+  definition: 转账主体与对手信息不完整或不一致。
+  attacker_profiles:
+  - 洗钱者
+  - 制裁规避者
+  black_grey_tools:
+  - 自托管钱包
+  - 多VASP跳转
+  attack_preferences:
+  - 字段缺失
+  - 申报与行为不一致
+  manifestations:
+  - missing rate高
+  - 对手VASP风险高
+  data_sources:
+  - Travel Rule
+  - KYC
+  - 交易
+  candidate_features:
+  - travel_rule_missing_rate
+  - counterparty_vasp_risk
+  - self_hosted_wallet_flag
+  - declared_source_consistency
+  expert_rules:
+  - 缺失率>0且高风险对手
+  - 申报一致性低
+  recommended_models:
+  - Rules
+  - LogisticRegression
+  model_tradeoffs:
+    Rules: 监管字段硬约束。
+    LogisticRegression: 辅助风险排序。
+  actions:
+  - RFI
+  - EDD
+  - REJECT
+  monitoring_metrics:
+  - 字段完整率
+  - 审核时效
+- scenario_id: CEX-RISK-SCORE
+  industry: digital_asset
+  business_line: 用户画像
+  event_stage: Onboarding+T+1
+  risk_domain: aml_compliance
+  risk_types:
+  - 风险分层失真
+  - 人工覆盖冲突
+  definition: 初始KYC风险与动态行为风险需区分并留存历史。
+  attacker_profiles:
+  - 内部模型治理风险
+  black_grey_tools:
+  - 自动任务
+  - 人工调整
+  attack_preferences:
+  - 入驻即评级
+  - T+1更新
+  - 人工调整不应被静默覆盖
+  manifestations:
+  - risk_source变化
+  - 等级频繁跳变
+  data_sources:
+  - KYC
+  - 行为
+  - 策略命中
+  - 处罚中心
+  candidate_features:
+  - age_risk_score
+  - occupation_risk_score
+  - risk_score_t1
+  - risk_level_change_30d
+  - strategy_hit_count_30d
+  expert_rules:
+  - Onboarding高风险进入EDD
+  - manual source保留并生成历史
+  recommended_models:
+  - Scorecard
+  - LogisticRegression
+  - XGBoost
+  model_tradeoffs:
+    Scorecard: 初始评级可解释。
+    LogisticRegression: 动态基线。
+    XGBoost: 复杂行为。
+  actions:
+  - MONITOR
+  - RFI
+  - EDD
+  - DAILY_LIMIT
+  monitoring_metrics:
+  - 等级稳定性
+  - 高风险转化率
+- scenario_id: CEX-RISK-GRAPH
+  industry: digital_asset
+  business_line: 风险图谱
+  event_stage: 一跳/二跳/多跳
+  risk_domain: fund_security
+  risk_types:
+  - 同人
+  - 团伙
+  - 黑产基础设施
+  definition: 以Fraud种子为起点，经设备、邮箱、证件、手机号和提现地址扩散。
+  attacker_profiles:
+  - 团伙欺诈
+  - 羊毛工作室
+  - 洗钱网络
+  black_grey_tools:
+  - 设备农场
+  - 批量邮箱
+  - 共用地址
+  attack_preferences:
+  - 强关系优先
+  - IP弱关联谨慎
+  - 跳数越深噪声越大
+  manifestations:
+  - 一跳高精度
+  - 二跳高召回
+  - 社区聚集
+  data_sources:
+  - Risk Graph
+  - 设备
+  - KYC
+  - 地址
+  candidate_features:
+  - device_fraud_1hop_count
+  - withdraw_address_fraud_1hop_count
+  - fraud_2hop_count
+  - fraud_graph_score
+  - community_fraud_ratio
+  expert_rules:
+  - 强关系一跳>=1进入审核
+  - 二跳需叠加行为信号
+  recommended_models:
+  - GraphTraversal
+  - CommunityDetection
+  - GraphEmbedding
+  model_tradeoffs:
+    GraphTraversal: 规则透明。
+    CommunityDetection: 团伙发现。
+    GraphEmbedding: 可泛化但解释弱。
+  actions:
+  - ALERT
+  - MANUAL_REVIEW
+  - RFI
+  monitoring_metrics:
+  - 一跳Precision
+  - 二跳Recall
+  - 社区坏率
+- scenario_id: CEX-KYB
+  industry: digital_asset
+  business_line: KYB
+  event_stage: 企业准入
+  risk_domain: merchant_kyb
+  risk_types:
+  - 空壳企业
+  - UBO风险
+  - 业务不匹配
+  definition: 企业账户身份、受益人和交易预期风险。
+  attacker_profiles:
+  - 空壳公司服务商
+  - 洗钱团伙
+  black_grey_tools:
+  - 代办注册
+  - 多层股权
+  attack_preferences:
+  - 新设公司
+  - 高风险行业
+  - 量级超申报
+  manifestations:
+  - 企业年龄短
+  - UBO关联风险
+  - 交易偏差大
+  data_sources:
+  - KYB
+  - 工商
+  - 交易
+  - 名单
+  candidate_features:
+  - ubo_risk_score
+  - company_age_days
+  - industry_risk_score
+  - expected_volume_gap
+  - pep_sanction_match_flag
+  expert_rules:
+  - 制裁命中直接拒绝
+  - 企业<90天且交易偏差>5倍
+  recommended_models:
+  - Rules
+  - XGBoost
+  - GraphModel
+  model_tradeoffs:
+    Rules: 名单和监管硬约束。
+    XGBoost: 经营与行为融合。
+    GraphModel: UBO穿透。
+  actions:
+  - RFI
+  - EDD
+  - REJECT
+  monitoring_metrics:
+  - KYB时效
+  - 高风险企业占比
+- scenario_id: CEX-STR
+  industry: digital_asset
+  business_line: STR/CMS
+  event_stage: 可疑交易上报
+  risk_domain: aml_compliance
+  risk_types:
+  - 重复判重错误
+  - 历史关联缺失
+  - 保密泄露
+  definition: 自动建案、人工审核、最终上报和监管反馈应分层管理。
+  attacker_profiles:
+  - 内部流程风险
+  black_grey_tools:
+  - OCR/摘要模型
+  - XML工具
+  attack_preferences:
+  - 同UID新事件应重新建案
+  - STR信息需受限展示
+  manifestations:
+  - 历史STR关联
+  - 案件状态分离
+  data_sources:
+  - CMS
+  - STR
+  - AML命中
+  - MASAK XML
+  candidate_features:
+  - strategy_hit_count_30d
+  - rfi_count_180d
+  - restriction_count_180d
+  - risk_score_t1
+  expert_rules:
+  - 同UID历史上报不阻断新事件
+  - 仅合规角色查看STR详情
+  recommended_models:
+  - Rules
+  - RAG
+  - DocumentAI
+  model_tradeoffs:
+    Rules: 流程约束。
+    RAG: 辅助解释法规/SOP。
+    DocumentAI: 抽取案件材料但需人工复核。
+  actions:
+  - MANUAL_REVIEW
+  - ESCALATE_COMPLIANCE
+  monitoring_metrics:
+  - 上报时效
+  - XML成功率
+  - 人工复核率

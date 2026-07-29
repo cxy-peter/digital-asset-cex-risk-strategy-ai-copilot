@@ -1,0 +1,121 @@
+{
+  "tier_matrix": [
+    {
+      "risk_tier": "L1",
+      "normal_customer_actions": [
+        "PASS",
+        "MONITOR"
+      ],
+      "ka_vip_exempt_actions": [
+        "PASS",
+        "MONITOR"
+      ],
+      "ka_vip_exempt_extra_approval": true,
+      "requires_compliance": false,
+      "direct_execution_allowed": false
+    },
+    {
+      "risk_tier": "L2",
+      "normal_customer_actions": [
+        "MONITOR"
+      ],
+      "ka_vip_exempt_actions": [
+        "MONITOR"
+      ],
+      "ka_vip_exempt_extra_approval": true,
+      "requires_compliance": false,
+      "direct_execution_allowed": false
+    },
+    {
+      "risk_tier": "L3.1",
+      "normal_customer_actions": [
+        "RFI",
+        "MANUAL_REVIEW"
+      ],
+      "ka_vip_exempt_actions": [
+        "RFI",
+        "MANUAL_REVIEW"
+      ],
+      "ka_vip_exempt_extra_approval": true,
+      "requires_compliance": true,
+      "direct_execution_allowed": false
+    },
+    {
+      "risk_tier": "L3.2",
+      "normal_customer_actions": [
+        "RFI",
+        "EDD",
+        "DAILY_LIMIT"
+      ],
+      "ka_vip_exempt_actions": [
+        "RFI",
+        "EDD",
+        "DAILY_LIMIT"
+      ],
+      "ka_vip_exempt_extra_approval": true,
+      "requires_compliance": true,
+      "direct_execution_allowed": false
+    },
+    {
+      "risk_tier": "L3.3",
+      "normal_customer_actions": [
+        "EDD",
+        "WITHDRAWAL_RESTRICTION",
+        "MANUAL_REVIEW"
+      ],
+      "ka_vip_exempt_actions": [
+        "EDD",
+        "WITHDRAWAL_RESTRICTION",
+        "MANUAL_REVIEW"
+      ],
+      "ka_vip_exempt_extra_approval": true,
+      "requires_compliance": true,
+      "direct_execution_allowed": false
+    },
+    {
+      "risk_tier": "L4",
+      "normal_customer_actions": [
+        "FREEZE",
+        "REJECT",
+        "ESCALATE_COMPLIANCE"
+      ],
+      "ka_vip_exempt_actions": [
+        "FREEZE",
+        "REJECT",
+        "ESCALATE_COMPLIANCE"
+      ],
+      "ka_vip_exempt_extra_approval": true,
+      "requires_compliance": true,
+      "direct_execution_allowed": false
+    }
+  ],
+  "selected_strategy_plan": {
+    "strategy_id": "TREE-ChainWithdraw-01",
+    "detection_action": "MANUAL_REVIEW",
+    "execution_mode": "PROPOSE_ONLY",
+    "required_approvals": [
+      "risk_strategy",
+      "risk_operations"
+    ],
+    "customer_segment_gate": {
+      "segments": [
+        "KA",
+        "VIP",
+        "EXEMPT"
+      ],
+      "extra_approval": true,
+      "reason": "avoid material customer mis-penalty and preserve auditability"
+    },
+    "release_controls": {
+      "batch_release_supported": true,
+      "release_requires_reason": true,
+      "operator_and_approver_separation": true
+    },
+    "notification_required": true,
+    "direct_execution_allowed": false
+  },
+  "artifacts": {
+    "tier_matrix_csv": "/mnt/data/cointr-risk-strategy-ai-copilot/outputs/disposition_center/risk_tier_disposition_matrix.csv",
+    "penalty_center_payload": "/mnt/data/cointr-risk-strategy-ai-copilot/outputs/disposition_center/penalty_center_proposal.json"
+  }
+}

@@ -1,0 +1,461 @@
+- code: UserRegister
+  display_name: 用户注册
+  stage: onboarding
+  domain: account_security
+  description: 采集注册渠道、设备、IP、手机号/邮箱及邀请关系。
+  latency_requirement: realtime
+  available_features:
+  - registration_channel
+  - register_ip_country_risk
+  - device_user_count_24h
+  - proxy_flag
+  - inviter_risk_score
+  - email_similarity_cluster_size
+  allowed_actions:
+  - PASS
+  - ALERT
+  - MANUAL_REVIEW
+  - REJECT
+- code: UserLogin
+  display_name: 用户登录
+  stage: account_access
+  domain: account_security
+  description: 识别异地、新设备、代理网络、撞库和账户接管。
+  latency_requirement: realtime
+  available_features:
+  - new_device_flag
+  - login_ip_count_24h
+  - geo_velocity_kmh
+  - failed_login_count_1h
+  - failed_login_count_24h
+  - proxy_flag
+  - emulator_flag
+  - device_user_count_24h
+  - device_fraud_1hop_count
+  - strong_relation_fraud_1hop_count
+  - risk_score_t1
+  allowed_actions:
+  - PASS
+  - ALERT
+  - VIDEO_KYC
+  - DELAY
+  - TRANSACTION_RESTRICTION
+- code: UserKycStart
+  display_name: KYC发起
+  stage: onboarding
+  domain: aml_compliance
+  description: 评估KYC启动环境、设备共用、资料相似度与流程异常。
+  latency_requirement: realtime
+  available_features:
+  - kyc_device_user_count
+  - kyc_document_similarity_count
+  - kyc_country_risk
+  - occupation_risk_score
+  - document_ocr_confidence
+  - face_match_score
+  - liveness_score
+  - identity_field_mismatch_flag
+  allowed_actions:
+  - PASS
+  - MANUAL_REVIEW
+  - VIDEO_KYC
+  - REJECT
+- code: UserKyc
+  display_name: KYC完成
+  stage: onboarding
+  domain: aml_compliance
+  description: 形成onboarding初始风险等级，后续与T+1动态评分并存。
+  latency_requirement: realtime
+  available_features:
+  - age_risk_score
+  - occupation_risk_score
+  - nationality_risk_score
+  - address_risk_score
+  - kyc_duration_minutes
+  - kyc_level
+  - declared_monthly_income_usdt
+  - expected_monthly_volume_usdt
+  - observed_to_expected_volume_ratio
+  - document_ocr_confidence
+  - face_match_score
+  - liveness_score
+  - identity_field_mismatch_flag
+  - pep_flag
+  - sanctions_screening_hit
+  - source_of_funds_risk
+  allowed_actions:
+  - PASS
+  - MANUAL_REVIEW
+  - RFI
+  - EDD
+  - REJECT
+- code: FiatDeposit
+  display_name: 法币入金
+  stage: fund_in
+  domain: fund_security
+  description: 识别高风险银行、第三方账户、快进快出和资金通道。
+  latency_requirement: realtime
+  available_features:
+  - fiat_deposit_amount_24h
+  - fiat_deposit_count_24h
+  - unique_deposit_bankcards_30d
+  - bank_fraud_ratio_max
+  - minutes_kyc_to_first_fiat_deposit
+  - single_fiat_deposit_over_10000_cnt_30d
+  - small_fiat_deposit_count_24h
+  - bank_name_mismatch_flag
+  - device_user_count_24h
+  - proxy_flag
+  - risk_score_t1
+  - strong_relation_fraud_1hop_count
+  allowed_actions:
+  - PASS
+  - ALERT
+  - MANUAL_REVIEW
+  - RFI
+  - DELAY
+  - DAILY_LIMIT
+- code: FiatWithdraw
+  display_name: 法币出金
+  stage: fund_out
+  domain: fund_security
+  description: 识别第三方出金、异常收款银行、账户接管和资金归集。
+  latency_requirement: realtime
+  available_features:
+  - fiat_withdraw_amount_24h
+  - fiat_withdraw_count_24h
+  - unique_withdraw_bankcards_30d
+  - new_bankcard_flag
+  - bank_name_mismatch_flag
+  - risk_score_t1
+  allowed_actions:
+  - PASS
+  - ALERT
+  - MANUAL_REVIEW
+  - RFI
+  - DELAY
+  - WITHDRAWAL_RESTRICTION
+- code: ChainDeposit
+  display_name: 链上充值
+  stage: fund_in
+  domain: aml_compliance
+  description: 识别制裁、诈骗、赌博、混币器、桥接和高风险地址资金流入。
+  latency_requirement: realtime
+  available_features:
+  - chain_in_amount_24h
+  - high_risk_chain_exposure
+  - sanctioned_address_flag
+  - mixer_exposure
+  - gambling_exposure
+  - source_hop_distance
+  allowed_actions:
+  - PASS
+  - ALERT
+  - MANUAL_REVIEW
+  - EDD
+  - FREEZE
+- code: ChainWithdraw
+  display_name: 链上提现
+  stage: fund_out
+  domain: fund_security
+  description: 识别快速提现、新地址、地址共用、链上风险和账户接管。
+  latency_requirement: realtime
+  available_features:
+  - chain_out_amount_24h
+  - chain_withdraw_count_24h
+  - minutes_deposit_to_first_chain_out
+  - minutes_convert_to_chain_out
+  - new_withdraw_address_flag
+  - fiat_in_crypto_out_ratio
+  - fund_stay_minutes_median
+  - single_fiat_deposit_over_10000_cnt_30d
+  - small_fiat_deposit_count_24h
+  - bank_fraud_ratio_max
+  - new_device_flag
+  - device_user_count_24h
+  - proxy_flag
+  - high_risk_chain_exposure
+  - mixer_exposure
+  - gambling_exposure
+  - risk_score_t1
+  - device_fraud_1hop_count
+  - withdraw_address_fraud_1hop_count
+  - strong_relation_fraud_1hop_count
+  - fraud_2hop_count
+  - fraud_graph_score
+  - community_fraud_ratio
+  - direct_related_user_count
+  - trade_pair_count_30d
+  - behavior_event_count_30d
+  - behavior_event_diversity_30d
+  - behavior_success_ratio_30d
+  - api_activity_ratio_30d
+  - night_activity_ratio_30d
+  - strategy_avoidance_ratio_30d
+  - chain_out_5min_count_30d
+  allowed_actions:
+  - PASS
+  - ALERT
+  - MANUAL_REVIEW
+  - RFI
+  - DELAY
+  - WITHDRAWAL_RESTRICTION
+  - FREEZE
+- code: InternalTransfer
+  display_name: 内部转账
+  stage: fund_transfer
+  domain: fund_security
+  description: 识别平台内资金分层、团伙归集和异常转移路径。
+  latency_requirement: realtime
+  available_features:
+  - internal_transfer_amount_24h
+  - internal_transfer_count_24h
+  - counterparty_fraud_ratio
+  - fan_in_degree_24h
+  - fan_out_degree_24h
+  - community_fraud_ratio
+  - strong_relation_fraud_1hop_count
+  - fraud_2hop_count
+  - fraud_graph_score
+  - risk_score_t1
+  - device_user_count_24h
+  - proxy_flag
+  allowed_actions:
+  - PASS
+  - ALERT
+  - MANUAL_REVIEW
+  - DELAY
+  - TRANSACTION_RESTRICTION
+- code: SpotTrade
+  display_name: 现货交易
+  stage: trading
+  domain: transaction_security
+  description: 识别对敲、刷量、资金过桥、异常币对和操纵行为。
+  latency_requirement: realtime
+  available_features:
+  - spot_trade_amount_24h
+  - spot_trade_count_24h
+  - trade_pair_count_30d
+  - fiat_in_crypto_out_ratio
+  - wash_trade_similarity
+  - cancel_ratio_1h
+  allowed_actions:
+  - PASS
+  - ALERT
+  - MANUAL_REVIEW
+  - TRANSACTION_RESTRICTION
+- code: Convert
+  display_name: 闪兑
+  stage: trading
+  domain: transaction_security
+  description: 识别快速换币通道和规避交易行为监控。
+  latency_requirement: realtime
+  available_features:
+  - convert_amount_24h
+  - convert_count_24h
+  - minutes_fiat_in_to_convert
+  - minutes_convert_to_chain_out
+  allowed_actions:
+  - PASS
+  - ALERT
+  - MANUAL_REVIEW
+  - DELAY
+- code: CampaignEnroll
+  display_name: 活动报名
+  stage: marketing
+  domain: marketing_abuse
+  description: 识别批量小号、云手机、模拟器、代理IP和团伙套利。
+  latency_requirement: realtime
+  available_features:
+  - device_user_count_30d
+  - ip_user_count_24h
+  - emulator_flag
+  - proxy_flag
+  - inviter_cluster_size
+  - campaign_history_abuse_count
+  allowed_actions:
+  - PASS
+  - ALERT
+  - REJECT
+- code: CampaignReward
+  display_name: 活动发奖
+  stage: marketing
+  domain: marketing_abuse
+  description: 发奖前二次检查账户关系和任务真实性。
+  latency_requirement: realtime
+  available_features:
+  - campaign_task_similarity
+  - device_user_count_30d
+  - reward_address_cluster_size
+  - risk_score_t1
+  - fraud_graph_score
+  - inviter_cluster_size
+  - campaign_history_abuse_count
+  - email_similarity_cluster_size
+  - proxy_flag
+  - emulator_flag
+  allowed_actions:
+  - PASS
+  - MANUAL_REVIEW
+  - REJECT
+- code: ApiKeyCreate
+  display_name: API创建
+  stage: account_change
+  domain: account_security
+  description: 识别账户接管后创建API进行自动转移或操纵。
+  latency_requirement: realtime
+  available_features:
+  - new_device_flag
+  - recent_password_change_flag
+  - geo_velocity_kmh
+  - api_permission_risk
+  - failed_login_count_24h
+  allowed_actions:
+  - PASS
+  - VIDEO_KYC
+  - DELAY
+  - REJECT
+- code: PasswordReset
+  display_name: 密码重置
+  stage: account_change
+  domain: account_security
+  description: 识别社工、SIM Swap和撞库后的敏感操作。
+  latency_requirement: realtime
+  available_features:
+  - new_device_flag
+  - phone_change_7d_flag
+  - email_change_7d_flag
+  - failed_login_count_24h
+  - proxy_flag
+  allowed_actions:
+  - PASS
+  - VIDEO_KYC
+  - DELAY
+  - REJECT
+- code: WithdrawAddressAdd
+  display_name: 新增提现地址
+  stage: account_change
+  domain: account_security
+  description: 识别账户接管后的新地址绑定。
+  latency_requirement: realtime
+  available_features:
+  - new_device_flag
+  - recent_password_change_flag
+  - withdraw_address_fraud_1hop_count
+  - address_similarity_cluster_size
+  allowed_actions:
+  - PASS
+  - VIDEO_KYC
+  - DELAY
+  - REJECT
+- code: TravelRuleReview
+  display_name: Travel Rule审核
+  stage: compliance_review
+  domain: aml_compliance
+  description: 核验转出/转入主体与钱包信息完整性。
+  latency_requirement: t+1
+  available_features:
+  - travel_rule_missing_rate
+  - counterparty_vasp_risk
+  - self_hosted_wallet_flag
+  - declared_source_consistency
+  allowed_actions:
+  - PASS
+  - RFI
+  - EDD
+  - REJECT
+- code: KybReview
+  display_name: KYB审核
+  stage: merchant_onboarding
+  domain: merchant_kyb
+  description: 企业股权、UBO、经营范围、交易预期和制裁风险。
+  latency_requirement: t+1
+  available_features:
+  - ubo_risk_score
+  - company_age_days
+  - industry_risk_score
+  - expected_volume_gap
+  - pep_sanction_match_flag
+  allowed_actions:
+  - PASS
+  - RFI
+  - EDD
+  - REJECT
+- code: RiskScoreDaily
+  display_name: T+1风险评分
+  stage: monitoring
+  domain: aml_compliance
+  description: 结合前一日交易、充提、策略命中和限制状态更新动态等级。
+  latency_requirement: t+1
+  available_features:
+  - risk_score_t1
+  - risk_level_change_30d
+  - strategy_hit_count_30d
+  - rfi_count_180d
+  - restriction_count_180d
+  - fiat_in_crypto_out_ratio
+  - minutes_deposit_to_first_chain_out
+  - bank_fraud_ratio_max
+  - high_risk_chain_exposure
+  - counterparty_fraud_ratio
+  - strong_relation_fraud_1hop_count
+  - fraud_2hop_count
+  - fraud_graph_score
+  - community_fraud_ratio
+  - occupation_risk_score
+  - nationality_risk_score
+  - address_risk_score
+  - observed_to_expected_volume_ratio
+  - pep_flag
+  - sanctions_screening_hit
+  - source_of_funds_risk
+  - behavior_event_count_30d
+  - behavior_event_diversity_30d
+  - behavior_success_ratio_30d
+  - api_activity_ratio_30d
+  - night_activity_ratio_30d
+  - strategy_avoidance_ratio_30d
+  - chain_out_5min_count_30d
+  allowed_actions:
+  - MONITOR
+  - ALERT
+  - MANUAL_REVIEW
+  - RFI
+  - EDD
+  - DAILY_LIMIT
+  - FREEZE
+- code: RegulatoryCaseReview
+  display_name: 监管案件审核
+  stage: regulatory_operations
+  domain: regulatory_operations
+  description: 评估案件处理时效、上传质量、回复质量和合规闭环。
+  latency_requirement: t+1
+  available_features:
+  - case_age_days
+  - state_dwell_hours
+  - upload_completeness
+  - evidence_compliance
+  - reply_timeliness_hours
+  - rereply_flag
+  allowed_actions:
+  - ALERT
+  - MANUAL_REVIEW
+  - ESCALATE_COMPLIANCE
+- code: TransactionMonitoringAlert
+  display_name: 智能交易监控告警
+  stage: monitoring
+  domain: aml_compliance
+  description: 汇总逐笔规则、异常检测和有向时序Risk Graph证据，生成可解释调查告警。
+  latency_requirement: realtime
+  available_features:
+  - transaction_rule_score
+  - transaction_anomaly_score
+  - transaction_risk_score
+  - suspicious_chain_score
+  allowed_actions:
+  - MONITOR
+  - ALERT
+  - MANUAL_REVIEW
+  - RFI
+  - EDD
+  - ESCALATE_COMPLIANCE

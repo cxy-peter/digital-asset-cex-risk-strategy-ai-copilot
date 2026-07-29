@@ -1,0 +1,30 @@
+project_name: Digital Asset Risk Strategy Copilot
+random_seed: 20260728
+target_label: fraud_label
+time_column: event_date
+id_column: user_id
+loss_column: estimated_loss_amount
+review_capacity: 300
+default_max_alert_rate: 0.05
+model_threshold_grid:
+- 0.1
+- 0.15
+- 0.2
+- 0.25
+- 0.3
+- 0.4
+- 0.5
+- 0.6
+- 0.7
+- 0.8
+- 0.9
+reward_weights:
+  precision: 0.23
+  recall: 0.19
+  f1: 0.25
+  captured_loss_rate: 0.12
+  stability: 0.08
+  explainability: 0.07
+  operational: 0.06
+  false_positive_rate_penalty: 0.18
+  alert_rate_penalty: 0.12

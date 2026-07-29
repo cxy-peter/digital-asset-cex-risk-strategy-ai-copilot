@@ -1,0 +1,38 @@
+{
+  "schema_version": "strategy_effectiveness_ticket.v1",
+  "ticket_id": "EFF-TREE-ChainWithdraw-01-019-02cf7b58",
+  "strategy_id": "TREE-ChainWithdraw-01",
+  "strategy_version": 19,
+  "test_run_id": "TESTRUN-TREE-ChainWithdraw-01-019-02cf7b58",
+  "data_snapshot_id": "SNAP-1f3606e3f9f1627b",
+  "evaluation_phase": "SIMULATION",
+  "environment": "synthetic_test",
+  "label": "STRATEGY_CONFLICT",
+  "metrics": {
+    "sample_size": 2000,
+    "hit_count": 81,
+    "confirmed_risk_count": 70,
+    "false_positive_count": 11,
+    "confirmation_rate": 0.8641975308641975,
+    "false_positive_rate": 0.005926724137931034,
+    "recall": 0.4861111111111111,
+    "f1": 0.6222222222222222,
+    "alert_rate": 0.0405,
+    "captured_loss_rate": 0.5214790341032601,
+    "stability_score": 0.985162036862479,
+    "user_feedback_count": null,
+    "business_metric_delta": null,
+    "feature_psi": null
+  },
+  "labeler": "strategy_operations_demo",
+  "observation_start": "2026-07-29",
+  "observation_end": "2026-07-29",
+  "evidence_refs": [
+    "TESTRUN-TREE-ChainWithdraw-01-019-02cf7b58",
+    "02cf7b58cabdad3f54905590a5fd0d826b329b5ec4b94e7fc40e1b82fbe37228",
+    "SNAP-1f3606e3f9f1627b"
+  ],
+  "recommendation": "候选与现有策略存在高重叠或处置动作优先级冲突；先完成策略合并、增量贡献和动作优先级复核。",
+  "status": "PENDING_REVIEW",
+  "synthetic_demo": true
+}
