@@ -1,0 +1,66 @@
+schema_version: payment_risk.v1
+scope: post_internship_research_extension
+provider_neutral: true
+synthetic_data_only: true
+production_connection: false
+automatic_enforcement: false
+automatic_regulatory_submission: false
+
+actors:
+  - customer
+  - merchant
+  - gateway
+  - orchestrator
+  - payment_facilitator
+  - merchant_of_record
+  - acquirer
+  - card_network
+  - issuer
+  - sponsor_bank
+
+state_machines:
+  - payment_order
+  - authentication_3ds
+  - authorization_capture_settlement
+  - risk_decision
+  - merchant_risk_lifecycle
+  - dispute_case
+
+control_precedence:
+  BLOCK: 100
+  REJECT: 95
+  ESCALATE_COMPLIANCE: 90
+  PAYOUT_RESTRICTION: 85
+  RESERVE_HOLD: 80
+  SETTLEMENT_DELAY: 75
+  MANUAL_REVIEW: 70
+  DELAY: 65
+  STEP_UP_AUTHENTICATION: 60
+  REQUEST_3DS: 55
+  REFUND_LIMIT: 50
+  BENEFICIARY_WARNING: 45
+  MANUAL_CAPTURE: 40
+  REQUEST_NETWORK_TOKEN: 35
+  GUARDED_RETRY: 30
+  ROUTE_TO_ALTERNATIVE_ACQUIRER: 25
+  MONITOR: 10
+  PASS: 0
+
+joint_metrics:
+  - checkout_conversion_rate
+  - authentication_success_rate
+  - three_ds_challenge_rate
+  - authorization_approval_rate
+  - soft_decline_recovery_rate
+  - false_decline_rate
+  - fraud_rate
+  - chargeback_rate
+  - refund_rate
+  - alert_rate
+  - review_capacity
+  - captured_loss_rate
+  - dispute_win_rate
+  - evidence_completeness
+  - operating_cost
+  - settlement_exposure
+  - net_loss
