@@ -19,6 +19,7 @@ from .agents import (
     GovernanceAgent,
     IntentRouterAgent,
     ModelBenchmarkAgent,
+    PaymentFlowLiabilityAgent,
     ProductCapabilityAgent,
     RiskGraphAgent,
     ScenarioKnowledgeAgent,
@@ -38,12 +39,15 @@ from .tools import build_tool_registry
 
 @dataclass
 class RiskStrategyCopilot:
-    """Focused internship-derived risk-strategy test-platform prototype.
+    """Internship-derived risk-strategy test platform plus a payment extension.
 
-    Scope is deliberately limited to Rule Engine/FEP/strategy backtracking, user risk scoring,
-    Risk Graph, penalty/verification controls, strategy-effectiveness tickets, and internal
-    CMS/STR candidate-case preparation.  KEP and the Anti-Fraud operations dashboard live in
-    separate projects.
+    The CoinTR-derived core remains focused on Rule Engine/FEP/backtesting, user
+    scoring, Risk Graph, governed disposition, effectiveness tickets, and internal
+    CMS/STR candidate cases. Payment actors, 3DS/authorization, merchant exposure,
+    dispute evidence, stablecoin, and agentic-commerce controls are a post-internship
+    research extension using provider-neutral synthetic data.
+
+    KEP and the Anti-Fraud operations dashboard remain separate projects.
     """
 
     runtime: RuntimeContext
@@ -72,6 +76,7 @@ class RiskStrategyCopilot:
                 AgentTask(RiskGraphAgent(ctx), critical=True),
                 AgentTask(ScenarioKnowledgeAgent(ctx), critical=False),
                 AgentTask(ProductCapabilityAgent(ctx), critical=False),
+                AgentTask(PaymentFlowLiabilityAgent(ctx), critical=False),
             ],
             phase="preparation",
         )
@@ -109,7 +114,6 @@ class RiskStrategyCopilot:
         return state
 
     async def run_full_suite(self, request: StrategyRequest) -> CopilotState:
-        """Compatibility alias: the focused project has one strategy test-platform suite."""
         return await self.run_strategy(request)
 
     def _write_run_trace(self, state: CopilotState) -> Path:
@@ -134,23 +138,28 @@ class RiskStrategyCopilot:
         ai_board = state.context.get("ai_advisory_board", {})
         stability = state.context.get("stability_analysis", {})
         conflict = state.context.get("conflict_analysis", {})
+        payment = state.context.get("payment_risk_analysis", {})
         artifact_items = list(strategy.items())
         cms_trigger_demo = output / "cms_str_trigger_demo" / "README.md"
         if cms_trigger_demo.exists():
             artifact_items.append(("cms_str_trigger_demo", str(cms_trigger_demo)))
+        payment_demo = output / "payment_ready_suite" / "PAYMENT_READY_SUITE.md"
+        if payment_demo.exists():
+            artifact_items.append(("payment_ready_suite", str(payment_demo)))
         rows = "\n".join(
             f'<tr><td>{label}</td><td><a href="{Path(path).resolve().relative_to(output.resolve()).as_posix() if Path(path).exists() else path}">{path}</a></td></tr>'
             for label, path in artifact_items
             if isinstance(path, (str, Path))
         )
         html = f"""<!DOCTYPE html><html lang='zh-CN'><head><meta charset='utf-8'>
-<title>Digital Asset Risk Strategy AI Copilot</title>
+<title>Digital Asset & Payment Risk Strategy AI Copilot</title>
 <style>body{{font-family:system-ui;margin:0;background:#f4f7fb;color:#172033}}header{{background:#17324d;color:white;padding:30px}}main{{max-width:1200px;margin:auto;padding:28px}}section{{background:white;border:1px solid #dbe3ee;border-radius:12px;padding:20px;margin-bottom:18px}}table{{border-collapse:collapse;width:100%}}td,th{{padding:10px;border-bottom:1px solid #e5eaf0;text-align:left}}code,pre{{white-space:pre-wrap;word-break:break-word}}</style></head>
-<body><header><h1>Digital Asset Risk Strategy AI Copilot</h1><p>Internship-derived, synthetic-data prototype aligned to Rule Engine, FEP, Strategy Backtracking, Ticket Module, CMS/STR, Penalty/Verification Center and User Risk Profile.</p></header><main>
-<section><h2>Boundary</h2><p>KEP is excluded. Anti-Fraud operations metrics are maintained as a separate project. No production connection, automatic enforcement or external regulatory filing exists.</p></section>
+<body><header><h1>Digital Asset & Payment Risk Strategy AI Copilot</h1><p>CoinTR-derived synthetic strategy governance plus a provider-neutral, post-internship payment-risk extension.</p></header><main>
+<section><h2>Boundary</h2><p>KEP and Anti-Fraud operations metrics are separate projects. No production connection, automatic enforcement, or external regulatory filing exists. The payment module does not claim that CoinTR operated a card-acquiring stack.</p></section>
 <section><h2>AI Strategy Advisory Board</h2><p><strong>Lead Agent Decision:</strong> {ai_board.get('decision', 'NOT_RUN')}</p><pre>{json.dumps(ai_board, ensure_ascii=False, indent=2, default=str)}</pre><p><a href="/console">Interactive FastAPI Console (when served locally)</a></p></section>
+<section><h2>Payment Flow & Liability Extension</h2><pre>{json.dumps(payment, ensure_ascii=False, indent=2, default=str)}</pre></section>
 <section><h2>Selected Strategy</h2><pre>{json.dumps(state.context['selected_strategy'].model_dump(mode='json'), ensure_ascii=False, indent=2)}</pre></section>
-<section><h2>P0 Stability & Portfolio Conflict</h2><pre>{json.dumps({'stability': stability, 'conflict': conflict}, ensure_ascii=False, indent=2, default=str)}</pre></section>
+<section><h2>Stability & Portfolio Conflict</h2><pre>{json.dumps({'stability': stability, 'conflict': conflict}, ensure_ascii=False, indent=2, default=str)}</pre></section>
 <section><h2>Company-style Test Environment</h2><pre>{json.dumps(test_plan, ensure_ascii=False, indent=2, default=str)}</pre></section>
 <section><h2>Strategy Effectiveness Ticket</h2><pre>{json.dumps(effectiveness, ensure_ascii=False, indent=2, default=str)}</pre></section>
 <section><h2>CMS/STR Internal Case Preview</h2><pre>{json.dumps(cms, ensure_ascii=False, indent=2, default=str)}</pre></section>
