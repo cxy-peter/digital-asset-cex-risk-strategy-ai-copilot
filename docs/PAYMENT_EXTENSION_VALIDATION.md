@@ -18,7 +18,7 @@ Local result before repository submission:
 
 ## Full repository CI
 
-GitHub Actions run 3 completed successfully on Python 3.11:
+The latest GitHub Actions validation completed successfully on Python 3.11:
 
 ```text
 compileall: passed
