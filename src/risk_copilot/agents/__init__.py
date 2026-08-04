@@ -12,6 +12,7 @@ from .feature_agent import FeatureIntelligenceAgent
 from .governance_agent import GovernanceAgent
 from .graph_agent import RiskGraphAgent
 from .model_agent import ModelBenchmarkAgent
+from .payment_agent import PaymentFlowLiabilityAgent
 from .report_agent import StrategyReportAgent
 from .router import IntentRouterAgent
 from .scenario_agent import ScenarioKnowledgeAgent
@@ -32,6 +33,7 @@ __all__ = [
     "FeatureIntelligenceAgent",
     "FraudBehaviorAgent",
     "ModelBenchmarkAgent",
+    "PaymentFlowLiabilityAgent",
     "StrategyGenerationAgent",
     "BacktestRankingAgent",
     "GovernanceAgent",

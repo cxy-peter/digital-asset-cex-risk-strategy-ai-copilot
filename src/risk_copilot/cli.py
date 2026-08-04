@@ -10,9 +10,10 @@ from rich.console import Console
 from rich.table import Table
 
 from .orchestrator import RiskStrategyCopilot
+from .payment import run_payment_ready_suite
 from .schemas import RiskDomain, StrategyRequest
 
-app = typer.Typer(help="Digital Asset Risk Strategy AI Copilot")
+app = typer.Typer(help="Digital Asset & Payment Risk Strategy AI Copilot")
 console = Console()
 
 
@@ -64,6 +65,7 @@ def strategy(
     table.add_row("AI Lead Decision", package.ai_advisory_board.get("decision", "NOT_RUN"))
     table.add_row("Stability", package.stability_analysis.get("status", "NOT_RUN"))
     table.add_row("Conflict", package.conflict_analysis.get("recommendation", "NOT_RUN"))
+    table.add_row("Payment Extension", str(state.context.get("payment_risk_analysis", {}).get("applicable", False)))
     console.print(table)
     console.print_json(json.dumps({k: str(v) for k, v in state.context["strategy_artifacts"].items()}))
 
@@ -87,7 +89,29 @@ def ai_agent(
     console.print(board.get("executive_summary", ""))
     for name, review in board.get("specialist_reviews", {}).items():
         console.print(f"- [bold]{name}[/bold]: {review.get('summary', '')}")
-    console.print(f"Open console after running: http://127.0.0.1:8000/console")
+    console.print("Open console after running: http://127.0.0.1:8000/console")
+
+
+@app.command("payment-ready")
+def payment_ready(
+    project_root: Path = typer.Option(Path(__file__).resolve().parents[2], exists=True),
+) -> None:
+    """Run the provider-neutral payment-risk suite with synthetic cases."""
+    result = run_payment_ready_suite(project_root / "outputs" / "payment_ready_suite")
+    table = Table(title="Payment Risk & Anti-Fraud Ready Suite")
+    table.add_column("Transaction")
+    table.add_column("Score")
+    table.add_column("Decision")
+    table.add_column("Scenarios")
+    for assessment in result.assessments:
+        table.add_row(
+            assessment.transaction_id,
+            f"{assessment.score:.1f}",
+            assessment.decision.value,
+            ", ".join(item.scenario_id.value for item in assessment.findings) or "none",
+        )
+    console.print(table)
+    console.print_json(result.model_dump_json())
 
 
 @app.command("products")
