@@ -1,0 +1,44 @@
+version: cex_synthetic_distribution_profile.v1
+
+disclaimer: >-
+  Broad, sanitized design ranges for a public synthetic demo. These values are not CoinTR
+  production prevalence, transaction volume, loss, investigation, or operational targets.
+  The profile only checks class imbalance, long-tailed amounts, overlapping risk mechanisms,
+  delayed labels, rare screening hits, and workflow-relevant noise.
+
+datasets:
+  users:
+    checks:
+      - {id: row_count, type: row_count, description: User snapshot supports Train/Development/OOT analysis, min: 5000, max: 50000, critical: true}
+      - {id: time_span, type: span_days, description: User snapshots span multiple months, column: event_date, min: 120, max: 366, critical: true}
+      - {id: fraud_label_rate, type: rate, description: Hidden synthetic fraud truth remains imbalanced, column: fraud_label, min: 0.035, max: 0.15, critical: true}
+      - {id: rapid_cashout_prevalence, type: rate, description: Rapid-cashout scenario is uncommon but observable, column: latent_rapid_cashout, min: 0.025, max: 0.10}
+      - {id: ato_prevalence, type: rate, description: ATO is rarer than broad fund-flow risk, column: latent_ato, min: 0.008, max: 0.07}
+      - {id: campaign_prevalence, type: rate, description: Campaign abuse remains a minority population, column: latent_campaign, min: 0.02, max: 0.10}
+      - {id: aml_prevalence, type: rate, description: AML remains a minority population, column: latent_aml, min: 0.015, max: 0.09}
+      - {id: graph_ring_prevalence, type: rate, description: Graph rings remain a minority population, column: latent_graph_ring, min: 0.02, max: 0.10}
+      - {id: l2_kyc_share, type: rate, description: Most users have the higher synthetic KYC level, column: kyc_level, value: L2, min: 0.70, max: 0.95}
+      - {id: sanctions_hit_rare, type: rate, description: Sanctions-screening hits are rare, column: sanctions_screening_hit, min: 0.0, max: 0.025}
+      - {id: pep_flag_rare, type: rate, description: PEP flags are rare, column: pep_flag, min: 0.0, max: 0.04}
+      - {id: fiat_amount_long_tail, type: quantile_ratio, description: Fiat deposits are long-tailed, column: fiat_deposit_amount_24h, q_low: 0.50, q_high: 0.95, min: 4.0}
+      - {id: estimated_loss_long_tail, type: quantile_ratio, description: Estimated loss is strongly right-skewed, column: estimated_loss_amount, q_low: 0.50, q_high: 0.95, min: 5.0}
+      - {id: closed_loop_separation, type: mean_gap_smd, description: Fraud truth has higher fiat-in/crypto-out closure on average, feature: fiat_in_crypto_out_ratio, target: fraud_label, direction: positive, min_abs: 0.20}
+      - {id: chain_exposure_separation, type: mean_gap_smd, description: Fraud truth has higher high-risk-chain exposure on average, feature: high_risk_chain_exposure, target: fraud_label, direction: positive, min_abs: 0.20}
+      - {id: failed_login_separation, type: mean_gap_smd, description: Fraud truth has more failed-login activity on average, feature: failed_login_count_1h, target: fraud_label, direction: positive, min_abs: 0.10}
+      - {id: graph_counterparty_separation, type: mean_gap_smd, description: Fraud truth has riskier counterparties on average, feature: counterparty_fraud_ratio, target: fraud_label, direction: positive, min_abs: 0.15}
+  transactions:
+    checks:
+      - {id: row_count, type: row_count, description: Transaction stream is larger than the user snapshot, min: 10000, max: 100000, critical: true}
+      - {id: time_span, type: span_days, description: Transactions cover multiple months, column: event_time, min: 120, max: 400, critical: true}
+      - {id: event_type_diversity, type: nunique, description: Events cover fiat, convert, trade, chain and internal-transfer stages, column: event_type, min: 6, max: 10, critical: true}
+      - {id: suspicious_rate, type: rate, description: Event suspicious labels remain highly imbalanced, column: label_suspicious, min: 0.005, max: 0.12}
+      - {id: label_delay, type: median_delay_days, description: Event labels are observed after a delay, start_column: event_time, end_column: label_observed_at, min: 20, max: 45, critical: true}
+      - {id: amount_long_tail, type: quantile_ratio, description: Transaction amounts are right-skewed, column: amount_usdt, q_low: 0.50, q_high: 0.95, min: 4.0}
+  cases:
+    checks:
+      - {id: row_count, type: row_count, description: Case data supports SLA and quality analysis, min: 1000, max: 10000, critical: true}
+      - {id: completed_share, type: rate, description: Completed cases form the majority but not all records, column: status, value: completed, min: 0.45, max: 0.80}
+      - {id: p0_share, type: rate, description: P0 cases are a small minority, column: priority, value: P0, min: 0.01, max: 0.12}
+      - {id: duplicate_rate, type: rate, description: Duplicate records exist as a realistic quality problem, column: duplicate_flag, min: 0.03, max: 0.15}
+      - {id: handling_time_long_tail, type: quantile_ratio, description: Case handling time has a long tail, column: handling_hours, q_low: 0.50, q_high: 0.95, min: 2.0}
+      - {id: status_history_present, type: missing_rate, description: Enhanced PRD schema contains status-history evidence, column: status_history, min: 0.0, max: 0.0, critical: true}
