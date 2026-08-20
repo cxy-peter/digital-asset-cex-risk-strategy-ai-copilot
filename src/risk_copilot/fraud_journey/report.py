@@ -8,6 +8,24 @@ from .analysis import audit_summary, feature_coverage_frame
 from .catalog import COHORT_DEFINITIONS, MODEL_GRID, SOURCE_ANALYSIS_STEPS
 
 
+def _markdown_table(frame: pd.DataFrame) -> str:
+    """Render a compact Markdown table without pandas' optional tabulate dependency."""
+
+    def escape(value: object) -> str:
+        if value is None or (isinstance(value, float) and pd.isna(value)):
+            return ""
+        return str(value).replace("|", "\\|").replace("\n", " ")
+
+    columns = [str(column) for column in frame.columns]
+    lines = [
+        "| " + " | ".join(columns) + " |",
+        "| " + " | ".join("---" for _ in columns) + " |",
+    ]
+    for row in frame.itertuples(index=False, name=None):
+        lines.append("| " + " | ".join(escape(value) for value in row) + " |")
+    return "\n".join(lines)
+
+
 def render_focused_report(users: pd.DataFrame | None = None) -> str:
     coverage = feature_coverage_frame(users.columns if users is not None else [])
     summary = audit_summary(coverage)
@@ -58,7 +76,7 @@ def render_focused_report(users: pd.DataFrame | None = None) -> str:
             f"- Missing: {summary['MISSING']}",
             f"- Lineage risk: {summary['LINEAGE_RISK']}",
             "",
-            coverage[["source_feature", "github_feature", "status", "note"]].to_markdown(index=False),
+            _markdown_table(coverage[["source_feature", "github_feature", "status", "note"]]),
             "",
             "## 5. Truthfulness boundary",
             "",
