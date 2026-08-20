@@ -1,0 +1,45 @@
+version: evidence_strategy_assistant.v1
+
+public_boundary:
+  - Raw OCR screenshots, meeting recordings and other.txt are not committed.
+  - Evidence IDs are traceability pointers, not public proof of production deployment.
+  - All generated records, labels, metrics, thresholds and outcomes are synthetic.
+  - AI may propose and explain; deterministic code owns metrics and state transitions.
+  - Human reviewers own high-impact restriction, freeze and regulatory-submission decisions.
+
+scenario_keywords:
+  account_takeover: [ato, account takeover, 盗号, 盗账户, new device, password, login]
+  rapid_cashout: [rapid cashout, 快进快出, fiat in, chain out, convert, 提币, 出金, 入金]
+  aml_layering: [aml, laundering, 洗钱, layering, internal transfer, 内部转账, fan in, fan out]
+  campaign_abuse: [campaign, bonus, reward, 羊毛, 活动, 邀请]
+  market_abuse: [wash trading, market abuse, 对敲, 老鼠仓, insider, spoofing, 交易操纵, api]
+
+strategy_lifecycle:
+  - DRAFT
+  - DATA_READY
+  - OFFLINE_BACKTEST
+  - SHADOW
+  - PENDING_REVIEW
+  - APPROVED
+  - ONLINE
+  - DEGRADED
+  - PAUSED
+  - RETIRED
+
+selection_defaults:
+  maximum_alert_rate: 0.05
+  minimum_precision: 0.50
+  minimum_recall: 0.05
+  review_capacity: 300
+  feature_auc: 0.58
+  feature_ks: 0.18
+  feature_iv: 0.10
+  feature_psi_watch: 0.10
+  feature_psi_fail: 0.25
+
+model_roles:
+  logistic_regression: direction, calibration and linear baseline
+  shallow_decision_tree: interpretable combinations and candidate Rule DSL
+  xgboost: nonlinear tabular ranking benchmark implemented in the repository
+  lightgbm: optional efficiency comparison; not yet an implemented dependency
+  risk_graph: relational recall and path evidence, not a stand-alone irreversible decision

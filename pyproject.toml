@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cointr-risk-strategy-ai-copilot"
-version = "0.9.0"
-description = "An internship-derived digital-asset Risk Strategy AI Copilot with a provider-neutral payment-risk extension, specialist agents, deterministic backtesting, stability/conflict analysis, dispute evidence, and governed lifecycle controls."
+version = "0.10.0"
+description = "An internship-derived digital-asset Risk Strategy AI Copilot with evidence-grounded problem decomposition, synthetic distribution and label-maturity audits, deterministic backtesting, stability/conflict analysis, governed lifecycle controls, and a provider-neutral payment-risk extension."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
