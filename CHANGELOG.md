@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.10.0 - 2026-08-20
+
+### Evidence-grounded AI Strategy Assistant
+
+- Added a seven-layer macro-to-micro problem-decomposition object based on the internship-derived `IMG_5716` reasoning pattern.
+- Added a 13-stage model-analysis playbook covering business/action definition, label maturity, point-in-time contracts, black-sample paths, AUC/KS/IV/Lift/PSI, LR, shallow Tree, XGBoost, Risk Graph, chronological OOT, portfolio increment, simulation and post-launch effectiveness.
+- Added a complete 11-stage risk-product delivery workflow from demand intake and BRD/PRD through engineering, joint acceptance, release and RCA.
+- Added a transparent synthetic-distribution profile and audit for users, transaction events and case operations.
+- Added a simulated observed-label view with investigation selection, long-tailed maturity delay and inconclusive outcomes while keeping hidden synthetic truth separate.
+- Added an existing-pipeline-compatible `strategy_request.json` and proposal context for the current AI proposal and deterministic governance workflow.
+- Added source/evidence boundaries: raw OCR/TXT materials, internal thresholds, production data and staff metrics are not published.
+
+### Documentation and validation
+
+- Added a source-to-code process-alignment report, data-distribution gap analysis, resume wording and run guide.
+- Added five unit/integration tests for problem decomposition, distribution audit, label maturity, output schemas and repository-demo profile validation.
+- Bumped package version to `0.10.0`.
+
 ## v0.9.0 - 2026-08-05
 
 ### Payment risk and anti-fraud extension
